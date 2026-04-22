@@ -68,7 +68,7 @@ class LoginController
     {
         return match ($status) {
             'registered' => 'Registro completado. Ahora inicia sesion.',
-            'logout' => 'Sesion cerrada correctamente.',
+            #'logout' => 'Sesion cerrada correctamente.',
             default => '',
         };
     }
