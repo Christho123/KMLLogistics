@@ -17,7 +17,7 @@ class UserCRUD
     public function findUserByEmail(string $email): ?array
     {
         $statement = $this->connection->prepare(
-            'SELECT id_usuario, nombres, apellidos, correo, password_hash, rol, estado
+            'SELECT id_usuario, nombres, apellidos, correo, id_tipo_documento, numero_documento, password_hash, rol, estado
              FROM usuarios
              WHERE correo = :correo
              LIMIT 1'
@@ -29,18 +29,33 @@ class UserCRUD
         return $user ?: null;
     }
 
+    // Lista los tipos de documento activos para el registro.
+    public function getDocumentTypes(): array
+    {
+        $statement = $this->connection->query(
+            'SELECT id_tipo_documento, nombre_tipo_documento
+             FROM tipo_documentos
+             WHERE estado = 1
+             ORDER BY nombre_tipo_documento ASC'
+        );
+
+        return $statement->fetchAll() ?: [];
+    }
+
     // Registra un usuario aplicando password_hash.
     public function register(User $user): bool
     {
         $statement = $this->connection->prepare(
-            'INSERT INTO usuarios (nombres, apellidos, correo, password_hash, rol, estado)
-             VALUES (:nombres, :apellidos, :correo, :password_hash, :rol, :estado)'
+            'INSERT INTO usuarios (nombres, apellidos, correo, id_tipo_documento, numero_documento, password_hash, rol, estado)
+             VALUES (:nombres, :apellidos, :correo, :id_tipo_documento, :numero_documento, :password_hash, :rol, :estado)'
         );
 
         return $statement->execute([
             ':nombres' => $user->nombres,
             ':apellidos' => $user->apellidos,
             ':correo' => $user->correo,
+            ':id_tipo_documento' => $user->idTipoDocumento,
+            ':numero_documento' => $user->numeroDocumento,
             ':password_hash' => password_hash($user->password, PASSWORD_DEFAULT),
             ':rol' => 'usuario',
             ':estado' => 1,

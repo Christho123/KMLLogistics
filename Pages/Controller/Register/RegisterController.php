@@ -21,11 +21,22 @@ class RegisterController
             exit;
         }
 
+        $documentTypes = $this->userCRUD->getDocumentTypes();
+        $formData = [
+            'nombres' => trim($_POST['nombres'] ?? ''),
+            'apellidos' => trim($_POST['apellidos'] ?? ''),
+            'correo' => trim($_POST['correo'] ?? ''),
+            'id_tipo_documento' => (int) ($_POST['id_tipo_documento'] ?? 0),
+            'numero_documento' => trim($_POST['numero_documento'] ?? ''),
+        ];
+
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $user = new User(
-                $_POST['nombres'] ?? '',
-                $_POST['apellidos'] ?? '',
-                $_POST['correo'] ?? '',
+                $formData['nombres'],
+                $formData['apellidos'],
+                $formData['correo'],
+                $formData['id_tipo_documento'],
+                $formData['numero_documento'],
                 $_POST['password'] ?? ''
             );
             $confirmPassword = $_POST['confirm_password'] ?? '';
@@ -34,12 +45,16 @@ class RegisterController
                 $user->nombres === '' ||
                 $user->apellidos === '' ||
                 $user->correo === '' ||
+                $user->idTipoDocumento <= 0 ||
+                $user->numeroDocumento === '' ||
                 $user->password === '' ||
                 $confirmPassword === ''
             ) {
                 return [
                     'message' => 'Completa todos los campos del registro.',
                     'message_type' => 'danger',
+                    'document_types' => $documentTypes,
+                    'form_data' => $formData,
                 ];
             }
 
@@ -47,6 +62,8 @@ class RegisterController
                 return [
                     'message' => 'Ingresa un correo valido.',
                     'message_type' => 'danger',
+                    'document_types' => $documentTypes,
+                    'form_data' => $formData,
                 ];
             }
 
@@ -54,6 +71,8 @@ class RegisterController
                 return [
                     'message' => 'La password debe tener al menos 6 caracteres.',
                     'message_type' => 'danger',
+                    'document_types' => $documentTypes,
+                    'form_data' => $formData,
                 ];
             }
 
@@ -61,6 +80,8 @@ class RegisterController
                 return [
                     'message' => 'Las passwords no coinciden.',
                     'message_type' => 'danger',
+                    'document_types' => $documentTypes,
+                    'form_data' => $formData,
                 ];
             }
 
@@ -68,6 +89,8 @@ class RegisterController
                 return [
                     'message' => 'Ese correo ya esta registrado.',
                     'message_type' => 'warning',
+                    'document_types' => $documentTypes,
+                    'form_data' => $formData,
                 ];
             }
 
@@ -79,6 +102,8 @@ class RegisterController
         return [
             'message' => '',
             'message_type' => '',
+            'document_types' => $documentTypes,
+            'form_data' => $formData,
         ];
     }
 }

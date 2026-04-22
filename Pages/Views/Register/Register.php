@@ -33,15 +33,33 @@ renderMenu('register');
                         <form method="POST" action="index.php?page=register" class="row g-3">
                             <div class="col-md-6">
                                 <label class="form-label">Nombres</label>
-                                <input type="text" class="form-control" name="nombres" required>
+                                <input type="text" class="form-control" name="nombres" value="<?= htmlspecialchars($data['form_data']['nombres'] ?? '', ENT_QUOTES, 'UTF-8'); ?>" required>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">Apellidos</label>
-                                <input type="text" class="form-control" name="apellidos" required>
+                                <input type="text" class="form-control" name="apellidos" value="<?= htmlspecialchars($data['form_data']['apellidos'] ?? '', ENT_QUOTES, 'UTF-8'); ?>" required>
                             </div>
                             <div class="col-12">
                                 <label class="form-label">Correo</label>
-                                <input type="email" class="form-control" name="correo" required>
+                                <input type="email" class="form-control" name="correo" value="<?= htmlspecialchars($data['form_data']['correo'] ?? '', ENT_QUOTES, 'UTF-8'); ?>" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Tipo de documento</label>
+                                <select class="form-select" name="id_tipo_documento" required>
+                                    <option value="">Selecciona un tipo de documento</option>
+                                    <?php foreach (($data['document_types'] ?? []) as $documentType): ?>
+                                        <option
+                                            value="<?= (int) $documentType['id_tipo_documento']; ?>"
+                                            <?= (int) ($data['form_data']['id_tipo_documento'] ?? 0) === (int) $documentType['id_tipo_documento'] ? 'selected' : ''; ?>
+                                        >
+                                            <?= htmlspecialchars($documentType['nombre_tipo_documento'], ENT_QUOTES, 'UTF-8'); ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Numero de documento</label>
+                                <input type="text" class="form-control" name="numero_documento" value="<?= htmlspecialchars($data['form_data']['numero_documento'] ?? '', ENT_QUOTES, 'UTF-8'); ?>" required>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">Password</label>
