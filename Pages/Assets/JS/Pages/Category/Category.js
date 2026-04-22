@@ -8,6 +8,13 @@ $(function () {
     var $categoryTableShell = $('.category-table-shell');
     var listUrl = 'Api/Category/List.php';
     var listRequest = null;
+    var dragState = {
+        active: false,
+        startX: 0,
+        startY: 0,
+        scrollLeft: 0,
+        scrollTop: 0
+    };
     var pagination = {
         page: 1,
         page_size: 10,
@@ -89,6 +96,41 @@ $(function () {
         $categoryTableBody.html(rows);
     }
 
+    function bindDragScroll() {
+        $categoryTableShell.on('pointerdown', function (event) {
+            if (event.pointerType === 'mouse' && event.button !== 0) {
+                return;
+            }
+
+            dragState.active = true;
+            dragState.startX = event.clientX;
+            dragState.startY = event.clientY;
+            dragState.scrollLeft = this.scrollLeft;
+            dragState.scrollTop = this.scrollTop;
+
+            $(this).addClass('is-dragging');
+
+            if (this.setPointerCapture) {
+                this.setPointerCapture(event.pointerId);
+            }
+        });
+
+        $categoryTableShell.on('pointermove', function (event) {
+            if (!dragState.active) {
+                return;
+            }
+
+            event.preventDefault();
+            this.scrollLeft = dragState.scrollLeft - (event.clientX - dragState.startX);
+            this.scrollTop = dragState.scrollTop - (event.clientY - dragState.startY);
+        });
+
+        $categoryTableShell.on('pointerup pointercancel lostpointercapture', function () {
+            dragState.active = false;
+            $(this).removeClass('is-dragging');
+        });
+    }
+
     function loadCategories(page, pageSize) {
         if (listRequest) {
             listRequest.abort();
@@ -157,5 +199,6 @@ $(function () {
     });
 
     updatePaginationInfo();
+    bindDragScroll();
     loadCategories(1, pagination.page_size);
 });
