@@ -15,6 +15,7 @@ El sistema implementado actualmente incluye:
 - Selector de cantidad de registros por pagina
 - Tabla responsive con scroll horizontal y arrastre
 - Registro de usuarios
+- Registro de usuarios con tipo y numero de documento
 - Login con `password_hash` y `password_verify`
 - Script SQL con tablas, datos base, procedimientos almacenados y consultas de apoyo
 
@@ -268,6 +269,32 @@ Este archivo contiene:
 
 - `id_marca`
 - `nombre_marca`
+- `id_proveedor`
+- `estado`
+- `created_at`
+- `updated_at`
+- `deleted_at`
+
+#### tipo_documentos
+
+- `id_tipo_documento`
+- `nombre_tipo_documento`
+- `descripcion`
+- `estado`
+- `created_at`
+- `updated_at`
+
+#### proveedores
+
+- `id_proveedor`
+- `razon_social`
+- `nombre_comercial`
+- `id_tipo_documento`
+- `numero_documento`
+- `telefono`
+- `correo`
+- `direccion`
+- `contacto`
 - `estado`
 - `created_at`
 - `updated_at`
@@ -295,6 +322,8 @@ Este archivo contiene:
 - `nombres`
 - `apellidos`
 - `correo`
+- `id_tipo_documento`
+- `numero_documento`
 - `password_hash`
 - `rol`
 - `estado`
@@ -509,6 +538,8 @@ Funcion:
 
 - valida campos vacios
 - valida correo
+- carga tipos de documento desde la tabla `tipo_documentos`
+- registra `id_tipo_documento` y `numero_documento`
 - valida longitud minima de password
 - valida confirmacion de password
 - evita duplicados
