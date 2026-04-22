@@ -1,11 +1,9 @@
 :root {
     --brand-dark: #0f172a;
     --brand-accent: #f59e0b;
-    --brand-soft: #f8fafc;
     --brand-text: #0f172a;
 }
 
-/* Estilos base del fondo y hero principal */
 body {
     background:
         radial-gradient(circle at top left, rgba(245, 158, 11, 0.18), transparent 35%),
@@ -13,56 +11,6 @@ body {
     color: var(--brand-text);
 }
 
-.hero-section {
-    padding: 0 0 2rem;
-}
-
-.carousel-item {
-    position: relative;
-    min-height: 78vh;
-}
-
-.hero-image,
-.hero-placeholder {
-    min-height: 78vh;
-    max-height: 78vh;
-    object-fit: cover;
-    width: 100%;
-}
-
-.hero-placeholder {
-    background:
-        linear-gradient(135deg, rgba(15, 23, 42, 0.9), rgba(30, 41, 59, 0.75)),
-        linear-gradient(45deg, rgba(245, 158, 11, 0.4), rgba(59, 130, 246, 0.35));
-    color: #fff;
-}
-
-.carousel-item::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(90deg, rgba(15, 23, 42, 0.82) 0%, rgba(15, 23, 42, 0.28) 65%, rgba(15, 23, 42, 0.1) 100%);
-}
-
-.carousel-caption {
-    z-index: 2;
-    right: auto;
-    left: 8%;
-    bottom: 16%;
-    max-width: 540px;
-}
-
-.carousel-caption h1 {
-    font-size: clamp(2rem, 5vw, 4rem);
-    font-weight: 800;
-}
-
-.carousel-caption p {
-    font-size: 1.05rem;
-    color: rgba(255, 255, 255, 0.9);
-}
-
-.hero-chip,
 .section-badge {
     display: inline-block;
     padding: 0.45rem 0.9rem;
@@ -70,12 +18,6 @@ body {
     font-size: 0.85rem;
     font-weight: 700;
     letter-spacing: 0.03em;
-}
-
-.hero-chip {
-    background: rgba(245, 158, 11, 0.95);
-    color: #111827;
-    margin-bottom: 1rem;
 }
 
 .section-badge {
@@ -91,20 +33,54 @@ body {
     box-shadow: 0 20px 50px rgba(15, 23, 42, 0.08);
 }
 
-/* Scroll horizontal para tablas en pantallas pequenas */
+.category-toolbar {
+    color: #334155;
+}
+
+.category-summary {
+    font-weight: 600;
+}
+
+#pageSizeSelect {
+    width: 88px;
+}
+
 .category-table-shell {
     overflow-x: auto;
-    overflow-y: hidden;
+    overflow-y: auto;
     background: #fff;
     -webkit-overflow-scrolling: touch;
+    border: 1px solid rgba(148, 163, 184, 0.2);
 }
 
 .category-table {
     min-width: 760px;
 }
 
+.category-table thead th {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+.category-table tbody tr {
+    height: 52px;
+}
+
+.category-table-shell.table-size-10 {
+    height: 575px;
+    overflow-y: hidden;
+}
+
+.category-table-shell.table-size-20,
+.category-table-shell.table-size-50 {
+    height: 575px;
+    overflow-y: auto;
+}
+
 .category-table-shell::-webkit-scrollbar {
     height: 12px;
+    width: 12px;
 }
 
 .category-table-shell::-webkit-scrollbar-track {
@@ -121,40 +97,18 @@ body {
     white-space: normal;
 }
 
-@media (max-width: 991.98px) {
-    .carousel-item,
-    .hero-image,
-    .hero-placeholder {
-        min-height: 68vh;
-        max-height: 68vh;
-    }
-
-    .carousel-caption {
-        left: 6%;
-        right: 6%;
-        bottom: 12%;
-        max-width: none;
-    }
+.category-pagination {
+    border-top: 1px solid rgba(148, 163, 184, 0.2);
+    padding-top: 1rem;
 }
 
 @media (max-width: 575.98px) {
-    .carousel-item,
-    .hero-image,
-    .hero-placeholder {
-        min-height: 72vh;
-        max-height: 72vh;
-    }
-
-    .carousel-caption h1 {
-        font-size: 1.75rem;
-    }
-
-    .carousel-caption p {
-        font-size: 0.95rem;
-    }
-
     .category-wrapper {
         padding: 1.25rem;
+    }
+
+    #pageSizeSelect {
+        width: 100%;
     }
 
     .category-table {

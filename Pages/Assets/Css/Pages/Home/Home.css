@@ -1,0 +1,97 @@
+:root {
+    --brand-dark: #0f172a;
+    --brand-accent: #f59e0b;
+    --brand-text: #0f172a;
+}
+
+body {
+    background:
+        radial-gradient(circle at top left, rgba(245, 158, 11, 0.18), transparent 35%),
+        linear-gradient(180deg, #f8fafc 0%, #eef2ff 100%);
+    color: var(--brand-text);
+}
+
+.hero-section {
+    padding: 0 0 2rem;
+}
+
+.carousel-item {
+    position: relative;
+    min-height: 78vh;
+}
+
+.hero-image,
+.hero-placeholder {
+    min-height: 78vh;
+    max-height: 78vh;
+    object-fit: cover;
+    width: 100%;
+}
+
+.hero-placeholder {
+    background:
+        linear-gradient(135deg, rgba(15, 23, 42, 0.9), rgba(30, 41, 59, 0.75)),
+        linear-gradient(45deg, rgba(245, 158, 11, 0.4), rgba(59, 130, 246, 0.35));
+    color: #fff;
+}
+
+.carousel-item::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, rgba(15, 23, 42, 0.82) 0%, rgba(15, 23, 42, 0.28) 65%, rgba(15, 23, 42, 0.1) 100%);
+}
+
+.carousel-caption {
+    z-index: 2;
+    right: auto;
+    left: 8%;
+    bottom: 16%;
+    max-width: 540px;
+}
+
+.carousel-caption h1 {
+    font-size: clamp(2rem, 5vw, 4rem);
+    font-weight: 800;
+}
+
+.hero-chip {
+    display: inline-block;
+    padding: 0.45rem 0.9rem;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    background: rgba(245, 158, 11, 0.95);
+    color: #111827;
+    margin-bottom: 1rem;
+}
+
+@media (max-width: 991.98px) {
+    .carousel-item,
+    .hero-image,
+    .hero-placeholder {
+        min-height: 68vh;
+        max-height: 68vh;
+    }
+
+    .carousel-caption {
+        left: 6%;
+        right: 6%;
+        bottom: 12%;
+        max-width: none;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .carousel-item,
+    .hero-image,
+    .hero-placeholder {
+        min-height: 72vh;
+        max-height: 72vh;
+    }
+
+    .carousel-caption h1 {
+        font-size: 1.75rem;
+    }
+}

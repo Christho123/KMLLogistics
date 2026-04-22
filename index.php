@@ -35,10 +35,16 @@ switch ($page) {
         require __DIR__ . '/Pages/Views/Register/Register.php';
         break;
 
+    case 'category':
+        $controller = new CategoryController();
+        $data = $controller->handleRequest();
+        require __DIR__ . '/Pages/Views/Category/Category.php';
+        break;
+
     case 'home':
     default:
         $controller = new CategoryController();
         $data = $controller->handleRequest();
-        require __DIR__ . '/Pages/Views/Category/Category.php';
+        require __DIR__ . '/Pages/Views/Home/Home.php';
         break;
 }

@@ -17,10 +17,10 @@ function renderMenu(string $currentPage, ?array $currentUser = null): void
             <div class="collapse navbar-collapse" id="mainNavbar">
                 <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2">
                     <li class="nav-item">
-                        <a class="nav-link<?= $currentPage === 'home' ? ' active' : ''; ?>" href="index.php#inicio">Home</a>
+                        <a class="nav-link<?= $currentPage === 'home' ? ' active' : ''; ?>" href="index.php?page=home">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="index.php#categorias">Categoria</a>
+                        <a class="nav-link<?= $currentPage === 'category' ? ' active' : ''; ?>" href="index.php?page=category">Categoria</a>
                     </li>
                     <?php if ($currentUser): ?>
                         <li class="nav-item">
