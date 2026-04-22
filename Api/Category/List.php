@@ -43,7 +43,6 @@ try {
             'page_size' => $pageSize,
             'total' => $total,
             'total_pages' => $totalPages,
-            'latest_id' => (int) ($result['latest_id'] ?? 0),
         ],
     ], JSON_UNESCAPED_UNICODE);
 } catch (Throwable $exception) {
