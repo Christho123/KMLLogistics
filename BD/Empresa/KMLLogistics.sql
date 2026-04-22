@@ -15,15 +15,49 @@ CREATE TABLE categorias (
     deleted_at TIMESTAMP NULL DEFAULT NULL
 );
 
+-- TABLA: TIPO_DOCUMENTOS
+-- Guarda los tipos de documento permitidos en usuarios y proveedores
+CREATE TABLE tipo_documentos (
+    id_tipo_documento INT AUTO_INCREMENT PRIMARY KEY,
+    nombre_tipo_documento VARCHAR(50) NOT NULL,
+    descripcion VARCHAR(150) NULL,
+    estado TINYINT(1) NOT NULL DEFAULT 1,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- TABLA: PROVEEDORES
+-- Guarda los proveedores asociados a las marcas
+CREATE TABLE proveedores (
+    id_proveedor INT AUTO_INCREMENT PRIMARY KEY,
+    razon_social VARCHAR(150) NOT NULL,
+    nombre_comercial VARCHAR(150) NULL,
+    id_tipo_documento INT NOT NULL,
+    numero_documento VARCHAR(30) NOT NULL,
+    telefono VARCHAR(20) NULL,
+    correo VARCHAR(150) NULL,
+    direccion VARCHAR(255) NULL,
+    contacto VARCHAR(150) NULL,
+    estado TINYINT(1) NOT NULL DEFAULT 1,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    deleted_at TIMESTAMP NULL DEFAULT NULL,
+    CONSTRAINT fk_proveedores_tipo_documento
+        FOREIGN KEY (id_tipo_documento) REFERENCES tipo_documentos(id_tipo_documento),
+    UNIQUE KEY uq_proveedor_documento (id_tipo_documento, numero_documento)
+);
+
 -- TABLA: MARCAS
 -- Guarda las marcas asociadas a los productos
 CREATE TABLE marcas (
     id_marca INT AUTO_INCREMENT PRIMARY KEY,
     nombre_marca VARCHAR(100) NOT NULL,
+    id_proveedor INT NOT NULL,
     estado TINYINT(1) NOT NULL DEFAULT 1,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    deleted_at TIMESTAMP NULL DEFAULT NULL
+    deleted_at TIMESTAMP NULL DEFAULT NULL,
+    CONSTRAINT fk_marcas_proveedor FOREIGN KEY (id_proveedor) REFERENCES proveedores(id_proveedor)
 );
 
 -- TABLA: PRODUCTOS
@@ -53,12 +87,15 @@ CREATE TABLE usuarios (
     nombres VARCHAR(100) NOT NULL,
     apellidos VARCHAR(100) NOT NULL,
     correo VARCHAR(150) NOT NULL UNIQUE,
+    id_tipo_documento INT NULL,
+    numero_documento VARCHAR(30) NULL,
     password_hash VARCHAR(255) NOT NULL,
     rol VARCHAR(50) NOT NULL DEFAULT 'usuario',
     estado TINYINT(1) NOT NULL DEFAULT 1,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    deleted_at TIMESTAMP NULL DEFAULT NULL
+    deleted_at TIMESTAMP NULL DEFAULT NULL,
+    CONSTRAINT fk_usuarios_tipo_documento FOREIGN KEY (id_tipo_documento) REFERENCES tipo_documentos(id_tipo_documento)
 );
 
 -- REGISTROS INICIALES: CATEGORIAS
@@ -70,13 +107,38 @@ INSERT INTO categorias (nombre_categoria, descripcion, estado, created_at) VALUE
 ('Seguridad', 'Dispositivos para proteccion y monitoreo.', 1, '2026-04-20 12:00:00'),
 ('Almacenamiento', 'Soluciones para respaldo y gestion de datos.', 1, '2026-04-21 13:00:00');
 
+-- REGISTROS INICIALES: TIPO_DOCUMENTOS
+INSERT INTO tipo_documentos (nombre_tipo_documento, descripcion, estado) VALUES
+('DNI', 'Documento Nacional de Identidad para personas naturales.', 1),
+('RUC', 'Registro Unico de Contribuyentes para empresas y negocios.', 1),
+('PASAPORTE', 'Documento de identidad para ciudadanos extranjeros.', 1),
+('Carne Extranjeria', 'Carne de Extranjeria para extranjeros residentes.', 1);
+
+-- REGISTROS INICIALES: PROVEEDORES
+INSERT INTO proveedores (
+    razon_social,
+    nombre_comercial,
+    id_tipo_documento,
+    numero_documento,
+    telefono,
+    correo,
+    direccion,
+    contacto,
+    estado
+) VALUES
+('Dell Peru S.A.C.', 'Dell Peru', 2, '20100011111', '987654321', 'ventas@dellperu.com', 'Av. Javier Prado 100, Lima', 'Carlos Ruiz', 1),
+('HP Peru S.R.L.', 'HP Peru', 2, '20100022222', '987654322', 'ventas@hpperu.com', 'Av. La Marina 250, Lima', 'Ana Torres', 1),
+('Lenovo Peru S.A.C.', 'Lenovo Peru', 2, '20100033333', '987654323', 'ventas@lenovoperu.com', 'Av. Arequipa 300, Lima', 'Luis Gomez', 1),
+('TP-Link Distribuciones S.A.C.', 'TP-Link Peru', 2, '20100044444', '987654324', 'ventas@tplinkperu.com', 'Av. Canada 450, Lima', 'Marta Flores', 1),
+('Kingston Technology Peru S.A.C.', 'Kingston Peru', 2, '20100055555', '987654325', 'ventas@kingstonperu.com', 'Av. Primavera 520, Lima', 'Jorge Diaz', 1);
+
 -- REGISTROS INICIALES: MARCAS
-INSERT INTO marcas (nombre_marca, estado) VALUES
-('Dell', 1),
-('HP', 1),
-('Lenovo', 1),
-('TP-Link', 1),
-('Kingston', 1);
+INSERT INTO marcas (nombre_marca, id_proveedor, estado) VALUES
+('Dell', 1, 1),
+('HP', 2, 1),
+('Lenovo', 3, 1),
+('TP-Link', 4, 1),
+('Kingston', 5, 1);
 
 -- REGISTROS INICIALES: PRODUCTOS
 INSERT INTO productos (codigo, producto, costo, ganancia, precio, stock, id_categoria, id_marca, estado) VALUES
@@ -88,8 +150,8 @@ INSERT INTO productos (codigo, producto, costo, ganancia, precio, stock, id_cate
 
 -- REGISTRO INICIAL: USUARIO ADMIN
 -- Password base: 123456
-INSERT INTO usuarios (nombres, apellidos, correo, password_hash, rol, estado) VALUES
-('Admin', 'KML', 'admin@kmllogistics.com', '$2y$12$vO638KapJ5QX6ZEB4o893uRTb3Z1gUD1Kd2dPm/rFR874FOatEkKe', 'admin', 1);
+INSERT INTO usuarios (nombres, apellidos, correo, id_tipo_documento, numero_documento, password_hash, rol, estado) VALUES
+('Admin', 'KML', 'admin@kmllogistics.com', 1, '12345678', '$2y$12$vO638KapJ5QX6ZEB4o893uRTb3Z1gUD1Kd2dPm/rFR874FOatEkKe', 'admin', 1);
 
 -- PROCEDIMIENTO ALMACENADO: BUSCAR PRODUCTO POR CODIGO
 -- Devuelve producto, costo, ganancia, precio, stock, total,
