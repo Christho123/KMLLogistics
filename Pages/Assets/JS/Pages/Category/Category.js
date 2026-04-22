@@ -7,19 +7,12 @@ $(function () {
     var $nextPageButton = $('#nextPageButton');
     var $categoryTableShell = $('.category-table-shell');
     var listUrl = 'Api/Category/List.php';
-    var watchUrl = 'Api/Category/Watch.php';
     var listRequest = null;
-    var watchRequest = null;
-    var categoryStats = {
-        total: 0,
-        latest_id: 0
-    };
     var pagination = {
         page: 1,
         page_size: 10,
         total: 0,
-        total_pages: 1,
-        latest_id: 0
+        total_pages: 1
     };
 
     function escapeHtml(value) {
@@ -123,8 +116,6 @@ $(function () {
                 }
 
                 pagination = $.extend({}, pagination, response.pagination || {});
-                categoryStats.total = Number(pagination.total) || 0;
-                categoryStats.latest_id = Number(pagination.latest_id) || 0;
                 renderRows(response.categories || []);
                 updatePaginationInfo();
             })
@@ -138,45 +129,6 @@ $(function () {
             .always(function () {
                 listRequest = null;
                 updateControlsState(false);
-            });
-    }
-
-    function watchCategoryChanges() {
-        if (watchRequest || listRequest) {
-            return;
-        }
-
-        watchRequest = $.ajax({
-            url: watchUrl,
-            method: 'GET',
-            dataType: 'json',
-            cache: false
-        })
-            .done(function (response) {
-                var nextTotal;
-                var nextLatestId;
-                var nextTotalPages;
-                var targetPage;
-
-                if (!response.success) {
-                    return;
-                }
-
-                nextTotal = Number(response.total) || 0;
-                nextLatestId = Number(response.latest_id) || 0;
-
-                if (nextTotal === categoryStats.total && nextLatestId === categoryStats.latest_id) {
-                    return;
-                }
-
-                categoryStats.total = nextTotal;
-                categoryStats.latest_id = nextLatestId;
-                nextTotalPages = Math.max(1, Math.ceil(nextTotal / pagination.page_size));
-                targetPage = Math.min(pagination.page, nextTotalPages);
-                loadCategories(targetPage, pagination.page_size);
-            })
-            .always(function () {
-                watchRequest = null;
             });
     }
 
@@ -206,5 +158,4 @@ $(function () {
 
     updatePaginationInfo();
     loadCategories(1, pagination.page_size);
-    setInterval(watchCategoryChanges, 3000);
 });
