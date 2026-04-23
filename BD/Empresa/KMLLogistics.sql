@@ -200,7 +200,7 @@ END $$
 DELIMITER ;
 
 -- EJECUCION DE PRUEBA: SP BUSCAR POR CODIGO
-CALL `kmllogistics`.`sp_buscar_por_codigo`(1);
+CALL `kmllogistics`.`sp_buscar_por_codigo`("PRD001");
 
 -- EJECUCION DE PRUEBA: SP FILTRAR POR NOMBRE
 CALL `kmllogistics`.`sp_filtrar_por_nombre`("Disco");
