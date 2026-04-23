@@ -32,6 +32,9 @@ renderMenu('category', $data['current_user']);
                             placeholder="Ejemplo: 1 o Laptops"
                             autocomplete="off"
                         >
+                        <button type="button" class="btn btn-warning" id="filterSearchButton">
+                            <i class="fas fa-filter me-1"></i>Filtrar
+                        </button>
                         <button type="button" class="btn btn-outline-secondary" id="clearSearchButton">
                             <i class="fas fa-eraser me-1"></i>Limpiar
                         </button>

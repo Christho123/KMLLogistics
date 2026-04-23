@@ -237,6 +237,10 @@ WHERE id_categoria = 1;
 -- =========================================================
 -- PROCEDIMIENTOS ALMACENADOS: MODULO CATEGORY
 -- =========================================================
+-- Nota:
+-- Los SP de listado filtran solo por nombre_categoria usando prefijo.
+-- La busqueda por ID se resuelve desde frontend consumiendo
+-- sp_categoria_obtener_activa_por_id.
 
 DROP PROCEDURE IF EXISTS sp_categoria_listar_activas;
 DROP PROCEDURE IF EXISTS sp_categoria_contar_activas;
@@ -463,9 +467,9 @@ END $$
 DELIMITER ;
 
 -- EJEMPLOS DE USO CATEGORY
--- CALL sp_categoria_listar_activas(0, 10, '');
--- CALL sp_categoria_contar_activas('');
--- CALL sp_categoria_listar_inactivas('');
+-- CALL sp_categoria_listar_activas(0, 10, 'La');
+-- CALL sp_categoria_contar_activas('La');
+-- CALL sp_categoria_listar_inactivas('Se');
 -- CALL sp_categoria_obtener_activa_por_id(1);
 -- CALL sp_categoria_obtener_por_id(1);
 -- CALL sp_categoria_crear('Nueva categoria', 'Descripcion demo', 1);

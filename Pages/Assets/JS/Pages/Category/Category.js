@@ -6,6 +6,7 @@ $(function () {
     var $prevPageButton = $('#prevPageButton');
     var $nextPageButton = $('#nextPageButton');
     var $categorySearchInput = $('#categorySearchInput');
+    var $filterSearchButton = $('#filterSearchButton');
     var $clearSearchButton = $('#clearSearchButton');
     var $openCreateModalButton = $('#openCreateModalButton');
     var $openInactiveModalButton = $('#openInactiveModalButton');
@@ -99,6 +100,10 @@ $(function () {
 
     function toTrimmedString(value) {
         return String(value === null || typeof value === 'undefined' ? '' : value).trim();
+    }
+
+    function isNumericSearch(value) {
+        return /^[0-9]+$/.test(toTrimmedString(value));
     }
 
     function formatDate(dateTime) {
@@ -500,6 +505,31 @@ $(function () {
             });
     }
 
+    function runMainSearch() {
+        var searchValue = toTrimmedString($categorySearchInput.val());
+
+        pagination.search = searchValue;
+
+        if (searchValue === '') {
+            loadCategories(1, pagination.page_size);
+            return;
+        }
+
+        if (isNumericSearch(searchValue)) {
+            ensureModals();
+            loadCategoryDetails(Number(searchValue), function (category) {
+                fillDetailModal(category);
+
+                if (detailModal) {
+                    detailModal.show();
+                }
+            });
+            return;
+        }
+
+        loadCategories(1, pagination.page_size);
+    }
+
     function fillDetailModal(category) {
         $('#detailCategoryId').text(category.id_categoria);
         $('#detailCategoryName').text(category.nombre_categoria);
@@ -623,15 +653,33 @@ $(function () {
     });
 
     $categorySearchInput.on('input', function () {
-        pagination.search = toTrimmedString($(this).val());
+        var currentValue = toTrimmedString($(this).val());
+        pagination.search = currentValue;
 
         if (searchTimer) {
             clearTimeout(searchTimer);
         }
 
+        if (currentValue !== '' && isNumericSearch(currentValue)) {
+            return;
+        }
+
         searchTimer = window.setTimeout(function () {
             loadCategories(1, pagination.page_size);
         }, 350);
+    });
+
+    $categorySearchInput.on('keydown', function (event) {
+        if (event.key !== 'Enter') {
+            return;
+        }
+
+        event.preventDefault();
+        runMainSearch();
+    });
+
+    $filterSearchButton.on('click', function () {
+        runMainSearch();
     });
 
     $clearSearchButton.on('click', function () {
