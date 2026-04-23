@@ -67,7 +67,7 @@ CREATE TABLE productos (
     codigo VARCHAR(30) NOT NULL UNIQUE,
     producto VARCHAR(150) NOT NULL,
     costo DECIMAL(10,2) NOT NULL,
-    ganancia DECIMAL(10,2) NOT NULL,
+    ganancia DECIMAL(5,4) NOT NULL,
     precio DECIMAL(10,2) NOT NULL,
     stock INT NOT NULL,
     id_categoria INT NOT NULL,
@@ -142,11 +142,11 @@ INSERT INTO marcas (nombre_marca, id_proveedor, estado) VALUES
 
 -- REGISTROS INICIALES: PRODUCTOS
 INSERT INTO productos (codigo, producto, costo, ganancia, precio, stock, id_categoria, id_marca, estado) VALUES
-('PRD001', 'Laptop Dell Latitude 5440', 2500.00, 450.00, 2950.00, 15, 1, 1, 1),
-('PRD002', 'Mouse HP Inalambrico', 45.00, 20.00, 65.00, 60, 2, 2, 1),
-('PRD003', 'Router TP-Link Archer AX12', 180.00, 55.00, 235.00, 25, 3, 4, 1),
-('PRD004', 'Disco SSD Kingston 1TB', 210.00, 60.00, 270.00, 40, 5, 5, 1),
-('PRD005', 'Camara IP Lenovo SecureCam', 320.00, 80.00, 400.00, 18, 4, 3, 1);
+('PRD001', 'Laptop Dell Latitude 5440', 2500.00, 0.1525, 2950.00, 15, 1, 1, 1),
+('PRD002', 'Mouse HP Inalambrico', 45.00, 0.3077, 65.00, 60, 2, 2, 1),
+('PRD003', 'Router TP-Link Archer AX12', 180.00, 0.2340, 235.00, 25, 3, 4, 1),
+('PRD004', 'Disco SSD Kingston 1TB', 210.00, 0.2222, 270.00, 40, 5, 5, 1),
+('PRD005', 'Camara IP Lenovo SecureCam', 320.00, 0.2000, 400.00, 18, 4, 3, 1);
 
 -- REGISTRO INICIAL: USUARIO ADMIN
 -- Password base: 123456
@@ -163,9 +163,9 @@ BEGIN
         p.producto,
         p.costo,
         p.ganancia,
-        p.precio,
+        ROUND(p.costo / NULLIF(1 - p.ganancia, 0), 2) AS precio,
         p.stock,
-        (p.precio * p.stock) AS total,
+        (ROUND(p.costo / NULLIF(1 - p.ganancia, 0), 2) * p.stock) AS total,
         c.nombre_categoria AS categoria,
         m.nombre_marca AS marca
     FROM productos p
@@ -185,16 +185,16 @@ BEGIN
         p.producto,
         p.costo,
         p.ganancia,
-        p.precio,
+        ROUND(p.costo / NULLIF(1 - p.ganancia, 0), 2) AS precio,
         p.stock,
-        (p.precio * p.stock) AS total,
+        (ROUND(p.costo / NULLIF(1 - p.ganancia, 0), 2) * p.stock) AS total,
         c.nombre_categoria AS categoria,
         m.nombre_marca AS marca
     FROM productos p
     INNER JOIN categorias c ON c.id_categoria = p.id_categoria
     INNER JOIN marcas m ON m.id_marca = p.id_marca
     WHERE p.estado = 1
-      AND p.producto LIKE CONCAT('%', p_nombre, '%')
+      AND p.producto LIKE CONCAT(p_nombre, '%')
     ORDER BY p.producto ASC;
 END $$
 DELIMITER ;
