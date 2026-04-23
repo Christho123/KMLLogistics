@@ -274,8 +274,7 @@ BEGIN
       AND estado = 1
       AND (
             v_search = ''
-            OR nombre_categoria LIKE CONCAT('%', v_search, '%')
-            OR (v_search REGEXP '^[0-9]+$' AND id_categoria = CAST(v_search AS UNSIGNED))
+            OR nombre_categoria LIKE CONCAT(v_search, '%')
       )
     ORDER BY created_at DESC, id_categoria DESC
     LIMIT p_offset, p_limit;
@@ -294,8 +293,7 @@ BEGIN
       AND estado = 1
       AND (
             v_search = ''
-            OR nombre_categoria LIKE CONCAT('%', v_search, '%')
-            OR (v_search REGEXP '^[0-9]+$' AND id_categoria = CAST(v_search AS UNSIGNED))
+            OR nombre_categoria LIKE CONCAT(v_search, '%')
       );
 END $$
 
@@ -318,8 +316,7 @@ BEGIN
     WHERE (deleted_at IS NOT NULL OR estado = 0)
       AND (
             v_search = ''
-            OR nombre_categoria LIKE CONCAT('%', v_search, '%')
-            OR (v_search REGEXP '^[0-9]+$' AND id_categoria = CAST(v_search AS UNSIGNED))
+            OR nombre_categoria LIKE CONCAT(v_search, '%')
       )
     ORDER BY deleted_at DESC, id_categoria DESC;
 END $$
