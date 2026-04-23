@@ -20,31 +20,14 @@ try {
             'min_range' => 1,
         ],
     ]);
+    $search = trim((string) ($_GET['search'] ?? ''));
 
     if (!in_array($pageSize, $allowedPageSizes, true)) {
         $pageSize = 10;
     }
 
-    $categoryCRUD = new CategoryCRUD();
-    $result = $categoryCRUD->listCategories($page, $pageSize);
-    $total = (int) ($result['total'] ?? 0);
-    $totalPages = max(1, (int) ceil($total / $pageSize));
-    $currentPage = min($page, $totalPages);
-
-    if ($currentPage !== $page) {
-        $result = $categoryCRUD->listCategories($currentPage, $pageSize);
-    }
-
-    echo json_encode([
-        'success' => true,
-        'categories' => $result['categories'] ?? [],
-        'pagination' => [
-            'page' => $currentPage,
-            'page_size' => $pageSize,
-            'total' => $total,
-            'total_pages' => $totalPages,
-        ],
-    ], JSON_UNESCAPED_UNICODE);
+    $controller = new CategoryController();
+    echo json_encode($controller->listCategories($page, $pageSize, $search), JSON_UNESCAPED_UNICODE);
 } catch (Throwable $exception) {
     http_response_code(500);
 
