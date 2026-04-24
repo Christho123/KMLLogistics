@@ -1,4 +1,8 @@
 <?php
+// =========================================================
+// VISTA: LOGIN
+// Formulario de inicio de sesion del sistema.
+// =========================================================
 
 declare(strict_types=1);
 
@@ -18,6 +22,7 @@ renderMenu('login');
                     <div class="card-body p-4 p-lg-5">
                         <div class="text-center mb-4">
                             <div class="icon-circle mx-auto mb-3">
+                                <!-- Icono de Font Awesome para representar seguridad y acceso -->
                                 <i class="fas fa-lock"></i>
                             </div>
                             <h1 class="h3 fw-bold">Iniciar sesion</h1>
@@ -40,6 +45,7 @@ renderMenu('login');
                                 <div class="input-group">
                                     <input type="password" class="form-control password-input" name="password" required>
                                     <button class="btn btn-outline-secondary toggle-password" type="button">
+                                        <!-- Icono de Font Awesome que cambia visualmente desde Login.js -->
                                         <i class="fas fa-eye"></i>
                                     </button>
                                 </div>

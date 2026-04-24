@@ -1,4 +1,8 @@
 <?php
+// =========================================================
+// ARCHIVO PRINCIPAL: INDEX
+// Enrutador principal del proyecto con estructura MVC.
+// =========================================================
 
 declare(strict_types=1);
 
@@ -21,7 +25,7 @@ if ($page === 'logout') {
     exit;
 }
 
-// Enrutamiento centralizado de vistas.
+// Enrutamiento centralizado de vistas bajo el patron MVC.
 switch ($page) {
     case 'login':
         $controller = new LoginController();

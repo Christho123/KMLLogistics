@@ -1,8 +1,13 @@
 <?php
+// =========================================================
+// CONFIGURACION: DATABASE
+// Conexion central PDO hacia MySQL para todo el proyecto.
+// =========================================================
 
 declare(strict_types=1);
 
 // Conexion PDO reutilizable para todo el proyecto.
+// Tecnologia asociada: PDO + MySQL.
 function getConnection(): PDO
 {
     static $pdo = null;
@@ -19,7 +24,7 @@ function getConnection(): PDO
     $charset = 'utf8mb4';
 
     try {
-        // Configuracion segura de PDO.
+        // Configuracion segura de PDO con excepciones y consultas preparadas reales.
         $pdo = new PDO(
             "mysql:host={$host};port={$port};dbname={$db};charset={$charset}",
             $user,

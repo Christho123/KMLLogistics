@@ -1,4 +1,8 @@
 <?php
+// =========================================================
+// API: CATEGORY RESTORE
+// Endpoint AJAX para restaurar categorias inactivas.
+// =========================================================
 
 declare(strict_types=1);
 

@@ -1,8 +1,13 @@
 <?php
+// =========================================================
+// INCLUDE: HEADER
+// Encabezado HTML y carga global de Bootstrap y Font Awesome.
+// =========================================================
 
 declare(strict_types=1);
 
 // Render del encabezado HTML y carga de estilos.
+// Tecnologia asociada: Bootstrap para estilos base y Font Awesome para iconografia.
 function renderHeader(string $title, array $styles = []): void
 {
     ?>

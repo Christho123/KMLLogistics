@@ -1,4 +1,8 @@
 <?php
+// =========================================================
+// API: CATEGORY DELETE
+// Endpoint AJAX para eliminacion logica de categorias.
+// =========================================================
 
 declare(strict_types=1);
 

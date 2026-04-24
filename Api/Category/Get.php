@@ -1,4 +1,8 @@
 <?php
+// =========================================================
+// API: CATEGORY GET
+// Endpoint AJAX para consultar el detalle de una categoria.
+// =========================================================
 
 declare(strict_types=1);
 

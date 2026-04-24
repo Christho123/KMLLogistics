@@ -1,4 +1,8 @@
 <?php
+// =========================================================
+// API: CATEGORY UPDATE
+// Endpoint AJAX para actualizar categorias existentes.
+// =========================================================
 
 declare(strict_types=1);
 

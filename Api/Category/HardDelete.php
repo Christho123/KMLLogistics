@@ -1,4 +1,8 @@
 <?php
+// =========================================================
+// API: CATEGORY HARD DELETE
+// Endpoint AJAX para eliminacion definitiva de categorias.
+// =========================================================
 
 declare(strict_types=1);
 

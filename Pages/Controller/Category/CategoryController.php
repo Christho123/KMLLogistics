@@ -1,8 +1,13 @@
 <?php
+// =========================================================
+// CONTROLADOR: CATEGORY
+// Orquesta reglas de negocio y respuestas del modulo.
+// =========================================================
 
 declare(strict_types=1);
 
 // Controlador principal del modulo Category.
+// Tecnologia asociada: MVC + POO.
 class CategoryController
 {
     private CategoryCRUD $categoryCRUD;
@@ -23,6 +28,7 @@ class CategoryController
     }
 
     // Orquesta el listado principal de categorias.
+    // Metodo clave consumido por la API de listado.
     public function listCategories(int $page, int $pageSize, string $search): array
     {
         $result = $this->categoryCRUD->listCategories($page, $pageSize, $search);
@@ -80,6 +86,7 @@ class CategoryController
     }
 
     // Crea una nueva categoria.
+    // Metodo clave con validacion de duplicados antes de insertar.
     public function createCategory(string $nombreCategoria, string $descripcion, int $estado): array
     {
         if ($this->categoryCRUD->existsByName($nombreCategoria)) {
@@ -101,6 +108,7 @@ class CategoryController
     }
 
     // Actualiza una categoria existente.
+    // Metodo clave que evita nombres repetidos en categorias activas.
     public function updateCategory(int $idCategoria, string $nombreCategoria, string $descripcion, int $estado): array
     {
         $currentCategory = $this->categoryCRUD->findCategoryById($idCategoria);

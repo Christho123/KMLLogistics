@@ -1,8 +1,13 @@
 <?php
+// =========================================================
+// MODELO: USER CRUD
+// Acceso a datos del modulo de usuarios con PDO.
+// =========================================================
 
 declare(strict_types=1);
 
 // Acceso a datos para usuarios.
+// Tecnologia asociada: PDO + MySQL + POO.
 class UserCRUD
 {
     private PDO $connection;
@@ -14,6 +19,7 @@ class UserCRUD
     }
 
     // Busca un usuario por correo.
+    // Metodo clave para autenticar el login.
     public function findUserByEmail(string $email): ?array
     {
         $statement = $this->connection->prepare(
@@ -43,6 +49,7 @@ class UserCRUD
     }
 
     // Registra un usuario aplicando password_hash.
+    // Metodo clave para persistir nuevos usuarios de forma segura.
     public function register(User $user): bool
     {
         $statement = $this->connection->prepare(

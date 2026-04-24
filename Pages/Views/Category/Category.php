@@ -1,4 +1,8 @@
 <?php
+// =========================================================
+// VISTA: CATEGORY
+// Pantalla principal del modulo de categorias.
+// =========================================================
 
 declare(strict_types=1);
 
@@ -23,6 +27,7 @@ renderMenu('category', $data['current_user']);
                     <label for="categorySearchInput" class="form-label fw-semibold mb-2">Buscar por ID o nombre</label>
                     <div class="input-group category-search-group">
                         <span class="input-group-text bg-white">
+                            <!-- Icono de Font Awesome para representar la busqueda -->
                             <i class="fas fa-search"></i>
                         </span>
                         <input
@@ -33,9 +38,11 @@ renderMenu('category', $data['current_user']);
                             autocomplete="off"
                         >
                         <button type="button" class="btn btn-warning" id="filterSearchButton">
+                            <!-- Icono de Font Awesome para la accion de filtrar -->
                             <i class="fas fa-filter me-1"></i>Filtrar
                         </button>
                         <button type="button" class="btn btn-outline-secondary" id="clearSearchButton">
+                            <!-- Icono de Font Awesome para limpiar el filtro -->
                             <i class="fas fa-eraser me-1"></i>Limpiar
                         </button>
                     </div>
@@ -43,9 +50,11 @@ renderMenu('category', $data['current_user']);
 
                 <div class="category-actions-toolbar">
                     <button type="button" class="btn btn-outline-secondary category-secondary-button" id="openInactiveModalButton">
+                        <!-- Icono de Font Awesome para abrir el listado de inactivos -->
                         <i class="fas fa-archive me-2"></i>Ver inactivos
                     </button>
                     <button type="button" class="btn btn-warning category-create-button" id="openCreateModalButton">
+                        <!-- Icono de Font Awesome para crear un nuevo registro -->
                         <i class="fas fa-plus me-2"></i>Crear
                     </button>
                 </div>

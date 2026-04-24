@@ -1,3 +1,8 @@
+/* =========================================================
+   ESTILOS: LOGIN
+   Apariencia del formulario de inicio de sesion.
+   ========================================================= */
+
 /* Fondo general de la vista login */
 body {
     min-height: 100vh;
@@ -28,4 +33,10 @@ body {
     background: linear-gradient(135deg, #f59e0b, #fbbf24);
     color: #111827;
     font-size: 1.5rem;
+}
+:root {
+/* =========================================================
+   ESTILOS: LOGIN
+   Apariencia del formulario de inicio de sesion.
+   ========================================================= */
 }

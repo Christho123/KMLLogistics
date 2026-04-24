@@ -1,8 +1,13 @@
 <?php
+// =========================================================
+// CONTROLADOR: LOGIN
+// Maneja autenticacion y mensajes del inicio de sesion.
+// =========================================================
 
 declare(strict_types=1);
 
 // Controlador del inicio de sesion.
+// Tecnologia asociada: MVC + POO.
 class LoginController
 {
     private UserCRUD $userCRUD;
@@ -14,6 +19,7 @@ class LoginController
     }
 
     // Procesa login y mensajes de estado.
+    // Metodo clave para validar credenciales y crear la sesion del usuario.
     public function handleRequest(): array
     {
         if (isset($_SESSION['user'])) {

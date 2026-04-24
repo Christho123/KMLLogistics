@@ -1,4 +1,8 @@
 <?php
+// =========================================================
+// MODAL: DETAIL CATEGORY
+// Consulta de detalle de categorias con Bootstrap Modal.
+// =========================================================
 
 declare(strict_types=1);
 ?>
@@ -7,7 +11,7 @@ declare(strict_types=1);
         <div class="modal-content">
             <div class="modal-header">
                 <div>
-                    <h5 class="modal-title mb-1"><i class="fas fa-circle-info me-2 text-primary"></i>Detalle de categoria</h5>
+                    <h5 class="modal-title mb-1"><!-- Icono de Font Awesome para mostrar informacion --><i class="fas fa-circle-info me-2 text-primary"></i>Detalle de categoria</h5>
                     <p class="text-muted mb-0">Consulta la informacion completa de la categoria seleccionada.</p>
                 </div>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
@@ -42,6 +46,7 @@ declare(strict_types=1);
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
+                    <!-- Icono de Font Awesome para confirmar y cerrar -->
                     <i class="fas fa-check me-2"></i>Cerrar detalle
                 </button>
             </div>

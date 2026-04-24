@@ -1,4 +1,8 @@
 <?php
+// =========================================================
+// INCLUDE: MENU
+// Navegacion principal reutilizable del sistema.
+// =========================================================
 
 declare(strict_types=1);
 
@@ -9,6 +13,7 @@ function renderMenu(string $currentPage, ?array $currentUser = null): void
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top shadow-sm">
         <div class="container">
             <a class="navbar-brand fw-bold" href="index.php">
+                <!-- Icono de Font Awesome para identidad visual del proyecto -->
                 <i class="fas fa-truck-fast me-2"></i>KMLLogistics
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
@@ -25,6 +30,7 @@ function renderMenu(string $currentPage, ?array $currentUser = null): void
                     <?php if ($currentUser): ?>
                         <li class="nav-item">
                             <span class="nav-link text-warning">
+                                <!-- Icono de Font Awesome para representar al usuario autenticado -->
                                 <i class="fas fa-user-circle me-1"></i>
                                 <?= htmlspecialchars($currentUser['nombres'], ENT_QUOTES, 'UTF-8'); ?>
                             </span>

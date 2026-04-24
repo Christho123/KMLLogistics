@@ -1,4 +1,8 @@
 <?php
+// =========================================================
+// MODAL: INFO CATEGORY
+// Avisos informativos para validaciones y mensajes breves.
+// =========================================================
 
 declare(strict_types=1);
 ?>
@@ -8,6 +12,7 @@ declare(strict_types=1);
             <div class="modal-header">
                 <div>
                     <h5 class="modal-title mb-1">
+                        <!-- Icono de Font Awesome para mensajes informativos -->
                         <i class="fas fa-circle-info me-2 text-warning"></i><span id="infoCategoryModalTitle">Aviso</span>
                     </h5>
                     <p class="text-muted mb-0">Revisa la informacion antes de continuar.</p>

@@ -1,4 +1,8 @@
 <?php
+// =========================================================
+// API: CATEGORY CREATE
+// Endpoint AJAX para registrar categorias nuevas.
+// =========================================================
 
 declare(strict_types=1);
 
@@ -21,6 +25,7 @@ try {
         exit;
     }
 
+    // La API delega la regla de negocio al controlador MVC.
     $controller = new CategoryController();
     $response = $controller->createCategory($nombreCategoria, $descripcion, $estado);
 

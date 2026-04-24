@@ -1,4 +1,8 @@
 <?php
+// =========================================================
+// MODAL: EDIT CATEGORY
+// Edicion de categorias con Bootstrap Modal.
+// =========================================================
 
 declare(strict_types=1);
 ?>
@@ -7,7 +11,7 @@ declare(strict_types=1);
         <div class="modal-content">
             <div class="modal-header">
                 <div>
-                    <h5 class="modal-title mb-1"><i class="fas fa-edit me-2 text-warning"></i>Editar categoria</h5>
+                    <h5 class="modal-title mb-1"><!-- Icono de Font Awesome para la accion de editar --><i class="fas fa-edit me-2 text-warning"></i>Editar categoria</h5>
                     <p class="text-muted mb-0">Actualiza los datos de la categoria seleccionada.</p>
                 </div>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
@@ -45,6 +49,7 @@ declare(strict_types=1);
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
                     <button type="submit" class="btn btn-warning">
+                        <!-- Icono de Font Awesome para guardar cambios -->
                         <i class="fas fa-save me-2"></i>Guardar cambios
                     </button>
                 </div>

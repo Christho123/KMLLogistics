@@ -1,4 +1,8 @@
 <?php
+// =========================================================
+// API: CATEGORY LIST
+// Endpoint AJAX para listado paginado de categorias activas.
+// =========================================================
 
 declare(strict_types=1);
 

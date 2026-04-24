@@ -1,4 +1,8 @@
 <?php
+// =========================================================
+// MODELO: USER
+// Entidad de dominio para usuarios del sistema.
+// =========================================================
 
 declare(strict_types=1);
 

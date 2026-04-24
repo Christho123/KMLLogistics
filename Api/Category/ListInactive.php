@@ -1,4 +1,8 @@
 <?php
+// =========================================================
+// API: CATEGORY LIST INACTIVE
+// Endpoint AJAX para listado de categorias inactivas.
+// =========================================================
 
 declare(strict_types=1);
 

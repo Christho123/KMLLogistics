@@ -1,4 +1,8 @@
 <?php
+// =========================================================
+// MODAL: INACTIVE CATEGORIES
+// Listado de categorias inactivas con Bootstrap Modal.
+// =========================================================
 
 declare(strict_types=1);
 ?>
@@ -7,7 +11,7 @@ declare(strict_types=1);
         <div class="modal-content">
             <div class="modal-header">
                 <div>
-                    <h5 class="modal-title mb-1"><i class="fas fa-archive me-2 text-secondary"></i>Categorias inactivas</h5>
+                    <h5 class="modal-title mb-1"><!-- Icono de Font Awesome para archivo/inactivos --><i class="fas fa-archive me-2 text-secondary"></i>Categorias inactivas</h5>
                     <p class="text-muted mb-0">Consulta categorias desactivadas y decide si deseas restaurarlas o eliminarlas definitivamente.</p>
                 </div>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
@@ -18,6 +22,7 @@ declare(strict_types=1);
                         <label for="inactiveCategorySearchInput" class="form-label fw-semibold mb-2">Buscar por ID o nombre</label>
                         <div class="input-group category-search-group">
                             <span class="input-group-text bg-white">
+                                <!-- Icono de Font Awesome para la busqueda -->
                                 <i class="fas fa-search"></i>
                             </span>
                             <input
@@ -28,6 +33,7 @@ declare(strict_types=1);
                                 autocomplete="off"
                             >
                             <button type="button" class="btn btn-outline-secondary" id="clearInactiveSearchButton">
+                                <!-- Icono de Font Awesome para limpiar el filtro -->
                                 <i class="fas fa-eraser me-1"></i>Limpiar
                             </button>
                         </div>

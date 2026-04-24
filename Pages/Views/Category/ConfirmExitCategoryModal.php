@@ -1,4 +1,8 @@
 <?php
+// =========================================================
+// MODAL: CONFIRM EXIT CATEGORY
+// Confirmacion antes de cerrar formularios con cambios.
+// =========================================================
 
 declare(strict_types=1);
 ?>
@@ -7,7 +11,7 @@ declare(strict_types=1);
         <div class="modal-content">
             <div class="modal-header">
                 <div>
-                    <h5 class="modal-title mb-1"><i class="fas fa-circle-question me-2 text-primary"></i><span id="confirmExitCategoryTitle">Confirmar salida</span></h5>
+                    <h5 class="modal-title mb-1"><!-- Icono de Font Awesome para dudas o confirmacion --><i class="fas fa-circle-question me-2 text-primary"></i><span id="confirmExitCategoryTitle">Confirmar salida</span></h5>
                     <p class="text-muted mb-0">Antes de cerrar, elige como deseas continuar con la informacion ingresada.</p>
                 </div>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>

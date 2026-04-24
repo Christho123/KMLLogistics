@@ -1,4 +1,8 @@
 <?php
+// =========================================================
+// INCLUDE: LOAD CLASSES
+// Carga manual de clases base para el flujo MVC.
+// =========================================================
 
 declare(strict_types=1);
 
@@ -6,6 +10,7 @@ declare(strict_types=1);
 $pagesRoot = dirname(__DIR__, 2);
 
 // Carga manual de configuracion, modelos, controladores e includes.
+// Tecnologia asociada: estructura MVC + POO.
 require_once $pagesRoot . '/Config/Database.php';
 require_once $pagesRoot . '/Models/Category/Category.php';
 require_once $pagesRoot . '/Models/Category/CategoryCRUD.php';

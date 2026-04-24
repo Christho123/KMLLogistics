@@ -1,8 +1,13 @@
 <?php
+// =========================================================
+// MODELO: CATEGORY CRUD
+// Acceso a datos del modulo Category usando PDO y SP.
+// =========================================================
 
 declare(strict_types=1);
 
 // Acceso a datos para categorias.
+// Tecnologia asociada: PDO + MySQL + procedimientos almacenados.
 class CategoryCRUD
 {
     private PDO $connection;
@@ -36,6 +41,7 @@ class CategoryCRUD
     }
 
     // Prepara una llamada segura a procedimiento almacenado.
+    // Este punto conecta PHP con la capa SQL definida en la BD.
     private function prepareProcedureCall(string $procedureName, array $parameters = []): PDOStatement
     {
         $placeholders = implode(', ', array_fill(0, count($parameters), '?'));
@@ -55,6 +61,7 @@ class CategoryCRUD
     }
 
     // Lista categorias activas por borrado logico, desde la mas reciente, con paginacion.
+    // Metodo clave para el listado AJAX de la vista Category.
     public function listCategories(int $page = 1, int $pageSize = 10, string $search = ''): array
     {
         $page = max(1, $page);

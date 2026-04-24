@@ -1,4 +1,8 @@
 <?php
+// =========================================================
+// MODAL: HARD DELETE INACTIVE CATEGORY
+// Eliminacion definitiva de categorias inactivas.
+// =========================================================
 
 declare(strict_types=1);
 ?>
@@ -7,7 +11,7 @@ declare(strict_types=1);
         <div class="modal-content">
             <div class="modal-header">
                 <div>
-                    <h5 class="modal-title mb-1"><i class="fas fa-exclamation-triangle me-2 text-danger"></i>Eliminar definitivamente</h5>
+                    <h5 class="modal-title mb-1"><!-- Icono de Font Awesome para advertencia critica --><i class="fas fa-exclamation-triangle me-2 text-danger"></i>Eliminar definitivamente</h5>
                     <p class="text-muted mb-0">Esta accion eliminara la categoria inactiva y sus productos relacionados de toda la base de datos.</p>
                 </div>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
@@ -25,6 +29,7 @@ declare(strict_types=1);
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
                     <button type="submit" class="btn btn-danger">
+                        <!-- Icono de Font Awesome para confirmar la eliminacion definitiva -->
                         <i class="fas fa-trash me-2"></i>Eliminar definitivo
                     </button>
                 </div>

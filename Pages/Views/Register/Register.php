@@ -1,4 +1,8 @@
 <?php
+// =========================================================
+// VISTA: REGISTER
+// Formulario de registro de usuarios del sistema.
+// =========================================================
 
 declare(strict_types=1);
 
@@ -18,6 +22,7 @@ renderMenu('register');
                     <div class="card-body p-4 p-lg-5">
                         <div class="text-center mb-4">
                             <div class="icon-circle mx-auto mb-3">
+                                <!-- Icono de Font Awesome para representar alta de usuarios -->
                                 <i class="fas fa-user-plus"></i>
                             </div>
                             <h1 class="h3 fw-bold">Registro de usuarios</h1>
@@ -66,6 +71,7 @@ renderMenu('register');
                                 <div class="input-group">
                                     <input type="password" class="form-control password-input" name="password" required>
                                     <button class="btn btn-outline-secondary toggle-password" type="button">
+                                        <!-- Icono de Font Awesome que cambia visualmente desde Register.js -->
                                         <i class="fas fa-eye"></i>
                                     </button>
                                 </div>
@@ -75,6 +81,7 @@ renderMenu('register');
                                 <div class="input-group">
                                     <input type="password" class="form-control password-input" name="confirm_password" required>
                                     <button class="btn btn-outline-secondary toggle-password" type="button">
+                                        <!-- Icono de Font Awesome que cambia visualmente desde Register.js -->
                                         <i class="fas fa-eye"></i>
                                     </button>
                                 </div>

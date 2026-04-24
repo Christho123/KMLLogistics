@@ -1,8 +1,13 @@
 <?php
+// =========================================================
+// CONTROLADOR: REGISTER
+// Maneja validaciones y alta de nuevos usuarios.
+// =========================================================
 
 declare(strict_types=1);
 
 // Controlador del registro de usuarios.
+// Tecnologia asociada: MVC + POO.
 class RegisterController
 {
     private UserCRUD $userCRUD;
@@ -14,6 +19,7 @@ class RegisterController
     }
 
     // Procesa validaciones y alta de usuario.
+    // Metodo clave para registrar usuarios y conservar datos del formulario.
     public function handleRequest(): array
     {
         if (isset($_SESSION['user'])) {

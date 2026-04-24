@@ -1,3 +1,7 @@
+// =========================================================
+// SCRIPT: CATEGORY
+// Logica AJAX, modals Bootstrap y eventos del modulo.
+// =========================================================
 $(function () {
     var $categoryTableBody = $('#categoryTableBody');
     var $categorySummary = $('#categorySummary');
@@ -118,6 +122,7 @@ $(function () {
         return dateTime.replace(' ', ' | ');
     }
 
+    // Gestiona el bloque visual de feedback dentro de los modals.
     function showFeedback($element, message, type) {
         if (!message) {
             $element.addClass('d-none').removeClass('alert-success alert-danger alert-warning alert-info').text('');
@@ -130,6 +135,8 @@ $(function () {
             .text(message);
     }
 
+    // Aplica el tamano del modal dinamicamente usando jQuery removeClass y addClass.
+    // Indicacion del profesor: controlar modal-sm, modal-lg y modal-xl desde JS.
     function setModalDialogSize($modalElement, sizeClass) {
         var modalSizes = 'modal-sm modal-lg modal-xl';
         var $dialog = $modalElement.find('.modal-dialog');
@@ -296,6 +303,7 @@ $(function () {
         }
     }
 
+    // Extrae el mensaje JSON devuelto por la API para no mostrar errores genericos.
     function extractResponseMessage(xhr, fallbackMessage) {
         if (xhr && xhr.responseJSON && xhr.responseJSON.message) {
             return xhr.responseJSON.message;
@@ -316,6 +324,7 @@ $(function () {
         return fallbackMessage;
     }
 
+    // Valida en cliente los campos principales antes de disparar la peticion AJAX.
     function validateCategoryPayload(payload) {
         var nombre = toTrimmedString(payload.nombre_categoria);
         var descripcion = toTrimmedString(payload.descripcion);
@@ -566,6 +575,7 @@ $(function () {
         });
     }
 
+    // Solicita el detalle de una categoria por AJAX y ejecuta un callback al responder.
     function loadCategoryDetails(categoryId, onSuccess) {
         $.ajax({
             url: getUrl,
@@ -589,6 +599,7 @@ $(function () {
             });
     }
 
+    // Define si la busqueda se resuelve como detalle por ID o como listado filtrado.
     function runMainSearch() {
         var searchValue = toTrimmedString($categorySearchInput.val());
 
@@ -648,6 +659,7 @@ $(function () {
         $('#restoreInactiveName').text(category.nombre_categoria);
     }
 
+    // Metodo clave del listado principal consumido por AJAX.
     function loadCategories(page, pageSize) {
         if (listRequest) {
             listRequest.abort();
@@ -693,6 +705,7 @@ $(function () {
             });
     }
 
+    // Metodo clave del listado de categorias inactivas consumido por AJAX.
     function loadInactiveCategories() {
         if (inactiveListRequest) {
             inactiveListRequest.abort();

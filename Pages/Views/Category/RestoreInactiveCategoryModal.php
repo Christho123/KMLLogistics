@@ -1,4 +1,8 @@
 <?php
+// =========================================================
+// MODAL: RESTORE INACTIVE CATEGORY
+// Restauracion de categorias inactivas.
+// =========================================================
 
 declare(strict_types=1);
 ?>
@@ -7,7 +11,7 @@ declare(strict_types=1);
         <div class="modal-content">
             <div class="modal-header">
                 <div>
-                    <h5 class="modal-title mb-1"><i class="fas fa-undo me-2 text-success"></i>Confirmar restauracion</h5>
+                    <h5 class="modal-title mb-1"><!-- Icono de Font Awesome para restaurar --><i class="fas fa-undo me-2 text-success"></i>Confirmar restauracion</h5>
                     <p class="text-muted mb-0">Verifica la informacion antes de devolver esta categoria al listado activo.</p>
                 </div>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
@@ -25,6 +29,7 @@ declare(strict_types=1);
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
                     <button type="submit" class="btn btn-success">
+                        <!-- Icono de Font Awesome para confirmar la restauracion -->
                         <i class="fas fa-undo me-2"></i>Restaurar categoria
                     </button>
                 </div>

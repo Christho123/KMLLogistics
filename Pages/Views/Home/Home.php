@@ -1,4 +1,8 @@
 <?php
+// =========================================================
+// VISTA: HOME
+// Pantalla principal con carrusel de bienvenida.
+// =========================================================
 
 declare(strict_types=1);
 
@@ -61,6 +65,7 @@ $slides = [
                         <?php else: ?>
                             <div class="hero-placeholder d-flex align-items-center justify-content-center">
                                 <div class="text-center px-4">
+                                    <!-- Icono de Font Awesome mostrado cuando falta la imagen del slide -->
                                     <i class="fas fa-image fa-3x mb-3"></i>
                                     <h2 class="fw-bold"><?= htmlspecialchars($slide['title'], ENT_QUOTES, 'UTF-8'); ?></h2>
                                     <span class="badge text-bg-warning text-dark"><?= htmlspecialchars($slide['image'], ENT_QUOTES, 'UTF-8'); ?></span>
