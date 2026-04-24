@@ -21,7 +21,7 @@ try {
 
         echo json_encode([
             'success' => false,
-            'message' => 'Completa correctamente los datos de la categoria.',
+            'message' => 'Debes completar correctamente los datos de la categoria antes de guardar los cambios.',
         ], JSON_UNESCAPED_UNICODE);
         exit;
     }
@@ -40,7 +40,6 @@ try {
 
     echo json_encode([
         'success' => false,
-        'message' => 'No se pudo actualizar la categoria.',
-        'error' => $exception->getMessage(),
+        'message' => 'Ocurrio un problema al actualizar la categoria.',
     ], JSON_UNESCAPED_UNICODE);
 }

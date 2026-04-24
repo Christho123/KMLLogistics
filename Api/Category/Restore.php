@@ -37,7 +37,6 @@ try {
 
     echo json_encode([
         'success' => false,
-        'message' => 'No se pudo restaurar la categoria.',
-        'error' => $exception->getMessage(),
+        'message' => 'Ocurrio un problema al restaurar la categoria.',
     ], JSON_UNESCAPED_UNICODE);
 }

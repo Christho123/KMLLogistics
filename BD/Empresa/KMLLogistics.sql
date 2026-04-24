@@ -1,3 +1,9 @@
+-- =========================================================
+-- KML LOGISTICS
+-- Script limpio para crear la base de datos, tablas,
+-- registros iniciales y procedimientos almacenados.
+-- =========================================================
+
 -- CREACION DE LA BASE DE DATOS
 DROP DATABASE IF EXISTS KMLLogistics;
 CREATE DATABASE KMLLogistics CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
@@ -64,7 +70,6 @@ CREATE TABLE marcas (
 -- Guarda el inventario principal del sistema
 CREATE TABLE productos (
     id_producto INT AUTO_INCREMENT PRIMARY KEY,
-    codigo VARCHAR(30) NOT NULL UNIQUE,
     producto VARCHAR(150) NOT NULL,
     costo DECIMAL(10,2) NOT NULL,
     ganancia DECIMAL(5,4) NOT NULL,
@@ -141,25 +146,27 @@ INSERT INTO marcas (nombre_marca, id_proveedor, estado) VALUES
 ('Kingston', 5, 1);
 
 -- REGISTROS INICIALES: PRODUCTOS
-INSERT INTO productos (codigo, producto, costo, ganancia, precio, stock, id_categoria, id_marca, estado) VALUES
-('PRD001', 'Laptop Dell Latitude 5440', 2500.00, 0.1525, 2950.00, 15, 1, 1, 1),
-('PRD002', 'Mouse HP Inalambrico', 45.00, 0.3077, 65.00, 60, 2, 2, 1),
-('PRD003', 'Router TP-Link Archer AX12', 180.00, 0.2340, 235.00, 25, 3, 4, 1),
-('PRD004', 'Disco SSD Kingston 1TB', 210.00, 0.2222, 270.00, 40, 5, 5, 1),
-('PRD005', 'Camara IP Lenovo SecureCam', 320.00, 0.2000, 400.00, 18, 4, 3, 1);
+INSERT INTO productos (producto, costo, ganancia, precio, stock, id_categoria, id_marca, estado) VALUES
+('Laptop Dell Latitude 5440', 2500.00, 0.1525, 2950.00, 15, 1, 1, 1),
+('Mouse HP Inalambrico', 45.00, 0.3077, 65.00, 60, 2, 2, 1),
+('Router TP-Link Archer AX12', 180.00, 0.2340, 235.00, 25, 3, 4, 1),
+('Disco SSD Kingston 1TB', 210.00, 0.2222, 270.00, 40, 5, 5, 1),
+('Camara IP Lenovo SecureCam', 320.00, 0.2000, 400.00, 18, 4, 3, 1);
 
 -- REGISTRO INICIAL: USUARIO ADMIN
 -- Password base: 123456
 INSERT INTO usuarios (nombres, apellidos, correo, id_tipo_documento, numero_documento, password_hash, rol, estado) VALUES
 ('Admin', 'KML', 'admin@kmllogistics.com', 1, '12345678', '$2y$12$vO638KapJ5QX6ZEB4o893uRTb3Z1gUD1Kd2dPm/rFR874FOatEkKe', 'admin', 1);
 
--- PROCEDIMIENTO ALMACENADO: BUSCAR PRODUCTO POR CODIGO
--- Devuelve producto, costo, ganancia, precio, stock, total,
--- categoria y marca
+-- PROCEDIMIENTOS ALMACENADOS: MODULO PRODUCTOS
+
 DELIMITER $$
-CREATE PROCEDURE sp_buscar_por_codigo(IN p_codigo VARCHAR(30))
+-- PROCEDIMIENTO: SP_BUSCAR_PRODUCTO_POR_ID
+-- Busca un producto activo por su ID autoincremental
+CREATE PROCEDURE sp_buscar_producto_por_id(IN p_id_producto INT)
 BEGIN
     SELECT
+        p.id_producto,
         p.producto,
         p.costo,
         p.ganancia,
@@ -172,16 +179,17 @@ BEGIN
     INNER JOIN categorias c ON c.id_categoria = p.id_categoria
     INNER JOIN marcas m ON m.id_marca = p.id_marca
     WHERE p.estado = 1
-      AND p.codigo = p_codigo;
+      AND p.id_producto = p_id_producto;
 END $$
 DELIMITER ;
 
--- PROCEDIMIENTO ALMACENADO: FILTRAR PRODUCTO POR NOMBRE
--- Busca coincidencias parciales o completas
 DELIMITER $$
+-- PROCEDIMIENTO: SP_FILTRAR_POR_NOMBRE
+-- Lista productos activos por coincidencia de nombre
 CREATE PROCEDURE sp_filtrar_por_nombre(IN p_nombre VARCHAR(150))
 BEGIN
     SELECT
+        p.id_producto,
         p.producto,
         p.costo,
         p.ganancia,
@@ -199,63 +207,20 @@ BEGIN
 END $$
 DELIMITER ;
 
--- EJECUCION DE PRUEBA: SP BUSCAR POR CODIGO
-CALL `kmllogistics`.`sp_buscar_por_codigo`("PRD001");
+-- EJEMPLOS DE USO PRODUCTOS
+CALL sp_buscar_producto_por_id(1);
+CALL sp_filtrar_por_nombre('Disco');
 
--- EJECUCION DE PRUEBA: SP FILTRAR POR NOMBRE
-CALL `kmllogistics`.`sp_filtrar_por_nombre`("Disco");
-
--- BUSQUEDA DIRECTA DE CATEGORIA POR ID
--- Solo muestra registros no eliminados logicamente
-SELECT *
-FROM categorias
-WHERE id_categoria = 1
-  AND deleted_at IS NULL;
-
--- BUSQUEDA DIRECTA DE CATEGORIA POR NOMBRE
--- Busqueda parcial usando LIKE
-SELECT *
-FROM categorias
-WHERE nombre_categoria LIKE '%Lap%'
-  AND deleted_at IS NULL
-ORDER BY created_at DESC, id_categoria DESC;
-
--- ACTUALIZAR CATEGORIA POR ID
--- Modifica nombre, descripcion y estado
-UPDATE categorias
-SET nombre_categoria = 'Laptops Actualizadas',
-    descripcion = 'Equipos portatiles actualizados para uso empresarial.',
-    estado = 1
-WHERE id_categoria = 1
-  AND deleted_at IS NULL;
-
--- ELIMINAR CATEGORIA POR ID
--- Eliminacion fisica del registro
-DELETE FROM categorias
-WHERE id_categoria = 1;
-
--- =========================================================
 -- PROCEDIMIENTOS ALMACENADOS: MODULO CATEGORY
--- =========================================================
 -- Nota:
 -- Los SP de listado filtran solo por nombre_categoria usando prefijo.
 -- La busqueda por ID se resuelve desde frontend consumiendo
 -- sp_categoria_obtener_activa_por_id.
 
-DROP PROCEDURE IF EXISTS sp_categoria_listar_activas;
-DROP PROCEDURE IF EXISTS sp_categoria_contar_activas;
-DROP PROCEDURE IF EXISTS sp_categoria_listar_inactivas;
-DROP PROCEDURE IF EXISTS sp_categoria_obtener_activa_por_id;
-DROP PROCEDURE IF EXISTS sp_categoria_obtener_por_id;
-DROP PROCEDURE IF EXISTS sp_categoria_crear;
-DROP PROCEDURE IF EXISTS sp_categoria_actualizar;
-DROP PROCEDURE IF EXISTS sp_categoria_eliminar_logico;
-DROP PROCEDURE IF EXISTS sp_categoria_restaurar;
-DROP PROCEDURE IF EXISTS sp_categoria_eliminar_definitivo;
-DROP PROCEDURE IF EXISTS sp_categoria_existe_nombre;
-
 DELIMITER $$
 
+-- PROCEDIMIENTO: SP_CATEGORIA_LISTAR_ACTIVAS
+-- Lista categorias activas con paginacion y filtro opcional
 CREATE PROCEDURE sp_categoria_listar_activas(
     IN p_offset INT,
     IN p_limit INT,
@@ -284,6 +249,8 @@ BEGIN
     LIMIT p_offset, p_limit;
 END $$
 
+-- PROCEDIMIENTO: SP_CATEGORIA_CONTAR_ACTIVAS
+-- Cuenta categorias activas segun el filtro aplicado
 CREATE PROCEDURE sp_categoria_contar_activas(
     IN p_search VARCHAR(100)
 )
@@ -301,6 +268,8 @@ BEGIN
       );
 END $$
 
+-- PROCEDIMIENTO: SP_CATEGORIA_LISTAR_INACTIVAS
+-- Lista categorias inactivas o eliminadas logicamente
 CREATE PROCEDURE sp_categoria_listar_inactivas(
     IN p_search VARCHAR(100)
 )
@@ -325,6 +294,8 @@ BEGIN
     ORDER BY deleted_at DESC, id_categoria DESC;
 END $$
 
+-- PROCEDIMIENTO: SP_CATEGORIA_OBTENER_ACTIVA_POR_ID
+-- Obtiene una categoria activa por su identificador
 CREATE PROCEDURE sp_categoria_obtener_activa_por_id(
     IN p_id_categoria INT
 )
@@ -343,6 +314,8 @@ BEGIN
     LIMIT 1;
 END $$
 
+-- PROCEDIMIENTO: SP_CATEGORIA_OBTENER_POR_ID
+-- Obtiene una categoria sin importar su estado
 CREATE PROCEDURE sp_categoria_obtener_por_id(
     IN p_id_categoria INT
 )
@@ -360,6 +333,8 @@ BEGIN
     LIMIT 1;
 END $$
 
+-- PROCEDIMIENTO: SP_CATEGORIA_CREAR
+-- Registra una nueva categoria y devuelve su ID
 CREATE PROCEDURE sp_categoria_crear(
     IN p_nombre_categoria VARCHAR(100),
     IN p_descripcion VARCHAR(255),
@@ -377,6 +352,8 @@ BEGIN
     SELECT LAST_INSERT_ID() AS id_categoria;
 END $$
 
+-- PROCEDIMIENTO: SP_CATEGORIA_ACTUALIZAR
+-- Actualiza una categoria activa existente
 CREATE PROCEDURE sp_categoria_actualizar(
     IN p_id_categoria INT,
     IN p_nombre_categoria VARCHAR(100),
@@ -398,6 +375,8 @@ BEGIN
     SELECT ROW_COUNT() AS affected_rows;
 END $$
 
+-- PROCEDIMIENTO: SP_CATEGORIA_ELIMINAR_LOGICO
+-- Marca una categoria como inactiva y eliminada logicamente
 CREATE PROCEDURE sp_categoria_eliminar_logico(
     IN p_id_categoria INT
 )
@@ -411,6 +390,8 @@ BEGIN
     SELECT ROW_COUNT() AS affected_rows;
 END $$
 
+-- PROCEDIMIENTO: SP_CATEGORIA_RESTAURAR
+-- Restaura una categoria previamente desactivada
 CREATE PROCEDURE sp_categoria_restaurar(
     IN p_id_categoria INT
 )
@@ -424,6 +405,8 @@ BEGIN
     SELECT ROW_COUNT() AS affected_rows;
 END $$
 
+-- PROCEDIMIENTO: SP_CATEGORIA_ELIMINAR_DEFINITIVO
+-- Elimina en cascada productos asociados y luego la categoria
 CREATE PROCEDURE sp_categoria_eliminar_definitivo(
     IN p_id_categoria INT
 )
@@ -451,6 +434,8 @@ BEGIN
     END IF;
 END $$
 
+-- PROCEDIMIENTO: SP_CATEGORIA_EXISTE_NOMBRE
+-- Verifica si ya existe una categoria activa con el mismo nombre
 CREATE PROCEDURE sp_categoria_existe_nombre(
     IN p_nombre_categoria VARCHAR(100),
     IN p_exclude_id INT
@@ -467,14 +452,36 @@ END $$
 DELIMITER ;
 
 -- EJEMPLOS DE USO CATEGORY
--- CALL sp_categoria_listar_activas(0, 10, 'La');
--- CALL sp_categoria_contar_activas('La');
--- CALL sp_categoria_listar_inactivas('Se');
--- CALL sp_categoria_obtener_activa_por_id(1);
--- CALL sp_categoria_obtener_por_id(1);
--- CALL sp_categoria_crear('Nueva categoria', 'Descripcion demo', 1);
--- CALL sp_categoria_actualizar(1, 'Categoria editada', 'Descripcion actualizada', 1);
--- CALL sp_categoria_eliminar_logico(1);
--- CALL sp_categoria_restaurar(1);
--- CALL sp_categoria_eliminar_definitivo(1);
--- CALL sp_categoria_existe_nombre('Laptops', NULL);
+CALL sp_categoria_listar_activas(0, 10, 'La');
+CALL sp_categoria_contar_activas('La');
+CALL sp_categoria_listar_inactivas('Se');
+CALL sp_categoria_obtener_activa_por_id(1);
+CALL sp_categoria_obtener_por_id(1);
+CALL sp_categoria_crear('Nueva categoria', 'Descripcion demo', 1);
+CALL sp_categoria_actualizar(1, 'Categoria editada', 'Descripcion actualizada', 1);
+CALL sp_categoria_eliminar_logico(1);
+CALL sp_categoria_restaurar(1);
+CALL sp_categoria_eliminar_definitivo(1);
+CALL sp_categoria_existe_nombre('Laptops', NULL);
+
+-- CONSULTAS MANUALES DE APOYO
+-- CONSULTA: BUSCAR CATEGORIA ACTIVA POR ID
+SELECT * FROM categorias WHERE id_categoria = 1 AND deleted_at IS NULL;
+
+-- CONSULTA: BUSCAR CATEGORIAS POR NOMBRE
+SELECT *
+FROM categorias
+WHERE nombre_categoria LIKE '%Lap%'
+AND deleted_at IS NULL
+ORDER BY created_at DESC, id_categoria DESC;
+
+-- CONSULTA: ACTUALIZAR CATEGORIA POR ID
+UPDATE categorias
+SET nombre_categoria = 'Laptops Actualizadas',
+descripcion = 'Equipos portatiles actualizados para uso empresarial.',
+estado = 1
+WHERE id_categoria = 1
+AND deleted_at IS NULL;
+
+-- CONSULTA: ELIMINAR CATEGORIA POR ID
+DELETE FROM categorias WHERE id_categoria = 1;

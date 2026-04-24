@@ -33,7 +33,6 @@ try {
 
     echo json_encode([
         'success' => false,
-        'message' => 'No se pudo cargar el listado de categorias.',
-        'error' => $exception->getMessage(),
+        'message' => 'Ocurrio un problema al cargar el listado de categorias.',
     ], JSON_UNESCAPED_UNICODE);
 }

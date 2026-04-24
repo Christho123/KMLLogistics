@@ -37,7 +37,6 @@ try {
 
     echo json_encode([
         'success' => false,
-        'message' => 'No se pudo obtener el detalle de la categoria.',
-        'error' => $exception->getMessage(),
+        'message' => 'Ocurrio un problema al consultar el detalle de la categoria.',
     ], JSON_UNESCAPED_UNICODE);
 }

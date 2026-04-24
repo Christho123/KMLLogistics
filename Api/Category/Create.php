@@ -16,7 +16,7 @@ try {
 
         echo json_encode([
             'success' => false,
-            'message' => 'Completa nombre, descripcion y estado de la categoria.',
+            'message' => 'Debes completar correctamente el nombre, la descripcion y el estado de la categoria.',
         ], JSON_UNESCAPED_UNICODE);
         exit;
     }
@@ -35,7 +35,6 @@ try {
 
     echo json_encode([
         'success' => false,
-        'message' => 'No se pudo crear la categoria.',
-        'error' => $exception->getMessage(),
+        'message' => 'Ocurrio un problema al registrar la categoria.',
     ], JSON_UNESCAPED_UNICODE);
 }

@@ -108,6 +108,7 @@ renderMenu('category', $data['current_user']);
 <?php require __DIR__ . '/DetailCategoryModal.php'; ?>
 <?php require __DIR__ . '/DeleteCategoryModal.php'; ?>
 <?php require __DIR__ . '/ConfirmExitCategoryModal.php'; ?>
+<?php require __DIR__ . '/InfoCategoryModal.php'; ?>
 <?php require __DIR__ . '/InactiveCategoriesModal.php'; ?>
 <?php require __DIR__ . '/HardDeleteInactiveCategoryModal.php'; ?>
 <?php require __DIR__ . '/RestoreInactiveCategoryModal.php'; ?>

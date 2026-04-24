@@ -32,17 +32,21 @@ $(function () {
     var $detailModalElement = $('#detailCategoryModal');
     var $deleteModalElement = $('#deleteCategoryModal');
     var $confirmExitModalElement = $('#confirmExitCategoryModal');
+    var $infoModalElement = $('#infoCategoryModal');
     var $inactiveCategoriesModalElement = $('#inactiveCategoriesModal');
     var $hardDeleteInactiveCategoryModalElement = $('#hardDeleteInactiveCategoryModal');
     var $restoreInactiveCategoryModalElement = $('#restoreInactiveCategoryModal');
     var $confirmExitTitle = $('#confirmExitCategoryTitle');
     var $confirmExitCopy = $('#confirmExitCategoryCopy');
     var $confirmExitSaveButton = $('#confirmExitSaveButton');
+    var $infoModalTitle = $('#infoCategoryModalTitle');
+    var $infoModalMessage = $('#infoCategoryModalMessage');
     var createModal = null;
     var editModal = null;
     var detailModal = null;
     var deleteModal = null;
     var confirmExitModal = null;
+    var infoModal = null;
     var inactiveCategoriesModal = null;
     var hardDeleteInactiveCategoryModal = null;
     var restoreInactiveCategoryModal = null;
@@ -126,6 +130,21 @@ $(function () {
             .text(message);
     }
 
+    function setModalDialogSize($modalElement, sizeClass) {
+        var modalSizes = 'modal-sm modal-lg modal-xl';
+        var $dialog = $modalElement.find('.modal-dialog');
+
+        if (!$dialog.length) {
+            return;
+        }
+
+        $dialog.removeClass(modalSizes);
+
+        if (sizeClass) {
+            $dialog.addClass(sizeClass);
+        }
+    }
+
     function setButtonLoading($button, isLoading, label) {
         if (!$button.length) {
             return;
@@ -182,6 +201,10 @@ $(function () {
 
         if (confirmExitModal === null) {
             confirmExitModal = getModalInstance($confirmExitModalElement);
+        }
+
+        if (infoModal === null) {
+            infoModal = getModalInstance($infoModalElement);
         }
 
         if (inactiveCategoriesModal === null) {
@@ -242,6 +265,7 @@ $(function () {
 
     function openExitPrompt(modalKey) {
         ensureModals();
+        setModalDialogSize($confirmExitModalElement, 'modal-sm');
 
         exitPromptState.activeModalKey = modalKey;
         $confirmExitTitle.text(modalKey === 'create' ? 'Salir de crear categoria' : 'Salir de editar categoria');
@@ -258,6 +282,66 @@ $(function () {
         if (confirmExitModal) {
             confirmExitModal.show();
         }
+    }
+
+    function showInfoModal(title, message) {
+        ensureModals();
+        setModalDialogSize($infoModalElement, 'modal-sm');
+
+        $infoModalTitle.text(title || 'Aviso');
+        $infoModalMessage.text(message || 'Ocurrio un evento que requiere tu atencion.');
+
+        if (infoModal) {
+            infoModal.show();
+        }
+    }
+
+    function extractResponseMessage(xhr, fallbackMessage) {
+        if (xhr && xhr.responseJSON && xhr.responseJSON.message) {
+            return xhr.responseJSON.message;
+        }
+
+        if (xhr && xhr.responseText) {
+            try {
+                var parsedResponse = JSON.parse(xhr.responseText);
+
+                if (parsedResponse && parsedResponse.message) {
+                    return parsedResponse.message;
+                }
+            } catch (error) {
+                // La respuesta no vino como JSON valido.
+            }
+        }
+
+        return fallbackMessage;
+    }
+
+    function validateCategoryPayload(payload) {
+        var nombre = toTrimmedString(payload.nombre_categoria);
+        var descripcion = toTrimmedString(payload.descripcion);
+        var estado = toTrimmedString(payload.estado);
+
+        if (nombre === '') {
+            return 'Debes ingresar el nombre de la categoria.';
+        }
+
+        if (nombre.length < 3) {
+            return 'El nombre de la categoria debe tener al menos 3 caracteres.';
+        }
+
+        if (descripcion === '') {
+            return 'Debes ingresar una descripcion para la categoria.';
+        }
+
+        if (descripcion.length < 3) {
+            return 'La descripcion debe tener al menos 3 caracteres.';
+        }
+
+        if (estado !== '0' && estado !== '1') {
+            return 'Debes seleccionar un estado valido para la categoria.';
+        }
+
+        return '';
     }
 
     function updateTableHeight(rowCount) {
@@ -494,26 +578,27 @@ $(function () {
         })
             .done(function (response) {
                 if (!response.success || !response.category) {
-                    window.alert('No se pudo obtener el detalle de la categoria.');
+                    showInfoModal('Categoria no disponible', response.message || 'No se pudo obtener el detalle de la categoria seleccionada.');
                     return;
                 }
 
                 onSuccess(normalizeCategory(response.category));
             })
-            .fail(function () {
-                window.alert('Error de conexion al consultar la categoria.');
+            .fail(function (xhr) {
+                showInfoModal('No se pudo consultar la categoria', extractResponseMessage(xhr, 'Ocurrio un problema al consultar la categoria. Intenta nuevamente.'));
             });
     }
 
     function runMainSearch() {
         var searchValue = toTrimmedString($categorySearchInput.val());
 
-        pagination.search = searchValue;
-
         if (searchValue === '') {
-            loadCategories(1, pagination.page_size);
+            showInfoModal('Campo de busqueda vacio', 'Debes ingresar un ID o un nombre antes de hacer clic en Filtrar.');
+            $categorySearchInput.trigger('focus');
             return;
         }
+
+        pagination.search = searchValue;
 
         if (isNumericSearch(searchValue)) {
             ensureModals();
@@ -586,7 +671,7 @@ $(function () {
         })
             .done(function (response) {
                 if (!response.success) {
-                    renderMessageRow('No se pudo cargar la tabla.', 'text-danger');
+                    renderMessageRow(response.message || 'No se pudo cargar la tabla.', 'text-danger');
                     return;
                 }
 
@@ -600,7 +685,7 @@ $(function () {
                     return;
                 }
 
-                renderMessageRow('Error de conexion al cargar categorias.', 'text-danger');
+                renderMessageRow(extractResponseMessage(xhr, 'Ocurrio un problema al cargar las categorias.'), 'text-danger');
             })
             .always(function () {
                 listRequest = null;
@@ -627,7 +712,7 @@ $(function () {
         })
             .done(function (response) {
                 if (!response.success) {
-                    renderInactiveMessageRow('No se pudo cargar la tabla de inactivos.', 'text-danger');
+                    renderInactiveMessageRow(response.message || 'No se pudo cargar la tabla de inactivos.', 'text-danger');
                     return;
                 }
 
@@ -641,7 +726,7 @@ $(function () {
                     return;
                 }
 
-                renderInactiveMessageRow('Error de conexion al cargar categorias inactivas.', 'text-danger');
+                renderInactiveMessageRow(extractResponseMessage(xhr, 'Ocurrio un problema al cargar las categorias inactivas.'), 'text-danger');
             })
             .always(function () {
                 inactiveListRequest = null;
@@ -690,6 +775,7 @@ $(function () {
 
     $openInactiveModalButton.on('click', function () {
         ensureModals();
+        setModalDialogSize($inactiveCategoriesModalElement, 'modal-xl');
         inactiveState.search = '';
         $inactiveCategorySearchInput.val('');
         updateInactiveSummary();
@@ -740,6 +826,7 @@ $(function () {
 
     $openCreateModalButton.on('click', function () {
         ensureModals();
+        setModalDialogSize($createModalElement, 'modal-lg');
 
         if ($createCategoryForm.length) {
             $createCategoryForm[0].reset();
@@ -755,6 +842,7 @@ $(function () {
     $categoryTableBody.on('click', '.js-view-category', function () {
         var categoryId = $(this).data('id');
         ensureModals();
+        setModalDialogSize($detailModalElement, 'modal-lg');
 
         loadCategoryDetails(categoryId, function (category) {
             fillDetailModal(category);
@@ -768,6 +856,7 @@ $(function () {
     $categoryTableBody.on('click', '.js-edit-category', function () {
         var categoryId = $(this).data('id');
         ensureModals();
+        setModalDialogSize($editModalElement, 'modal-lg');
 
         loadCategoryDetails(categoryId, function (category) {
             fillEditModal(category);
@@ -783,6 +872,7 @@ $(function () {
     $categoryTableBody.on('click', '.js-delete-category', function () {
         var categoryId = $(this).data('id');
         ensureModals();
+        setModalDialogSize($deleteModalElement, 'modal-sm');
 
         loadCategoryDetails(categoryId, function (category) {
             prepareDeleteModal(category);
@@ -801,6 +891,7 @@ $(function () {
         };
 
         ensureModals();
+        setModalDialogSize($restoreInactiveCategoryModalElement, 'modal-sm');
         prepareRestoreInactiveModal(category);
         showFeedback($restoreInactiveFeedback, '', 'info');
 
@@ -816,6 +907,7 @@ $(function () {
         };
 
         ensureModals();
+        setModalDialogSize($hardDeleteInactiveCategoryModalElement, 'modal-sm');
         prepareHardDeleteInactiveModal(category);
         showFeedback($hardDeleteInactiveFeedback, '', 'info');
 
@@ -826,9 +918,22 @@ $(function () {
 
     $createCategoryForm.on('submit', function (event) {
         var $submitButton = $createCategoryForm.find('button[type="submit"]');
+        var formData = {
+            nombre_categoria: $('#create_nombre_categoria').val(),
+            descripcion: $('#create_descripcion').val(),
+            estado: $('#create_estado').val()
+        };
+        var validationMessage = validateCategoryPayload(formData);
 
         event.preventDefault();
         showFeedback($createFeedback, '', 'info');
+
+        if (validationMessage !== '') {
+            showFeedback($createFeedback, validationMessage, 'warning');
+            showInfoModal('Datos incompletos', validationMessage);
+            return;
+        }
+
         setButtonLoading($submitButton, true, 'Guardando...');
 
         $.ajax({
@@ -855,8 +960,8 @@ $(function () {
                     }
                 }, 650);
             })
-            .fail(function () {
-                showFeedback($createFeedback, 'Error de conexion al registrar la categoria.', 'danger');
+            .fail(function (xhr) {
+                showFeedback($createFeedback, extractResponseMessage(xhr, 'No se pudo registrar la categoria en este momento.'), 'danger');
             })
             .always(function () {
                 setButtonLoading($submitButton, false, 'Guardar categoria');
@@ -865,9 +970,22 @@ $(function () {
 
     $editCategoryForm.on('submit', function (event) {
         var $submitButton = $editCategoryForm.find('button[type="submit"]');
+        var formData = {
+            nombre_categoria: $('#edit_nombre_categoria').val(),
+            descripcion: $('#edit_descripcion').val(),
+            estado: $('#edit_estado').val()
+        };
+        var validationMessage = validateCategoryPayload(formData);
 
         event.preventDefault();
         showFeedback($editFeedback, '', 'info');
+
+        if (validationMessage !== '') {
+            showFeedback($editFeedback, validationMessage, 'warning');
+            showInfoModal('Datos incompletos', validationMessage);
+            return;
+        }
+
         setButtonLoading($submitButton, true, 'Actualizando...');
 
         $.ajax({
@@ -893,8 +1011,8 @@ $(function () {
                     }
                 }, 650);
             })
-            .fail(function () {
-                showFeedback($editFeedback, 'Error de conexion al actualizar la categoria.', 'danger');
+            .fail(function (xhr) {
+                showFeedback($editFeedback, extractResponseMessage(xhr, 'No se pudo actualizar la categoria en este momento.'), 'danger');
             })
             .always(function () {
                 setButtonLoading($submitButton, false, 'Guardar cambios');
@@ -929,8 +1047,8 @@ $(function () {
                     }
                 }, 650);
             })
-            .fail(function () {
-                showFeedback($deleteFeedback, 'Error de conexion al eliminar la categoria.', 'danger');
+            .fail(function (xhr) {
+                showFeedback($deleteFeedback, extractResponseMessage(xhr, 'No se pudo eliminar la categoria en este momento.'), 'danger');
             })
             .always(function () {
                 setButtonLoading($submitButton, false, 'Confirmar eliminacion');
@@ -972,8 +1090,8 @@ $(function () {
                     }
                 }, 900);
             })
-            .fail(function () {
-                showFeedback($hardDeleteInactiveFeedback, 'Error de conexion al eliminar definitivamente la categoria.', 'danger');
+            .fail(function (xhr) {
+                showFeedback($hardDeleteInactiveFeedback, extractResponseMessage(xhr, 'No se pudo eliminar definitivamente la categoria en este momento.'), 'danger');
             })
             .always(function () {
                 setButtonLoading($submitButton, false, 'Eliminar definitivo');
@@ -1009,8 +1127,8 @@ $(function () {
                     }
                 }, 750);
             })
-            .fail(function () {
-                showFeedback($restoreInactiveFeedback, 'Error de conexion al restaurar la categoria.', 'danger');
+            .fail(function (xhr) {
+                showFeedback($restoreInactiveFeedback, extractResponseMessage(xhr, 'No se pudo restaurar la categoria en este momento.'), 'danger');
             })
             .always(function () {
                 setButtonLoading($submitButton, false, 'Restaurar categoria');

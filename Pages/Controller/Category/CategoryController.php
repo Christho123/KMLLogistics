@@ -86,7 +86,7 @@ class CategoryController
             return [
                 'success' => false,
                 'status_code' => 409,
-                'message' => 'Ya existe una categoria activa con ese nombre.',
+                'message' => 'Ya existe una categoria activa con este nombre.',
             ];
         }
 
@@ -117,7 +117,7 @@ class CategoryController
             return [
                 'success' => false,
                 'status_code' => 409,
-                'message' => 'Ya existe otra categoria activa con ese nombre.',
+                'message' => 'Ya existe otra categoria activa con este nombre.',
             ];
         }
 
@@ -171,6 +171,14 @@ class CategoryController
                 'success' => false,
                 'status_code' => 404,
                 'message' => 'La categoria inactiva solicitada ya no esta disponible.',
+            ];
+        }
+
+        if ($this->categoryCRUD->existsByName((string) ($category['nombre_categoria'] ?? ''), $idCategoria)) {
+            return [
+                'success' => false,
+                'status_code' => 409,
+                'message' => 'No se puede restaurar esta categoria porque ya existe una categoria activa con este nombre.',
             ];
         }
 

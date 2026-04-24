@@ -37,7 +37,6 @@ try {
 
     echo json_encode([
         'success' => false,
-        'message' => 'No se pudo ejecutar la eliminacion definitiva.',
-        'error' => $exception->getMessage(),
+        'message' => 'Ocurrio un problema al eliminar definitivamente la categoria.',
     ], JSON_UNESCAPED_UNICODE);
 }

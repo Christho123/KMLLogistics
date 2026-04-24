@@ -37,7 +37,6 @@ try {
 
     echo json_encode([
         'success' => false,
-        'message' => 'No se pudo eliminar la categoria.',
-        'error' => $exception->getMessage(),
+        'message' => 'Ocurrio un problema al eliminar la categoria.',
     ], JSON_UNESCAPED_UNICODE);
 }
