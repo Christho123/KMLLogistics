@@ -2,22 +2,29 @@
 
 ## 1. Descripcion general
 
-KMLLogistics es un proyecto PHP estructurado por capas para mantener separacion de responsabilidades, escalabilidad y reutilizacion de codigo.
+KMLLogistics es un proyecto web en PHP organizado con una estructura MVC simple, usando PDO para la conexion con MySQL, Bootstrap para la interfaz, Font Awesome para iconografia y jQuery para interacciones del frontend.
 
-El sistema implementado actualmente incluye:
+Actualmente el sistema incluye:
 
-- Conexion a base de datos con PDO
 - Ruteo centralizado desde `index.php`
-- Includes globales reutilizables
-- Vista `Home` independiente con carrusel tipo hero
-- Vista `Category` independiente con listado de categorias
-- Paginacion del listado de categorias por AJAX
-- Selector de cantidad de registros por pagina
-- Tabla responsive con scroll horizontal y arrastre
-- Registro de usuarios
-- Registro de usuarios con tipo y numero de documento
-- Login con `password_hash` y `password_verify`
-- Script SQL con tablas, datos base, procedimientos almacenados y consultas de apoyo
+- Estructura MVC con controladores, modelos y vistas
+- Conexion segura a base de datos con PDO
+- Vista `Home` con carrusel principal
+- Vista `Login`
+- Vista `Register`
+- Modulo `Category` con:
+  - listado paginado
+  - filtro por nombre
+  - consulta por ID
+  - detalle de categoria
+  - creacion
+  - edicion
+  - eliminacion logica
+  - listado de categorias inactivas
+  - restauracion
+  - eliminacion definitiva
+- APIs JSON para el modulo de categorias
+- Script SQL con tablas, datos base y procedimientos almacenados
 
 ---
 
@@ -30,6 +37,9 @@ El sistema implementado actualmente incluye:
 - Font Awesome
 - jQuery
 - AJAX con jQuery
+- SQL con procedimientos almacenados
+- POO
+- MVC
 
 ---
 
@@ -40,9 +50,17 @@ KMLLogistics/
 |-- index.php
 |-- README.md
 |-- documentacion.md
+|-- Indicaciones_Profesor.md
 |-- Api/
 |   `-- Category/
-|       `-- List.php
+|       |-- Create.php
+|       |-- Delete.php
+|       |-- Get.php
+|       |-- HardDelete.php
+|       |-- List.php
+|       |-- ListInactive.php
+|       |-- Restore.php
+|       `-- Update.php
 |-- BD/
 |   |-- Empresa/
 |   |   `-- KMLLogistics.sql
@@ -66,7 +84,16 @@ KMLLogistics/
     |       `-- UserCRUD.php
     |-- Views/
     |   |-- Category/
-    |   |   `-- Category.php
+    |   |   |-- Category.php
+    |   |   |-- ConfirmExitCategoryModal.php
+    |   |   |-- CreateCategoryModal.php
+    |   |   |-- DeleteCategoryModal.php
+    |   |   |-- DetailCategoryModal.php
+    |   |   |-- EditCategoryModal.php
+    |   |   |-- HardDeleteInactiveCategoryModal.php
+    |   |   |-- InactiveCategoriesModal.php
+    |   |   |-- InfoCategoryModal.php
+    |   |   `-- RestoreInactiveCategoryModal.php
     |   |-- Home/
     |   |   `-- Home.php
     |   |-- Login/
@@ -74,14 +101,14 @@ KMLLogistics/
     |   `-- Register/
     |       `-- Register.php
     |-- Includes/
-    |   |-- Header/
-    |   |   `-- Header.php
     |   |-- Footer/
     |   |   `-- Footer.php
-    |   |-- Menu/
-    |   |   `-- Menu.php
-    |   `-- Load classes/
-    |       `-- Load classes.php
+    |   |-- Header/
+    |   |   `-- Header.php
+    |   |-- Load classes/
+    |   |   `-- Load classes.php
+    |   `-- Menu/
+    |       `-- Menu.php
     |-- Assets/
     |   |-- Css/
     |   |   |-- Framework/
@@ -118,28 +145,20 @@ KMLLogistics/
 
 Todo el sistema pasa por `index.php`.
 
-Flujo principal:
+Flujo general:
 
 1. El usuario entra al proyecto.
 2. `index.php` revisa el parametro `page`.
-3. Se carga el controlador correspondiente.
-4. El controlador prepara datos para la vista.
-5. La vista usa los includes globales:
-   - Header
-   - Menu
-   - Footer
-   - Load classes
-6. Si la ruta es `category`, la vista consume datos desde `Api/Category/List.php`.
+3. Se instancia el controlador correspondiente.
+4. El controlador prepara la data para la vista.
+5. La vista carga `Header`, `Menu` y `Footer`.
+6. En el modulo `Category`, el frontend consulta APIs por AJAX y recibe JSON.
 
 ---
 
 ## 5. Rutas implementadas
 
-Archivo principal:
-
-- `index.php`
-
-Rutas:
+Rutas principales:
 
 - `index.php`
 - `index.php?page=home`
@@ -150,11 +169,11 @@ Rutas:
 
 Funcion de cada ruta:
 
-- `home`: muestra la vista de inicio con carrusel hero
-- `category`: muestra la vista de categorias con tabla paginada
+- `home`: muestra la portada principal con carrusel
+- `category`: muestra el modulo de categorias
 - `login`: muestra y procesa el inicio de sesion
 - `register`: muestra y procesa el registro
-- `logout`: destruye la sesion y redirecciona al login
+- `logout`: destruye la sesion y redirige al login
 
 ---
 
@@ -169,7 +188,7 @@ Archivo:
 Funcion:
 
 - abre la estructura HTML
-- carga Bootstrap
+- carga Bootstrap CSS
 - carga Font Awesome
 - carga estilos especificos por vista
 
@@ -181,11 +200,11 @@ Archivo:
 
 Funcion:
 
-- muestra la barra de navegacion
-- muestra accesos a `Home` y `Categoria`
-- marca la vista activa segun la ruta actual
-- muestra botones de `Login` y `Registro`
-- muestra datos del usuario cuando hay sesion
+- renderiza la barra de navegacion
+- muestra acceso a `Home` y `Categoria`
+- marca la pagina activa
+- muestra el usuario autenticado cuando hay sesion
+- muestra botones `Login` y `Registro` cuando no hay sesion
 
 ### Footer
 
@@ -195,10 +214,10 @@ Archivo:
 
 Funcion:
 
-- muestra el pie de pagina
+- renderiza el pie de pagina
 - carga jQuery
 - carga Bootstrap JS
-- carga scripts especificos por vista
+- carga scripts especificos de cada vista
 
 ### Load classes
 
@@ -208,10 +227,11 @@ Archivo:
 
 Funcion:
 
-- centraliza `require_once` de configuracion
+- centraliza los `require_once`
+- carga configuracion
 - carga modelos
 - carga controladores
-- carga includes
+- carga includes principales
 
 ---
 
@@ -221,7 +241,7 @@ Archivo:
 
 - `Pages/Config/Database.php`
 
-Configuracion:
+Configuracion actual:
 
 - Host: `127.0.0.1`
 - Puerto: `3306`
@@ -231,11 +251,11 @@ Configuracion:
 
 Caracteristicas:
 
-- usa PDO
-- usa `utf8mb4`
-- usa excepciones con `PDO::ATTR_ERRMODE`
-- usa `FETCH_ASSOC`
-- desactiva `ATTR_EMULATE_PREPARES`
+- conexion con PDO
+- charset `utf8mb4`
+- manejo de errores con excepciones
+- `FETCH_ASSOC`
+- `ATTR_EMULATE_PREPARES = false`
 
 ---
 
@@ -251,7 +271,8 @@ Este archivo contiene:
 - creacion de tablas
 - inserts iniciales
 - procedimientos almacenados
-- consultas directas para categorias
+- ejemplos de uso
+- consultas manuales de apoyo
 
 ### Tablas actuales
 
@@ -260,16 +281,6 @@ Este archivo contiene:
 - `id_categoria`
 - `nombre_categoria`
 - `descripcion`
-- `estado`
-- `created_at`
-- `updated_at`
-- `deleted_at`
-
-#### marcas
-
-- `id_marca`
-- `nombre_marca`
-- `id_proveedor`
 - `estado`
 - `created_at`
 - `updated_at`
@@ -300,10 +311,19 @@ Este archivo contiene:
 - `updated_at`
 - `deleted_at`
 
+#### marcas
+
+- `id_marca`
+- `nombre_marca`
+- `id_proveedor`
+- `estado`
+- `created_at`
+- `updated_at`
+- `deleted_at`
+
 #### productos
 
 - `id_producto`
-- `codigo`
 - `producto`
 - `costo`
 - `ganancia`
@@ -315,6 +335,11 @@ Este archivo contiene:
 - `created_at`
 - `updated_at`
 - `deleted_at`
+
+Nota:
+
+- `id_producto` es `AUTO_INCREMENT`
+- ya no se usa un codigo tipo `PRD001`
 
 #### usuarios
 
@@ -333,58 +358,96 @@ Este archivo contiene:
 
 ---
 
-## 9. Procedimientos almacenados
+## 9. Procedimientos almacenados actuales
 
 Definidos en:
 
 - `BD/Empresa/KMLLogistics.sql`
 
-### sp_buscar_por_codigo
+### Modulo productos
 
-Busca un producto exacto por codigo.
+#### `sp_buscar_producto_por_id`
 
-Devuelve:
+- busca un producto activo por `id_producto`
+- devuelve:
+  - `id_producto`
+  - `producto`
+  - `costo`
+  - `ganancia`
+  - `precio`
+  - `stock`
+  - `total`
+  - `categoria`
+  - `marca`
 
-- producto
-- costo
-- ganancia
-- precio
-- stock
-- total
-- categoria
-- marca
+#### `sp_filtrar_por_nombre`
 
-### sp_filtrar_por_nombre
+- busca productos activos por nombre
+- devuelve:
+  - `id_producto`
+  - `producto`
+  - `costo`
+  - `ganancia`
+  - `precio`
+  - `stock`
+  - `total`
+  - `categoria`
+  - `marca`
 
-Busca productos por nombre parcial o completo.
+### Modulo category
 
-Devuelve:
+#### `sp_categoria_listar_activas`
 
-- producto
-- costo
-- ganancia
-- precio
-- stock
-- total
-- categoria
-- marca
+- lista categorias activas
+- usa paginacion
+- filtra por prefijo de nombre
+
+#### `sp_categoria_contar_activas`
+
+- cuenta categorias activas segun filtro
+
+#### `sp_categoria_listar_inactivas`
+
+- lista categorias inactivas o eliminadas logicamente
+
+#### `sp_categoria_obtener_activa_por_id`
+
+- obtiene una categoria activa por ID
+
+#### `sp_categoria_obtener_por_id`
+
+- obtiene una categoria sin importar su estado
+
+#### `sp_categoria_crear`
+
+- inserta una categoria nueva
+- devuelve `LAST_INSERT_ID()`
+
+#### `sp_categoria_actualizar`
+
+- actualiza una categoria activa
+- devuelve filas afectadas
+
+#### `sp_categoria_eliminar_logico`
+
+- marca una categoria como inactiva
+
+#### `sp_categoria_restaurar`
+
+- restaura una categoria eliminada logicamente
+
+#### `sp_categoria_eliminar_definitivo`
+
+- elimina definitivamente la categoria
+- tambien elimina productos asociados
+
+#### `sp_categoria_existe_nombre`
+
+- valida si ya existe una categoria activa con el mismo nombre
 
 ---
 
-## 10. Consultas SQL directas para categorias
-
-En el archivo `BD/Empresa/KMLLogistics.sql` tambien se dejaron consultas directas para:
-
-- buscar categoria por ID
-- buscar categoria por nombre
-- actualizar categoria
-- eliminar categoria
-
-Estas consultas son SQL normal, no procedimientos almacenados.
-
----
-
-## 11. Vista Home
+## 10. Home
 
 Archivos principales:
 
@@ -393,112 +456,15 @@ Archivos principales:
 
 Funcion:
 
-- renderiza la portada principal del sistema
-- muestra un carrusel hero con 5 slides
-- muestra un boton para navegar hacia `index.php?page=category`
-- usa una vista separada de la pantalla de categorias
-
-Caracteristicas visuales:
-
-- imagenes a pantalla amplia en el hero
-- placeholder automatico si falta una imagen
-- estilos propios para la pagina de inicio
+- muestra la portada principal
+- renderiza un carrusel hero
+- usa imagenes del directorio `Pages/Images/Carousel`
+- muestra un placeholder si alguna imagen no existe
+- tiene acceso rapido al modulo de categorias
 
 ---
 
-## 12. Modulo Category
-
-Archivos principales:
-
-- `Pages/Controller/Category/CategoryController.php`
-- `Pages/Models/Category/Category.php`
-- `Pages/Models/Category/CategoryCRUD.php`
-- `Pages/Views/Category/Category.php`
-- `Pages/Assets/Css/Pages/Category/Category.css`
-- `Pages/Assets/JS/Pages/Category/Category.js`
-- `Api/Category/List.php`
-
-Funcion:
-
-- muestra el listado de categorias en una vista independiente
-- consume datos por AJAX sin recargar la pagina
-- permite paginar resultados
-- permite cambiar la cantidad de registros por pagina
-
-### Orden y filtro del listado
-
-El listado se muestra del mas reciente al mas antiguo usando:
-
-- `ORDER BY created_at DESC, id_categoria DESC`
-
-Tambien filtra:
-
-- `deleted_at IS NULL`
-
----
-
-## 13. Paginacion del listado de categorias
-
-La paginacion se procesa entre el frontend y el endpoint `Api/Category/List.php`.
-
-Funcionamiento:
-
-1. La vista `Category.php` muestra la estructura de la tabla, el selector de registros y los botones `Anterior` y `Siguiente`.
-2. `Category.js` envia una peticion AJAX con `page` y `page_size`.
-3. `Api/Category/List.php` valida esos parametros.
-4. `CategoryCRUD::listCategories()` aplica `LIMIT` y `OFFSET`.
-5. El endpoint devuelve JSON con:
-   - `categories`
-   - `pagination.page`
-   - `pagination.page_size`
-   - `pagination.total`
-   - `pagination.total_pages`
-6. jQuery vuelve a pintar la tabla y actualiza el texto de pagina actual.
-
-Tamanos permitidos por pagina:
-
-- `10`
-- `20`
-- `50`
-
----
-
-## 14. AJAX en Category
-
-La tabla de categorias no se renderiza con filas fijas desde PHP.
-
-Funcionamiento:
-
-1. La vista carga la estructura base.
-2. `Category.js` consulta por AJAX a `Api/Category/List.php`.
-3. El endpoint devuelve JSON.
-4. jQuery pinta las filas en el `tbody`.
-5. Los botones de paginacion permiten avanzar o retroceder sin recargar la pagina.
-
-Esto permite:
-
-- consultar datos de forma dinamica
-- navegar entre paginas del listado
-- cambiar la cantidad de registros visibles
-
----
-
-## 15. Tabla responsive de categorias
-
-La tabla fue adaptada para pantallas pequenas y para listados mas largos.
-
-Caracteristicas:
-
-- contenedor con `overflow-x: auto`
-- scroll horizontal visible
-- scroll vertical cuando la cantidad de filas lo requiere
-- ancho minimo de tabla para evitar que las columnas se deformen
-- soporte de arrastre con puntero sobre el contenedor
-- compatible con celular, tablet y desktop
-
----
-
-## 16. Login
+## 11. Login
 
 Archivos principales:
 
@@ -510,10 +476,10 @@ Archivos principales:
 Funcion:
 
 - valida campos obligatorios
-- busca al usuario por correo
-- valida si el usuario esta activo
-- verifica password con `password_verify`
-- guarda sesion al autenticar correctamente
+- busca usuario por correo
+- verifica si el usuario esta activo
+- valida password con `password_verify`
+- guarda sesion al autenticar
 
 Datos guardados en sesion:
 
@@ -523,9 +489,13 @@ Datos guardados en sesion:
 - `correo`
 - `rol`
 
+Extra:
+
+- el frontend permite mostrar u ocultar la password
+
 ---
 
-## 17. Registro
+## 12. Registro
 
 Archivos principales:
 
@@ -538,43 +508,223 @@ Funcion:
 
 - valida campos vacios
 - valida correo
-- carga tipos de documento desde la tabla `tipo_documentos`
-- registra `id_tipo_documento` y `numero_documento`
 - valida longitud minima de password
 - valida confirmacion de password
-- evita duplicados
+- evita correos duplicados
+- registra tipo y numero de documento
 - guarda password con `password_hash`
+
+Extra:
+
+- el frontend permite mostrar u ocultar la password
 
 ---
 
-## 18. Usuario base del sistema
+## 13. Modulo Category
+
+Archivos principales:
+
+- `Pages/Controller/Category/CategoryController.php`
+- `Pages/Models/Category/Category.php`
+- `Pages/Models/Category/CategoryCRUD.php`
+- `Pages/Views/Category/Category.php`
+- `Pages/Assets/Css/Pages/Category/Category.css`
+- `Pages/Assets/JS/Pages/Category/Category.js`
+
+APIs del modulo:
+
+- `Api/Category/List.php`
+- `Api/Category/ListInactive.php`
+- `Api/Category/Get.php`
+- `Api/Category/Create.php`
+- `Api/Category/Update.php`
+- `Api/Category/Delete.php`
+- `Api/Category/Restore.php`
+- `Api/Category/HardDelete.php`
+
+### Funcionalidades del modulo
+
+- listar categorias activas
+- paginar resultados
+- cambiar cantidad de registros por pagina
+- buscar por nombre
+- consultar detalle por ID
+- crear categoria
+- editar categoria
+- eliminar logicamente
+- ver categorias inactivas
+- restaurar categoria
+- eliminar definitivamente
+- validar mensajes de error mas claros
+
+---
+
+## 14. Modals del modulo Category
+
+La vista de categorias usa varios modals Bootstrap:
+
+- `CreateCategoryModal.php`
+- `EditCategoryModal.php`
+- `DetailCategoryModal.php`
+- `DeleteCategoryModal.php`
+- `ConfirmExitCategoryModal.php`
+- `InfoCategoryModal.php`
+- `InactiveCategoriesModal.php`
+- `HardDeleteInactiveCategoryModal.php`
+- `RestoreInactiveCategoryModal.php`
+
+Uso principal:
+
+- crear
+- editar
+- ver detalle
+- eliminar logicamente
+- mostrar avisos
+- confirmar salida con cambios
+- administrar categorias inactivas
+
+Extra:
+
+- el tamano de varios modals se controla dinamicamente con jQuery usando `removeClass()` y `addClass()` en `Pages/Assets/JS/Pages/Category/Category.js`
+
+---
+
+## 15. AJAX en Category
+
+El modulo Category trabaja con respuestas JSON por AJAX.
+
+Principales operaciones AJAX:
+
+- obtener detalle
+- listar activas
+- listar inactivas
+- crear
+- editar
+- eliminar
+- restaurar
+- eliminar definitivamente
+
+Esto permite:
+
+- no recargar la pagina
+- actualizar tabla y modals en tiempo real
+- mostrar mensajes de validacion mas precisos
+
+---
+
+## 16. Paginacion y filtro de categorias
+
+Caracteristicas:
+
+- paginacion por AJAX
+- selector de `10`, `20` o `50` registros
+- filtro por nombre
+- consulta directa por ID
+- resumen de pagina y total
+- botones `Anterior` y `Siguiente`
+
+Orden del listado activo:
+
+- `ORDER BY created_at DESC, id_categoria DESC`
+
+---
+
+## 17. Categorias inactivas
+
+El sistema ya maneja borrado logico.
+
+Flujo:
+
+1. Una categoria activa se elimina logicamente.
+2. Deja de verse en el listado principal.
+3. Se puede consultar desde el modal de inactivos.
+4. Desde ahi se puede:
+   - restaurar
+   - eliminar definitivamente
+
+En eliminacion definitiva:
+
+- tambien se eliminan productos asociados a la categoria
+
+---
+
+## 18. Validaciones y mensajes de error
+
+Se mejoro el manejo de errores del modulo Category.
+
+Ejemplos actuales:
+
+- si el nombre ya existe:
+  - `Ya existe una categoria activa con este nombre.`
+- si se intenta restaurar una categoria cuyo nombre ya existe activa:
+  - `No se puede restaurar esta categoria porque ya existe una categoria activa con este nombre.`
+- si se hace clic en `Filtrar` sin escribir nada:
+  - se abre un modal informativo pidiendo ingresar un valor
+- si faltan datos al crear o editar:
+  - se muestran mensajes claros de validacion
+
+---
+
+## 19. Tabla responsive de categorias
+
+Caracteristicas:
+
+- scroll horizontal
+- scroll vertical dinamico
+- ancho minimo de tabla
+- arrastre con puntero
+- adaptacion a mobile, tablet y desktop
+
+---
+
+## 20. Iconografia y librerias visuales
+
+### Bootstrap
+
+Se usa para:
+
+- layout
+- botones
+- formularios
+- tabla
+- modals
+- componentes visuales
+
+### Font Awesome
+
+Se usa para:
+
+- menu
+- login
+- registro
+- botones
+- modals
+- acciones del modulo Category
+
+### jQuery
+
+Se usa para:
+
+- eventos
+- AJAX
+- manejo de clases CSS
+- control de modals
+- actualizacion dinamica de la interfaz
+
+---
+
+## 21. Usuario base del sistema
 
 El SQL crea un usuario inicial:
 
 - Correo: `admin@kmllogistics.com`
 - Password: `123456`
 
-La password guardada en la base esta hasheada.
+La password almacenada en base de datos esta hasheada.
 
 ---
 
-## 19. Carrusel de imagenes
-
-La vista `Home` usa 5 imagenes.
-
-Ubicacion:
-
-- `Pages/Images/Carousel/slide-1.jpg`
-- `Pages/Images/Carousel/slide-2.jpg`
-- `Pages/Images/Carousel/slide-3.jpg`
-- `Pages/Images/Carousel/slide-4.jpg`
-- `Pages/Images/Carousel/slide-5.jpg`
-
-Si una imagen no existe, la vista muestra un placeholder para no romper el diseno.
-
----
-
-## 20. Como ejecutar el proyecto
+## 22. Como ejecutar el proyecto
 
 ### Paso 1
 
@@ -593,17 +743,17 @@ Encender en XAMPP:
 
 ### Paso 3
 
-Ejecutar:
+Importar manualmente:
 
 - `BD/Empresa/KMLLogistics.sql`
 
-Esto creara:
+Esto crea:
 
 - base de datos
 - tablas
 - datos iniciales
 - procedimientos almacenados
-- consultas de apoyo
+- ejemplos y consultas de apoyo
 
 ### Paso 4
 
@@ -615,11 +765,11 @@ http://localhost/KMLLogistics/
 
 ---
 
-## 21. Problemas comunes
+## 23. Problemas comunes
 
-### Error: tabla `categorias` no existe
+### Error: tabla no existe
 
-Significa que aun no se ejecuto el SQL.
+Significa que aun no se importo correctamente el archivo SQL.
 
 Solucion:
 
@@ -635,34 +785,39 @@ Revisar:
 - que la password sea `123456`
 - que el puerto sea `3306`
 
-### La tabla no carga o no cambia de pagina
+### El modulo Category no responde bien
 
 Revisar:
 
 - que jQuery se este cargando
-- que `Api/Category/List.php` responda correctamente
-- que los parametros `page` y `page_size` lleguen al endpoint
-- que no haya error 500 en el endpoint
+- que Bootstrap JS se este cargando
+- que las APIs de `Api/Category/` respondan JSON valido
+- que el SQL actual incluya los procedimientos almacenados nuevos
 
 ### No aparecen imagenes del carrusel
 
-Revisar que existan los archivos `slide-1.jpg` a `slide-5.jpg` dentro de:
+Revisar que existan:
 
-- `Pages/Images/Carousel/`
+- `Pages/Images/Carousel/slide-1.jpg`
+- `Pages/Images/Carousel/slide-2.jpg`
+- `Pages/Images/Carousel/slide-3.jpg`
+- `Pages/Images/Carousel/slide-4.jpg`
+- `Pages/Images/Carousel/slide-5.jpg`
 
 ---
 
-## 22. Resumen final
+## 24. Resumen final
 
-El proyecto fue organizado para que:
+El proyecto actualmente queda organizado para que:
 
 - todo pase por `index.php`
-- `Home` y `Category` sean vistas separadas
-- la conexion use PDO
-- login y registro usen buenas practicas
-- el listado de categorias tenga paginacion por AJAX
-- la tabla de categorias sea responsive
-- la navegacion entre vistas sea clara desde el menu principal
-- la base tenga `created_at`, `updated_at` y `deleted_at`
+- la estructura MVC mantenga separacion de responsabilidades
+- la conexion a base de datos use PDO
+- el login y registro usen buenas practicas
+- el modulo Category trabaje con AJAX y APIs JSON
+- exista soporte para listado activo e inactivo
+- los modals usen Bootstrap
+- el frontend use jQuery y Font Awesome
+- la base de datos tenga procedimientos almacenados alineados con el sistema actual
 
-Con esto el sistema queda mas ordenado, reutilizable y preparado para seguir creciendo.
+Con esto, el proyecto queda mas consistente, mejor documentado y preparado para seguir creciendo.
