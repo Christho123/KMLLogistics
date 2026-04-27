@@ -104,17 +104,6 @@ CREATE TABLE usuarios (
     CONSTRAINT fk_usuarios_tipo_documento FOREIGN KEY (id_tipo_documento) REFERENCES tipo_documentos(id_tipo_documento)
 );
 
--- ACTUALIZACION PARA BASES DE DATOS YA EXISTENTES
--- Ejecuta estas sentencias solo si tu tabla antigua no tiene
--- la columna id_tipo_documento o si aun no existe la FK.
--- ALTER TABLE usuarios
--- ADD COLUMN id_tipo_documento INT NULL AFTER correo;
--- ALTER TABLE usuarios
--- ADD CONSTRAINT fk_usuarios_tipo_documento
--- FOREIGN KEY (id_tipo_documento) REFERENCES tipo_documentos(id_tipo_documento);
--- ALTER TABLE tipo_documentos
--- ADD COLUMN deleted_at TIMESTAMP NULL DEFAULT NULL AFTER updated_at;
-
 -- REGISTROS INICIALES: CATEGORIAS
 -- Datos base para pruebas del sistema
 INSERT INTO categorias (nombre_categoria, descripcion, estado, created_at) VALUES
@@ -220,8 +209,8 @@ END $$
 DELIMITER ;
 
 -- EJEMPLOS DE USO PRODUCTOS
-CALL sp_buscar_producto_por_id(1);
-CALL sp_filtrar_por_nombre('Disco');
+-- CALL sp_buscar_producto_por_id(1);
+-- CALL sp_filtrar_por_nombre('Disco');
 
 -- PROCEDIMIENTOS ALMACENADOS: MODULO CATEGORY
 -- Nota:
@@ -464,39 +453,17 @@ END $$
 DELIMITER ;
 
 -- EJEMPLOS DE USO CATEGORY
-CALL sp_categoria_listar_activas(0, 10, 'La');
-CALL sp_categoria_contar_activas('La');
-CALL sp_categoria_listar_inactivas('Se');
-CALL sp_categoria_obtener_activa_por_id(1);
-CALL sp_categoria_obtener_por_id(1);
-CALL sp_categoria_crear('Nueva categoria', 'Descripcion demo', 1);
-CALL sp_categoria_actualizar(1, 'Categoria editada', 'Descripcion actualizada', 1);
-CALL sp_categoria_eliminar_logico(1);
-CALL sp_categoria_restaurar(1);
-CALL sp_categoria_eliminar_definitivo(1);
-CALL sp_categoria_existe_nombre('Laptops', NULL);
-
--- CONSULTAS MANUALES DE APOYO
--- CONSULTA: BUSCAR CATEGORIA ACTIVA POR ID
-SELECT * FROM categorias WHERE id_categoria = 1 AND deleted_at IS NULL;
-
--- CONSULTA: BUSCAR CATEGORIAS POR NOMBRE
-SELECT *
-FROM categorias
-WHERE nombre_categoria LIKE '%Lap%'
-AND deleted_at IS NULL
-ORDER BY created_at DESC, id_categoria DESC;
-
--- CONSULTA: ACTUALIZAR CATEGORIA POR ID
-UPDATE categorias
-SET nombre_categoria = 'Laptops Actualizadas',
-descripcion = 'Equipos portatiles actualizados para uso empresarial.',
-estado = 1
-WHERE id_categoria = 1
-AND deleted_at IS NULL;
-
--- CONSULTA: ELIMINAR CATEGORIA POR ID
-DELETE FROM categorias WHERE id_categoria = 1;
+-- CALL sp_categoria_listar_activas(0, 10, 'La');
+-- CALL sp_categoria_contar_activas('La');
+-- CALL sp_categoria_listar_inactivas('Se');
+-- CALL sp_categoria_obtener_activa_por_id(1);
+-- CALL sp_categoria_obtener_por_id(1);
+-- CALL sp_categoria_crear('Nueva categoria', 'Descripcion demo', 1);
+-- CALL sp_categoria_actualizar(1, 'Categoria editada', 'Descripcion actualizada', 1);
+-- CALL sp_categoria_eliminar_logico(1);
+-- CALL sp_categoria_restaurar(1);
+-- CALL sp_categoria_eliminar_definitivo(1);
+-- CALL sp_categoria_existe_nombre('Laptops', NULL);
 
 -- =========================================================
 -- PROCEDIMIENTOS ALMACENADOS: MODULO TIPO_DOCUMENTO
