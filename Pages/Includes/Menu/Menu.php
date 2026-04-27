@@ -27,6 +27,9 @@ function renderMenu(string $currentPage, ?array $currentUser = null): void
                     <li class="nav-item">
                         <a class="nav-link<?= $currentPage === 'category' ? ' active' : ''; ?>" href="index.php?page=category">Categoria</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link<?= $currentPage === 'tipodocumento' ? ' active' : ''; ?>" href="index.php?page=tipodocumento">Tipo documento</a>
+                    </li>
                     <?php if ($currentUser): ?>
                         <li class="nav-item">
                             <span class="nav-link text-warning">

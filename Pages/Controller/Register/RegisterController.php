@@ -73,6 +73,15 @@ class RegisterController
                 ];
             }
 
+            if (!$this->userCRUD->findActiveDocumentTypeById($user->idTipoDocumento)) {
+                return [
+                    'message' => 'Debes seleccionar un tipo de documento activo y valido.',
+                    'message_type' => 'danger',
+                    'document_types' => $documentTypes,
+                    'form_data' => $formData,
+                ];
+            }
+
             if (strlen($user->password) < 6) {
                 return [
                     'message' => 'La password debe tener al menos 6 caracteres.',

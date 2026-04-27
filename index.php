@@ -45,6 +45,12 @@ switch ($page) {
         require __DIR__ . '/Pages/Views/Category/Category.php';
         break;
 
+    case 'tipodocumento':
+        $controller = new TipoDocumentoController();
+        $data = $controller->handleRequest();
+        require __DIR__ . '/Pages/Views/TipoDocumento/TipoDocumento.php';
+        break;
+
     case 'home':
     default:
         $controller = new CategoryController();

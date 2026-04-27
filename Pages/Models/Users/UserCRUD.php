@@ -42,10 +42,29 @@ class UserCRUD
             'SELECT id_tipo_documento, nombre_tipo_documento
              FROM tipo_documentos
              WHERE estado = 1
+               AND deleted_at IS NULL
              ORDER BY nombre_tipo_documento ASC'
         );
 
         return $statement->fetchAll() ?: [];
+    }
+
+    // Verifica si el tipo de documento existe y sigue activo.
+    public function findActiveDocumentTypeById(int $idTipoDocumento): ?array
+    {
+        $statement = $this->connection->prepare(
+            'SELECT id_tipo_documento, nombre_tipo_documento
+             FROM tipo_documentos
+             WHERE id_tipo_documento = :id_tipo_documento
+               AND estado = 1
+               AND deleted_at IS NULL
+             LIMIT 1'
+        );
+        $statement->bindValue(':id_tipo_documento', $idTipoDocumento, PDO::PARAM_INT);
+        $statement->execute();
+        $documentType = $statement->fetch();
+
+        return $documentType ?: null;
     }
 
     // Registra un usuario aplicando password_hash.

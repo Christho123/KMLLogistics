@@ -23,7 +23,19 @@ Actualmente el sistema incluye:
   - listado de categorias inactivas
   - restauracion
   - eliminacion definitiva
+- Modulo `TipoDocumento` con:
+  - listado paginado
+  - filtro por nombre
+  - consulta por ID
+  - detalle de tipo de documento
+  - creacion
+  - edicion
+  - eliminacion logica
+  - listado de tipos de documento inactivos
+  - restauracion
+  - eliminacion definitiva
 - APIs JSON para el modulo de categorias
+- APIs JSON para el modulo de tipos de documento
 - Script SQL con tablas, datos base y procedimientos almacenados
 
 ---
@@ -51,6 +63,7 @@ KMLLogistics/
 |-- README.md
 |-- documentacion.md
 |-- Indicaciones_Profesor.md
+|-- API_TIPODOCUMENTO.md
 |-- Api/
 |   `-- Category/
 |       |-- Create.php
@@ -71,6 +84,8 @@ KMLLogistics/
     |-- Controller/
     |   |-- Category/
     |   |   `-- CategoryController.php
+    |   |-- TipoDocumento/
+    |   |   `-- TipoDocumentoController.php
     |   |-- Login/
     |   |   `-- LoginController.php
     |   `-- Register/
@@ -79,6 +94,9 @@ KMLLogistics/
     |   |-- Category/
     |   |   |-- Category.php
     |   |   `-- CategoryCRUD.php
+    |   |-- TipoDocumento/
+    |   |   |-- TipoDocumento.php
+    |   |   `-- TipoDocumentoCRUD.php
     |   `-- Users/
     |       |-- User.php
     |       `-- UserCRUD.php
@@ -96,6 +114,17 @@ KMLLogistics/
     |   |   `-- RestoreInactiveCategoryModal.php
     |   |-- Home/
     |   |   `-- Home.php
+    |   |-- TipoDocumento/
+    |   |   |-- ConfirmExitTipoDocumentoModal.php
+    |   |   |-- CreateTipoDocumentoModal.php
+    |   |   |-- DeleteTipoDocumentoModal.php
+    |   |   |-- DetailTipoDocumentoModal.php
+    |   |   |-- EditTipoDocumentoModal.php
+    |   |   |-- HardDeleteInactiveTipoDocumentoModal.php
+    |   |   |-- InactiveTipoDocumentoModal.php
+    |   |   |-- InfoTipoDocumentoModal.php
+    |   |   |-- RestoreInactiveTipoDocumentoModal.php
+    |   |   `-- TipoDocumento.php
     |   |-- Login/
     |   |   `-- Login.php
     |   `-- Register/
@@ -117,6 +146,8 @@ KMLLogistics/
     |   |       |   `-- Category.css
     |   |       |-- Home/
     |   |       |   `-- Home.css
+    |   |       |-- TipoDocumento/
+    |   |       |   `-- TipoDocumento.css
     |   |       |-- Login/
     |   |       |   `-- Login.css
     |   |       `-- Register/
@@ -126,6 +157,8 @@ KMLLogistics/
     |       `-- Pages/
     |           |-- Category/
     |           |   `-- Category.js
+    |           |-- TipoDocumento/
+    |           |   `-- TipoDocumento.js
     |           |-- Login/
     |           |   `-- Login.js
     |           `-- Register/
@@ -163,6 +196,7 @@ Rutas principales:
 - `index.php`
 - `index.php?page=home`
 - `index.php?page=category`
+- `index.php?page=tipodocumento`
 - `index.php?page=login`
 - `index.php?page=register`
 - `index.php?page=logout`
@@ -171,6 +205,7 @@ Funcion de cada ruta:
 
 - `home`: muestra la portada principal con carrusel
 - `category`: muestra el modulo de categorias
+- `tipodocumento`: muestra el modulo de tipos de documento
 - `login`: muestra y procesa el inicio de sesion
 - `register`: muestra y procesa el registro
 - `logout`: destruye la sesion y redirige al login
@@ -557,6 +592,44 @@ APIs del modulo:
 - eliminar definitivamente
 - validar mensajes de error mas claros
 
+### Modulo TipoDocumento
+
+Archivos principales:
+
+- `Pages/Controller/TipoDocumento/TipoDocumentoController.php`
+- `Pages/Models/TipoDocumento/TipoDocumento.php`
+- `Pages/Models/TipoDocumento/TipoDocumentoCRUD.php`
+- `Pages/Views/TipoDocumento/TipoDocumento.php`
+- `Pages/Assets/Css/Pages/TipoDocumento/TipoDocumento.css`
+- `Pages/Assets/JS/Pages/TipoDocumento/TipoDocumento.js`
+
+APIs del modulo:
+
+- `Api/TipoDocumento/List.php`
+- `Api/TipoDocumento/ListInactive.php`
+- `Api/TipoDocumento/Get.php`
+- `Api/TipoDocumento/Create.php`
+- `Api/TipoDocumento/Update.php`
+- `Api/TipoDocumento/Delete.php`
+- `Api/TipoDocumento/Restore.php`
+- `Api/TipoDocumento/HardDelete.php`
+
+Funcionalidades del modulo:
+
+- listar tipos de documento activos
+- paginar resultados
+- cambiar cantidad de registros por pagina
+- buscar por nombre
+- consultar detalle por ID
+- crear tipo de documento
+- editar tipo de documento
+- eliminar logicamente
+- ver tipos de documento inactivos
+- restaurar tipo de documento
+- eliminar definitivamente
+- validar nombres duplicados activos
+- bloquear eliminacion definitiva si existen usuarios o proveedores asociados
+
 ---
 
 ## 14. Modals del modulo Category
@@ -821,3 +894,12 @@ El proyecto actualmente queda organizado para que:
 - la base de datos tenga procedimientos almacenados alineados con el sistema actual
 
 Con esto, el proyecto queda mas consistente, mejor documentado y preparado para seguir creciendo.
+|   `-- TipoDocumento/
+|       |-- Create.php
+|       |-- Delete.php
+|       |-- Get.php
+|       |-- HardDelete.php
+|       |-- List.php
+|       |-- ListInactive.php
+|       |-- Restore.php
+|       `-- Update.php
