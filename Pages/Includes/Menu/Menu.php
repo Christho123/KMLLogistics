@@ -29,6 +29,8 @@ function renderMenu(string $currentPage, ?array $currentUser = null): void
                     </li>
                     <li class="nav-item">
                         <a class="nav-link<?= $currentPage === 'tipodocumento' ? ' active' : ''; ?>" href="index.php?page=tipodocumento">Tipo documento</a>
+                    </li>
+                    <li class="nav-item"></li>
                         <a class="nav-link<?= $currentPage === 'brand' ? ' active' : ''; ?>" href="index.php?page=brand">Marca</a>
                     </li>
                     <?php if ($currentUser): ?>
