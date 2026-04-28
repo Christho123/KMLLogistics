@@ -14,12 +14,18 @@ $pagesRoot = dirname(__DIR__, 2);
 require_once $pagesRoot . '/Config/Database.php';
 require_once $pagesRoot . '/Models/Category/Category.php';
 require_once $pagesRoot . '/Models/Category/CategoryCRUD.php';
+
 require_once $pagesRoot . '/Models/TipoDocumento/TipoDocumento.php';
 require_once $pagesRoot . '/Models/TipoDocumento/TipoDocumentoCRUD.php';
 require_once $pagesRoot . '/Models/Users/User.php';
 require_once $pagesRoot . '/Models/Users/UserCRUD.php';
 require_once $pagesRoot . '/Controller/Category/CategoryController.php';
 require_once $pagesRoot . '/Controller/TipoDocumento/TipoDocumentoController.php';
+
+require_once $pagesRoot . '/Models/Brand/Brand.php';
+require_once $pagesRoot . '/Models/Brand/BrandCRUD.php';
+require_once $pagesRoot . '/Controller/Brand/BrandController.php';
+
 require_once $pagesRoot . '/Controller/Login/LoginController.php';
 require_once $pagesRoot . '/Controller/Register/RegisterController.php';
 require_once $pagesRoot . '/Includes/Header/Header.php';

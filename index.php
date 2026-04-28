@@ -50,11 +50,10 @@ switch ($page) {
         $data = $controller->handleRequest();
         require __DIR__ . '/Pages/Views/TipoDocumento/TipoDocumento.php';
         break;
-
-    case 'home':
-    default:
-        $controller = new CategoryController();
+        
+    case 'brand':
+        $controller = new BrandController();
         $data = $controller->handleRequest();
-        require __DIR__ . '/Pages/Views/Home/Home.php';
+        require __DIR__ . '/Pages/Views/Brand/Brand.php';
         break;
 }
