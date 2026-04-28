@@ -27,6 +27,13 @@ if ($page === 'logout') {
 
 // Enrutamiento centralizado de vistas bajo el patron MVC.
 switch ($page) {
+    case 'home':
+        $data = [
+            'current_user' => $_SESSION['user'] ?? null,
+        ];
+        require __DIR__ . '/Pages/Views/Home/Home.php';
+        break;
+
     case 'login':
         $controller = new LoginController();
         $data = $controller->handleRequest();
@@ -56,4 +63,8 @@ switch ($page) {
         $data = $controller->handleRequest();
         require __DIR__ . '/Pages/Views/Brand/Brand.php';
         break;
+
+    default:
+        header('Location: index.php?page=home');
+        exit;
 }
