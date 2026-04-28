@@ -45,6 +45,13 @@ switch ($page) {
         require __DIR__ . '/Pages/Views/Category/Category.php';
         break;
 
+        
+    case 'brand':
+        $controller = new BrandController();
+        $data = $controller->handleRequest();
+        require __DIR__ . '/Pages/Views/Brand/Brand.php';
+        break;    
+
     case 'home':
     default:
         $controller = new CategoryController();
