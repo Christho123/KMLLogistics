@@ -1,0 +1,144 @@
+/* =========================================================
+   STYLE: BRAND
+   Estilos específicos para el módulo de Marcas.
+   ========================================================= */
+
+.brand-wrapper {
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+}
+
+.section-badge {
+    background-color: #fff3cd;
+    color: #856404;
+    padding: 0.25rem 0.75rem;
+    border-radius: 2rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+/* Toolbar & Search */
+.brand-toolbar {
+    border-bottom: 1px solid #dee2e6;
+    padding-bottom: 1.5rem;
+}
+
+.brand-search-block {
+    flex: 1;
+    max-width: 500px;
+}
+
+.brand-search-group .form-control:focus {
+    border-color: #ffc107;
+    box-shadow: 0 0 0 0.25rem rgba(255, 193, 7, 0.25);
+}
+
+/* Table Shell & Dynamic Height */
+.brand-table-shell,
+.inactive-brand-table-shell {
+    overflow-x: auto;
+    overflow-y: hidden;
+    cursor: grab;
+    user-select: none;
+    background: #fff;
+    position: relative;
+    border: 1px solid #dee2e6;
+}
+
+.brand-table-shell.is-dragging,
+.inactive-brand-table-shell.is-dragging {
+    cursor: grabbing;
+}
+
+.brand-table-shell.dynamic-height,
+.inactive-brand-table-shell.dynamic-height {
+    transition: max-height 0.3s ease-in-out;
+}
+
+/* Efecto de resaltado al pasar el mouse (estilo Categorías) */
+.table-hover tbody tr:hover {
+    background-color: rgba(255, 193, 7, 0.05);
+    transition: background-color 0.2s ease;
+}
+
+/* Table modes based on pageSize */
+.table-size-10,
+.table-size-20,
+.table-size-50 {
+    min-height: auto;
+}
+.table {
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+/* Table Content */
+.table thead th {
+    white-space: nowrap;
+    background-color: #fff3cd;
+    color: #000000;
+    
+}
+
+.brand-actions,
+.inactive-brand-actions {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+}
+
+.brand-action-button {
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.5rem;
+    transition: all 0.2s;
+}
+
+/* Pagination */
+.brand-pagination {
+    background-color: #f8f9fa;
+    padding: 1rem;
+    border-radius: 0.75rem;
+}
+
+/* Detail Modal Styles */
+
+.detail-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+.inactive-brand-table-shell {
+    height: auto !important;
+    max-height: none !important;
+}
+
+.detail-card {
+    background: #f8f9fa;
+    padding: 1rem;
+    border-radius: 0.75rem;
+    border: 1px solid #dee2e6;
+}
+
+.detail-label {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #6c757d;
+    margin-bottom: 0.25rem;
+}
+
+.detail-value {
+    margin-bottom: 0;
+    font-weight: 600;
+    color: #212529;
+}
