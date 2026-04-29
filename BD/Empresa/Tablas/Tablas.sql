@@ -67,6 +67,7 @@ CREATE TABLE productos (
     ganancia DECIMAL(5,4) NOT NULL,
     precio DECIMAL(10,2) NOT NULL,
     stock INT NOT NULL,
+    foto VARCHAR(255) NULL,
     id_categoria INT NOT NULL,
     id_marca INT NOT NULL,
     estado TINYINT(1) NOT NULL DEFAULT 1,
