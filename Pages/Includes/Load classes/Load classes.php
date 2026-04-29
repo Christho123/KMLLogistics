@@ -33,6 +33,10 @@ require_once $pagesRoot . '/Models/Brand/Brand.php';
 require_once $pagesRoot . '/Models/Brand/BrandCRUD.php';
 require_once $pagesRoot . '/Controller/Brand/BrandController.php';
 
+require_once $pagesRoot . '/Models/Product/Product.php';
+require_once $pagesRoot . '/Models/Product/ProductCRUD.php';
+require_once $pagesRoot . '/Controller/Product/ProductController.php';
+
 require_once $pagesRoot . '/Controller/Login/LoginController.php';
 require_once $pagesRoot . '/Controller/Register/RegisterController.php';
 

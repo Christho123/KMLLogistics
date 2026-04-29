@@ -65,6 +65,12 @@ switch ($page) {
         require __DIR__ . '/Pages/Views/Brand/Brand.php';
         break;
 
+    case 'product':
+        $controller = new ProductController();
+        $data = $controller->handleRequest();
+        require __DIR__ . '/Pages/Views/Product/Product.php';
+        break;
+
     default:
         header('Location: index.php?page=home');
         exit;

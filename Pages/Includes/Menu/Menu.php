@@ -53,6 +53,12 @@ function renderMenu(string $currentPage, ?array $currentUser = null): void
                         </a>
                     </li>
 
+                    <li class="nav-item">
+                        <a class="nav-link<?= $currentPage === 'product' ? ' active' : ''; ?>" href="index.php?page=product">
+                            Producto
+                        </a>
+                    </li>
+
                     <?php if ($currentUser): ?>
                         <li class="nav-item">
                             <span class="nav-link text-warning">
