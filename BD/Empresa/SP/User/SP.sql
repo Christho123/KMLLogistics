@@ -3,23 +3,6 @@
 -- Consultas de usuarios usadas por login y registro.
 -- =========================================================
 
-ALTER TABLE usuarios
-    ADD COLUMN IF NOT EXISTS foto VARCHAR(255) NULL AFTER rol,
-    ADD COLUMN IF NOT EXISTS email_verificado TINYINT(1) NOT NULL DEFAULT 0 AFTER foto,
-    ADD COLUMN IF NOT EXISTS email_verified_at TIMESTAMP NULL DEFAULT NULL AFTER email_verificado;
-
-CREATE TABLE IF NOT EXISTS usuario_codigos (
-    id_codigo INT AUTO_INCREMENT PRIMARY KEY,
-    id_usuario INT NOT NULL,
-    tipo VARCHAR(30) NOT NULL,
-    codigo_hash VARCHAR(255) NOT NULL,
-    destino_email VARCHAR(150) NOT NULL,
-    expires_at DATETIME NOT NULL,
-    used_at DATETIME NULL DEFAULT NULL,
-    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT fk_usuario_codigos_usuario FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario)
-);
-
 DELIMITER $$
 
 DROP PROCEDURE IF EXISTS sp_usuario_obtener_por_correo $$
