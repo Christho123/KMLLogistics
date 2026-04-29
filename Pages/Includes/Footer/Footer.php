@@ -13,9 +13,44 @@ declare(strict_types=1);
 function renderFooter(array $scripts = []): void
 {
     ?>
-        <footer class="app-footer bg-dark text-white py-4">
-            <div class="container text-center">
-                <small>KMLLogistics &copy; <?= date('Y'); ?>.</small>
+        <style>
+            .footer-company-list li {
+                color: rgba(255, 255, 255, 0.72);
+                line-height: 1.65;
+                margin-bottom: 0.45rem;
+            }
+
+            .footer-company-list span {
+                color: #fff;
+                font-weight: 700;
+            }
+        </style>
+        <footer class="app-footer bg-dark text-white pt-5 pb-4">
+            <div class="container">
+                <div class="row g-4 align-items-start">
+                    <div class="col-lg-4">
+                        <h5 class="fw-bold mb-2">KML Logistic S.A.C.</h5>
+                        <p class="text-white-50 mb-3">
+                            Logística internacional y transporte de mercancías.
+                        </p>
+                        <small class="text-white-50">KMLLogistics &copy; <?= date('Y'); ?>.</small>
+                    </div>
+                    <div class="col-sm-6 col-lg-4">
+                        <h6 class="fw-semibold text-uppercase mb-3">Datos generales</h6>
+                        <ul class="list-unstyled footer-company-list mb-0">
+                            <li><span>RUC:</span> 20556054755</li>
+                            <li><span>Tipo empresa:</span> Sociedad Anónima Cerrada (S.A.C.)</li>
+                            <li><span>Gerente General:</span> Gabriel Erickson Abreu Hoyos</li>
+                        </ul>
+                    </div>
+                    <div class="col-sm-6 col-lg-4">
+                        <h6 class="fw-semibold text-uppercase mb-3">Ubicación</h6>
+                        <ul class="list-unstyled footer-company-list mb-0">
+                            <li><span>Dirección:</span> Jr Francisco Lazo 1932, Dpto 404, Lince</li>
+                            <li><span>Rubro:</span> Logística internacional y transporte de mercancías</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </footer>
         </div>

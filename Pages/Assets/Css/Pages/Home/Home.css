@@ -1,41 +1,57 @@
 /* =========================================================
    ESTILOS: HOME
-   Apariencia de la pagina principal y del carrusel.
+   Experiencia principal de KML Logistics.
    ========================================================= */
 :root {
     --brand-dark: #0f172a;
+    --brand-ink: #1e293b;
+    --brand-muted: #64748b;
+    --brand-soft: #f8fafc;
+    --brand-line: rgba(15, 23, 42, 0.1);
     --brand-accent: #f59e0b;
-    --brand-text: #0f172a;
+    --brand-accent-dark: #b45309;
+    --brand-blue: #2563eb;
+    --brand-teal: #0f766e;
 }
 
 body {
     background:
-        radial-gradient(circle at top left, rgba(245, 158, 11, 0.18), transparent 35%),
-        linear-gradient(180deg, #f8fafc 0%, #eef2ff 100%);
-    color: var(--brand-text);
+        radial-gradient(circle at top left, rgba(245, 158, 11, 0.16), transparent 30%),
+        radial-gradient(circle at 80% 25%, rgba(37, 99, 235, 0.12), transparent 28%),
+        linear-gradient(180deg, #f8fafc 0%, #eef2f7 100%);
+    color: var(--brand-ink);
+}
+
+.home-page {
+    overflow: hidden;
+}
+
+.section-space {
+    padding: 5rem 0;
 }
 
 .hero-section {
-    padding: 0 0 2rem;
+    position: relative;
+    padding: 0 0 1rem;
 }
 
 .carousel-item {
     position: relative;
-    min-height: 78vh;
+    min-height: 82vh;
 }
 
 .hero-image,
 .hero-placeholder {
-    min-height: 78vh;
-    max-height: 78vh;
+    min-height: 82vh;
+    max-height: 82vh;
     object-fit: cover;
     width: 100%;
 }
 
 .hero-placeholder {
     background:
-        linear-gradient(135deg, rgba(15, 23, 42, 0.9), rgba(30, 41, 59, 0.75)),
-        linear-gradient(45deg, rgba(245, 158, 11, 0.4), rgba(59, 130, 246, 0.35));
+        linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(30, 41, 59, 0.78)),
+        linear-gradient(45deg, rgba(245, 158, 11, 0.45), rgba(37, 99, 235, 0.35));
     color: #fff;
 }
 
@@ -43,51 +59,432 @@ body {
     content: "";
     position: absolute;
     inset: 0;
-    background: linear-gradient(90deg, rgba(15, 23, 42, 0.82) 0%, rgba(15, 23, 42, 0.28) 65%, rgba(15, 23, 42, 0.1) 100%);
+    background:
+        linear-gradient(90deg, rgba(15, 23, 42, 0.88) 0%, rgba(15, 23, 42, 0.46) 58%, rgba(15, 23, 42, 0.12) 100%),
+        linear-gradient(0deg, rgba(15, 23, 42, 0.24), transparent 42%);
 }
 
 .carousel-caption {
     z-index: 2;
     right: auto;
     left: 8%;
-    bottom: 16%;
-    max-width: 540px;
+    bottom: 18%;
+    max-width: 700px;
 }
 
 .carousel-caption h1 {
-    font-size: clamp(2rem, 5vw, 4rem);
+    font-size: clamp(2.35rem, 5vw, 4.8rem);
+    font-weight: 900;
+    line-height: 1;
+    margin-bottom: 1rem;
+}
+
+.carousel-caption p {
+    max-width: 620px;
+    color: rgba(255, 255, 255, 0.84);
+    font-size: clamp(1rem, 2vw, 1.25rem);
+    line-height: 1.7;
+}
+
+.hero-chip,
+.section-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    border-radius: 999px;
+    font-size: 0.78rem;
     font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
 }
 
 .hero-chip {
-    display: inline-block;
-    padding: 0.45rem 0.9rem;
-    border-radius: 999px;
-    font-size: 0.85rem;
-    font-weight: 700;
-    letter-spacing: 0.03em;
-    background: rgba(245, 158, 11, 0.95);
+    padding: 0.5rem 0.95rem;
+    background: rgba(245, 158, 11, 0.96);
     color: #111827;
     margin-bottom: 1rem;
 }
 
-@media (max-width: 991.98px) {
-    .carousel-item,
-    .hero-image,
-    .hero-placeholder {
-        min-height: 68vh;
-        max-height: 68vh;
-    }
-
-    .carousel-caption {
-        left: 6%;
-        right: 6%;
-        bottom: 12%;
-        max-width: none;
-    }
+.section-chip {
+    padding: 0.44rem 0.82rem;
+    background: rgba(245, 158, 11, 0.15);
+    color: var(--brand-accent-dark);
 }
 
-@media (max-width: 575.98px) {
+.hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1.4rem;
+}
+
+.hero-actions .btn {
+    border-radius: 8px;
+    font-weight: 800;
+    padding-inline: 1.25rem;
+}
+
+.home-stats {
+    position: relative;
+    z-index: 5;
+    margin-top: -4.5rem;
+    padding-bottom: 2.5rem;
+}
+
+.stats-panel {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    padding: 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.65);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.92);
+    box-shadow: 0 28px 70px rgba(15, 23, 42, 0.16);
+    backdrop-filter: blur(12px);
+}
+
+.stat-card {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.15rem 0.85rem;
+    align-items: center;
+    padding: 1.15rem;
+    border-radius: 8px;
+    background: #fff;
+    border: 1px solid var(--brand-line);
+}
+
+.stat-card i {
+    grid-row: span 2;
+    width: 2.7rem;
+    height: 2.7rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    background: #111827;
+    color: var(--brand-accent);
+}
+
+.stat-card strong {
+    color: var(--brand-dark);
+    font-size: 1.65rem;
+    line-height: 1;
+}
+
+.stat-card span:last-child {
+    color: var(--brand-muted);
+    font-size: 0.9rem;
+}
+
+.section-title {
+    color: var(--brand-dark);
+    font-size: clamp(1.9rem, 3vw, 2.7rem);
+    font-weight: 900;
+    line-height: 1.12;
+}
+
+.section-lead,
+.section-heading p {
+    color: var(--brand-muted);
+    font-size: 1.05rem;
+    line-height: 1.75;
+}
+
+.section-heading {
+    max-width: 720px;
+    margin-bottom: 1.2rem;
+}
+
+.company-overview {
+    background: rgba(255, 255, 255, 0.68);
+}
+
+.overview-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+}
+
+.feature-card,
+.service-card,
+.mission-card,
+.process-step,
+.value-detail {
+    border: 1px solid var(--brand-line);
+    border-radius: 8px;
+    background: #fff;
+    box-shadow: 0 18px 45px rgba(15, 23, 42, 0.08);
+}
+
+.feature-card {
+    padding: 1.35rem;
+    min-height: 190px;
+}
+
+.feature-card-wide {
+    grid-column: 1 / -1;
+    min-height: auto;
+}
+
+.feature-card i,
+.service-icon,
+.mission-card::before,
+.value-detail > i {
+    width: 2.75rem;
+    height: 2.75rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    background: #f59e0b;
+    color: #111827;
+    margin-bottom: 1rem;
+}
+
+.feature-card h3,
+.service-card h3,
+.process-step h3,
+.value-detail h3 {
+    color: var(--brand-dark);
+    font-size: 1.08rem;
+    font-weight: 900;
+}
+
+.feature-card p,
+.service-card p,
+.mission-card p,
+.process-step p,
+.value-detail p {
+    color: var(--brand-muted);
+    line-height: 1.65;
+    margin-bottom: 0;
+}
+
+.services-section {
+    background: linear-gradient(180deg, #fff 0%, #f8fafc 100%);
+}
+
+.service-card {
+    position: relative;
+    min-height: 275px;
+    padding: 1.35rem;
+    overflow: hidden;
+    transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+}
+
+.service-card::after {
+    content: "";
+    position: absolute;
+    inset: auto -35% -42% 18%;
+    height: 110px;
+    border-radius: 999px;
+    background: rgba(245, 158, 11, 0.15);
+    transform: rotate(-8deg);
+}
+
+.service-card.is-highlighted,
+.service-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(245, 158, 11, 0.55);
+    box-shadow: 0 28px 65px rgba(15, 23, 42, 0.14);
+}
+
+.service-more {
+    position: absolute;
+    right: 1rem;
+    bottom: 1rem;
+    z-index: 1;
+    width: 2.4rem;
+    height: 2.4rem;
+    border: 0;
+    border-radius: 8px;
+    background: #111827;
+    color: #fff;
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.service-more:hover {
+    background: var(--brand-accent-dark);
+    transform: translateX(2px);
+}
+
+.mission-section {
+    background: #111827;
+}
+
+.mission-card {
+    position: relative;
+    height: 100%;
+    padding: 2rem;
+    overflow: hidden;
+}
+
+.mission-card::before {
+    content: "\f140";
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+}
+
+.mission-card-main {
+    background:
+        linear-gradient(135deg, rgba(245, 158, 11, 0.16), transparent 46%),
+        #ffffff;
+}
+
+.vision-card {
+    background:
+        linear-gradient(135deg, rgba(37, 99, 235, 0.14), transparent 48%),
+        #ffffff;
+}
+
+.mission-card h2 {
+    color: var(--brand-dark);
+    font-size: clamp(1.6rem, 2.4vw, 2.25rem);
+    font-weight: 900;
+    margin: 1rem 0;
+}
+
+.process-section {
+    background: #fff;
+}
+
+.process-track {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.process-track::before {
+    content: "";
+    position: absolute;
+    left: 8%;
+    right: 8%;
+    top: 2.1rem;
+    height: 2px;
+    background: linear-gradient(90deg, var(--brand-accent), var(--brand-blue), var(--brand-teal));
+}
+
+.process-step {
+    position: relative;
+    z-index: 1;
+    padding: 1.25rem;
+}
+
+.process-step span {
+    width: 3rem;
+    height: 3rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+    border-radius: 8px;
+    background: var(--brand-dark);
+    color: #fff;
+    font-weight: 900;
+}
+
+.values-section {
+    background:
+        linear-gradient(135deg, rgba(15, 23, 42, 0.96), rgba(30, 41, 59, 0.96)),
+        #111827;
+}
+
+.values-section .section-title,
+.values-section .section-heading p {
+    color: #fff;
+}
+
+.values-section .section-heading p {
+    color: rgba(255, 255, 255, 0.72);
+}
+
+.value-dashboard {
+    display: grid;
+    grid-template-columns: minmax(260px, 0.9fr) minmax(0, 1.1fr);
+    gap: 1.2rem;
+}
+
+.value-tabs {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem;
+}
+
+.value-tab {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    min-height: 74px;
+    padding: 0.85rem;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.07);
+    color: rgba(255, 255, 255, 0.78);
+    text-align: left;
+    font-weight: 800;
+    transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.value-tab i {
+    width: 2.25rem;
+    height: 2.25rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    border-radius: 8px;
+    background: rgba(245, 158, 11, 0.16);
+    color: var(--brand-accent);
+}
+
+.value-tab.active,
+.value-tab:hover {
+    background: #fff;
+    color: var(--brand-dark);
+    transform: translateY(-2px);
+}
+
+.value-detail {
+    min-height: 100%;
+    padding: 2rem;
+    background:
+        linear-gradient(135deg, rgba(245, 158, 11, 0.16), transparent 52%),
+        #fff;
+}
+
+.value-detail > span {
+    display: block;
+    color: var(--brand-accent-dark);
+    font-size: 0.78rem;
+    font-weight: 900;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.value-detail h3 {
+    font-size: clamp(1.6rem, 3vw, 2.5rem);
+    margin: 0.65rem 0 1rem;
+}
+
+.js-reveal {
+    opacity: 0;
+    transform: translateY(22px);
+    transition: opacity 0.55s ease, transform 0.55s ease;
+}
+
+.js-reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+@media (max-width: 991.98px) {
+    .section-space {
+        padding: 4rem 0;
+    }
+
     .carousel-item,
     .hero-image,
     .hero-placeholder {
@@ -95,13 +492,60 @@ body {
         max-height: 72vh;
     }
 
-    .carousel-caption h1 {
-        font-size: 1.75rem;
+    .carousel-caption {
+        left: 6%;
+        right: 6%;
+        bottom: 13%;
+        max-width: none;
+    }
+
+    .stats-panel,
+    .process-track,
+    .value-dashboard {
+        grid-template-columns: 1fr;
+    }
+
+    .process-track::before {
+        display: none;
     }
 }
-:root {
-/* =========================================================
-   ESTILOS: HOME
-   Apariencia de la pagina principal y el carrusel.
-   ========================================================= */
+
+@media (max-width: 767.98px) {
+    .home-stats {
+        margin-top: -2.5rem;
+    }
+
+    .overview-grid,
+    .value-tabs {
+        grid-template-columns: 1fr;
+    }
+
+    .feature-card-wide {
+        grid-column: auto;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .carousel-item,
+    .hero-image,
+    .hero-placeholder {
+        min-height: 78vh;
+        max-height: 78vh;
+    }
+
+    .carousel-caption h1 {
+        font-size: 2rem;
+    }
+
+    .carousel-caption p {
+        font-size: 0.95rem;
+    }
+
+    .hero-actions .btn {
+        width: 100%;
+    }
+
+    .stats-panel {
+        padding: 0.75rem;
+    }
 }
