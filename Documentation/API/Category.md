@@ -364,3 +364,33 @@ Uso:
 ```text
 Category.js -> Api/Category/*.php -> CategoryController -> CategoryCRUD -> Stored Procedures
 ```
+
+## Rutas completas relacionadas
+
+```text
+C:\xampp\htdocs\KMLLogistics\Api\Category\
+C:\xampp\htdocs\KMLLogistics\Pages\Assets\JS\Pages\Category\Category.js
+C:\xampp\htdocs\KMLLogistics\Pages\Controller\Category\CategoryController.php
+C:\xampp\htdocs\KMLLogistics\Pages\Models\Category\CategoryCRUD.php
+C:\xampp\htdocs\KMLLogistics\BD\Empresa\KMLLogistics.sql
+```
+
+## Tecnologias usadas por esta API
+
+- **PHP:** cada endpoint recibe `GET` o `POST`, llama al controlador y devuelve JSON.
+- **MVC:** la API funciona como puente entre `Category.js` y `CategoryController`.
+- **POO:** el controlador usa clases `Category` y `CategoryCRUD`.
+- **PDO:** `CategoryCRUD` ejecuta los SP con llamadas `CALL`.
+- **MySQL:** los datos se resuelven con procedimientos almacenados.
+- **jQuery AJAX:** `Category.js` consume estos endpoints sin recargar la pagina.
+- **Bootstrap y Font Awesome:** la respuesta JSON se refleja en tablas, botones, modals e iconos.
+
+## jQuery, addClass y removeClass
+
+La API no manipula clases directamente; eso ocurre en:
+
+```text
+C:\xampp\htdocs\KMLLogistics\Pages\Assets\JS\Pages\Category\Category.js
+```
+
+Ese archivo usa `$.ajax()` para llamar a esta API y usa `addClass()` / `removeClass()` para feedback visual, estados de carga, errores y modals.

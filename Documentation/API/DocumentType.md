@@ -378,3 +378,33 @@ Uso:
 ```text
 TipoDocumento.js -> Api/TipoDocumento/*.php -> TipoDocumentoController -> TipoDocumentoCRUD -> Stored Procedures
 ```
+
+## Rutas completas relacionadas
+
+```text
+C:\xampp\htdocs\KMLLogistics\Api\TipoDocumento\
+C:\xampp\htdocs\KMLLogistics\Pages\Assets\JS\Pages\TipoDocumento\TipoDocumento.js
+C:\xampp\htdocs\KMLLogistics\Pages\Controller\TipoDocumento\TipoDocumentoController.php
+C:\xampp\htdocs\KMLLogistics\Pages\Models\TipoDocumento\TipoDocumentoCRUD.php
+C:\xampp\htdocs\KMLLogistics\BD\Empresa\KMLLogistics.sql
+```
+
+## Tecnologias usadas por esta API
+
+- **PHP:** endpoints para listar, obtener, crear, actualizar, eliminar, restaurar y hard delete.
+- **MVC:** la API conecta `TipoDocumento.js` con `TipoDocumentoController`.
+- **POO:** se usan clases `TipoDocumento`, `TipoDocumentoCRUD` y `TipoDocumentoController`.
+- **PDO:** `TipoDocumentoCRUD` ejecuta los SP mediante `CALL`.
+- **MySQL:** persistencia y reglas de dependencias en stored procedures.
+- **jQuery AJAX:** el frontend consume estos endpoints sin recargar.
+- **Bootstrap y Font Awesome:** la informacion JSON se muestra en tablas, modals, botones e iconos.
+
+## jQuery, addClass y removeClass
+
+La manipulacion visual esta en:
+
+```text
+C:\xampp\htdocs\KMLLogistics\Pages\Assets\JS\Pages\TipoDocumento\TipoDocumento.js
+```
+
+Ese archivo usa `$.ajax()` para consumir esta API y usa `addClass()` / `removeClass()` para estados visuales, mensajes, validaciones y control de modals.

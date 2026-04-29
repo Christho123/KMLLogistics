@@ -1,47 +1,108 @@
-# Auth
+# Modulo Auth
+
+## Objetivo
+
+El modulo `Auth` gestiona autenticacion, registro y cierre de sesion. Trabaja con usuarios, tipos de documento y passwords hasheadas.
 
 ## Estructura del modulo
 
 ```text
-Pages/Controller/Login/LoginController.php
-Pages/Controller/Register/RegisterController.php
-Pages/Views/Login/Login.php
-Pages/Views/Register/Register.php
-Pages/Assets/JS/Pages/Login/Login.js
-Pages/Assets/JS/Pages/Register/Register.js
-Pages/Models/Users/User.php
-Pages/Models/Users/UserCRUD.php
-BD/Empresa/SP/User/SP.sql
+KMLLogistics/
+|-- BD/
+|   `-- Empresa/
+|       `-- KMLLogistics.sql
+`-- Pages/
+    |-- Controller/
+    |   |-- Login/
+    |   |   `-- LoginController.php
+    |   `-- Register/
+    |       `-- RegisterController.php
+    |-- Models/
+    |   `-- Users/
+    |       |-- User.php
+    |       `-- UserCRUD.php
+    |-- Views/
+    |   |-- Login/
+    |   |   `-- Login.php
+    |   `-- Register/
+    |       `-- Register.php
+    `-- Assets/
+        |-- Css/
+        |   `-- Pages/
+        |       |-- Login/
+        |       |   `-- Login.css
+        |       `-- Register/
+        |           `-- Register.css
+        `-- JS/
+            `-- Pages/
+                |-- Login/
+                |   `-- Login.js
+                `-- Register/
+                    `-- Register.js
 ```
 
-## Como esta hecho
+## Arquitectura MVC
 
-El modulo de autenticacion maneja login, logout y registro de usuarios. Usa POO con controladores y modelos, y guarda passwords con `password_hash()`.
-
-## Tecnologias
-
-- PHP POO.
-- PDO.
-- MySQL con stored procedures.
-- Bootstrap.
-- Font Awesome.
-- jQuery para alternar visibilidad de password.
-
-## Flujo de login
+Login:
 
 ```text
-Login.php -> LoginController -> UserCRUD -> sp_usuario_obtener_por_correo
+Login.php
+    -> LoginController.php
+        -> UserCRUD.php
+            -> sp_usuario_obtener_por_correo
 ```
 
-## Flujo de registro
+Registro:
 
 ```text
-Register.php -> RegisterController -> UserCRUD -> sp_usuario_registrar
+Register.php
+    -> RegisterController.php
+        -> User.php / UserCRUD.php
+            -> sp_usuario_registrar
 ```
 
-## Puntos clave
+## Tecnologias utilizadas
 
-- Passwords hasheadas.
-- Sesion PHP.
-- Auditoria para login correcto, logout, registro e intento fallido.
-- Si no hay sesion, las acciones se notifican como `Invitado`.
+- **PHP:** controladores, sesiones, validaciones y render de vistas.
+- **POO y clases:** `User`, `UserCRUD`, `LoginController`, `RegisterController`.
+- **MVC:** separa vistas, controladores y acceso a datos.
+- **PDO:** llamadas a SP desde `UserCRUD`.
+- **MySQL:** tablas `usuarios`, `tipo_documentos` y procedimientos almacenados.
+- **Bootstrap:** formularios, botones y layout responsive.
+- **Font Awesome:** iconos de usuario, email, password y acciones.
+- **jQuery:** interacciones de formulario, por ejemplo mostrar/ocultar password.
+- **AJAX:** no es el flujo principal de login/registro; se trabaja principalmente con submit PHP tradicional.
+
+## Stored Procedures usados
+
+Los SP se llaman desde `C:\xampp\htdocs\KMLLogistics\Pages\Models\Users\UserCRUD.php`.
+
+```text
+sp_usuario_obtener_por_correo
+sp_usuario_registrar
+sp_tipo_documento_listar_activos_para_select
+sp_tipo_documento_obtener_activo_para_select_por_id
+```
+
+## JavaScript y jQuery
+
+Archivos:
+
+```text
+C:\xampp\htdocs\KMLLogistics\Pages\Assets\JS\Pages\Login\Login.js
+C:\xampp\htdocs\KMLLogistics\Pages\Assets\JS\Pages\Register\Register.js
+```
+
+Se usa jQuery para mejorar la experiencia del formulario, especialmente controles de password y eventos de interfaz. Este modulo no depende de `$.ajax()` para autenticar.
+
+## Seguridad
+
+- Passwords generadas con `password_hash()`.
+- Verificacion con `password_verify()` en login.
+- Manejo de sesion PHP.
+- Validacion de correo y tipo de documento.
+- Auditoria de login correcto, intento fallido, registro y logout.
+
+## Auditoria
+
+El modulo registra eventos de autenticacion con `AuditLogger`, incluyendo accesos exitosos e intentos fallidos.
