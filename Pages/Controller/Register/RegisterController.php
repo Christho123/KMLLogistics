@@ -1,10 +1,12 @@
 <?php
+declare(strict_types=1);
+
 // =========================================================
 // CONTROLADOR: REGISTER
 // Maneja validaciones y alta de nuevos usuarios.
 // =========================================================
 
-declare(strict_types=1);
+
 
 // Controlador del registro de usuarios.
 // Tecnologia asociada: MVC + POO.
@@ -110,6 +112,7 @@ class RegisterController
             }
 
             $this->userCRUD->register($user);
+            AuditLogger::log('Registro', 'Crear usuario', 'Se registro un usuario nuevo.', ['correo' => $user->correo]);
             header('Location: index.php?page=login&status=registered');
             exit;
         }
@@ -122,3 +125,4 @@ class RegisterController
         ];
     }
 }
+

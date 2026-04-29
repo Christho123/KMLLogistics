@@ -1,10 +1,10 @@
 <?php
+declare(strict_types=1);
+
 // =========================================================
 // API: CATEGORY LIST
 // Endpoint AJAX para listado paginado de categorias activas.
 // =========================================================
-
-declare(strict_types=1);
 
 header('Content-Type: application/json; charset=UTF-8');
 

@@ -1,10 +1,12 @@
 <?php
+declare(strict_types=1);
+
 // =========================================================
 // MODELO: CATEGORY CRUD
 // Acceso a datos del modulo Category usando PDO y SP.
 // =========================================================
 
-declare(strict_types=1);
+
 
 // Acceso a datos para categorias.
 // Tecnologia asociada: PDO + MySQL + procedimientos almacenados.
@@ -161,3 +163,4 @@ class CategoryCRUD
         return (int) ($row['total'] ?? 0) > 0;
     }
 }
+

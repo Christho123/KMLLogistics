@@ -1,10 +1,12 @@
 <?php
+declare(strict_types=1);
+
 // =========================================================
 // API: PRODUCT LIST
 // Endpoint AJAX para listado paginado de productos activos.
 // =========================================================
 
-declare(strict_types=1);
+
 
 header('Content-Type: application/json; charset=UTF-8');
 
@@ -33,3 +35,4 @@ try {
         'message' => 'Ocurrio un problema al cargar el listado de productos.',
     ], JSON_UNESCAPED_UNICODE);
 }
+

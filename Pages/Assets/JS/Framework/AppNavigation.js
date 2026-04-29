@@ -1,3 +1,7 @@
+// =========================================================
+// SCRIPT: APP NAVIGATION
+// Navegacion interna por AJAX para cambiar vistas sin recargar todo el navegador.
+// =========================================================
 (function () {
     if (window.__kmlAppNavigationInitialized) {
         return;
@@ -10,6 +14,7 @@
     var PAGE_SCRIPT_SELECTOR = 'script[data-page-script="true"]';
     var activeRequestId = 0;
 
+    // Detecta enlaces internos que pueden cargarse dentro del shell principal.
     function isInternalNavigationLink(anchor) {
         if (!anchor || !anchor.href) {
             return false;
@@ -36,6 +41,7 @@
         return url.searchParams.has('page') && url.searchParams.get('page') !== 'logout';
     }
 
+    // Reemplaza los estilos propios de la vista cargada por AJAX.
     function updatePageStyles(doc) {
         document.querySelectorAll(PAGE_STYLE_SELECTOR).forEach(function (styleNode) {
             styleNode.remove();
@@ -46,6 +52,7 @@
         });
     }
 
+    // Reinserta scripts de pagina para que sus eventos se registren nuevamente.
     function runPageScripts(doc) {
         document.querySelectorAll(PAGE_SCRIPT_SELECTOR).forEach(function (scriptNode) {
             scriptNode.remove();
@@ -70,6 +77,7 @@
         });
     }
 
+    // Sustituye solo el contenido navegable y conserva el contexto global.
     function replaceShell(doc) {
         var currentShell = document.querySelector(APP_SHELL_SELECTOR);
         var nextShell = doc.querySelector(APP_SHELL_SELECTOR);
@@ -83,6 +91,7 @@
         return true;
     }
 
+    // Carga la vista solicitada y actualiza historial, estilos y scripts.
     function loadPage(url, shouldPushState) {
         activeRequestId += 1;
         var requestId = activeRequestId;

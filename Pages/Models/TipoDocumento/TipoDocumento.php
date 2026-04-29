@@ -1,10 +1,12 @@
 <?php
+declare(strict_types=1);
+
 // =========================================================
 // MODELO: TIPO DOCUMENTO
 // Entidad de dominio para el modulo de tipos de documento.
 // =========================================================
 
-declare(strict_types=1);
+
 
 // Entidad base para el modulo TipoDocumento.
 // Tecnologia asociada: POO mediante una clase que encapsula datos de negocio.
@@ -31,3 +33,4 @@ class TipoDocumento
         $this->tiposDocumento = $tiposDocumento;
     }
 }
+

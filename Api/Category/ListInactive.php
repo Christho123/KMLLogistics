@@ -1,10 +1,10 @@
 <?php
+declare(strict_types=1);
+
 // =========================================================
 // API: CATEGORY LIST INACTIVE
 // Endpoint AJAX para listado de categorias inactivas.
 // =========================================================
-
-declare(strict_types=1);
 
 header('Content-Type: application/json; charset=UTF-8');
 

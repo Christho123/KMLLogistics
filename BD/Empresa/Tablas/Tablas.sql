@@ -96,6 +96,32 @@ CREATE TABLE usuarios (
     CONSTRAINT fk_usuarios_tipo_documento FOREIGN KEY (id_tipo_documento) REFERENCES tipo_documentos(id_tipo_documento)
 );
 
+CREATE TABLE IF NOT EXISTS usuario_codigos (
+    id_codigo INT AUTO_INCREMENT PRIMARY KEY,
+    id_usuario INT NOT NULL,
+    tipo VARCHAR(30) NOT NULL,
+    codigo_hash VARCHAR(255) NOT NULL,
+    destino_email VARCHAR(150) NOT NULL,
+    expires_at DATETIME NOT NULL,
+    used_at DATETIME NULL DEFAULT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_usuario_codigos_usuario FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario)
+);
+
+CREATE TABLE IF NOT EXISTS audits (
+    id_audit INT AUTO_INCREMENT PRIMARY KEY,
+    id_usuario INT NULL,
+    modulo VARCHAR(80) NOT NULL,
+    accion VARCHAR(100) NOT NULL,
+    descripcion VARCHAR(255) NOT NULL,
+    datos JSON NULL,
+    estado TINYINT(1) NOT NULL DEFAULT 1,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    deleted_at TIMESTAMP NULL DEFAULT NULL,
+    CONSTRAINT fk_audit_usuario FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario)
+);
+
 -- REGISTROS INICIALES: CATEGORIAS
 -- Datos base para pruebas del sistema
 INSERT INTO categorias (nombre_categoria, descripcion, estado, created_at) VALUES

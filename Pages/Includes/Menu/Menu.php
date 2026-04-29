@@ -1,14 +1,18 @@
 <?php
+declare(strict_types=1);
+
 // =========================================================
 // INCLUDE: MENU
 // Navegacion principal reutilizable del sistema.
 // =========================================================
 
-declare(strict_types=1);
+
 
 // Render del menu principal de navegacion.
 function renderMenu(string $currentPage, ?array $currentUser = null): void
 {
+    $isAdmin = $currentUser && in_array((string) ($currentUser['rol'] ?? ''), ['admin', 'Admin', 'Administrador'], true);
+    $userPhoto = (string) ($currentUser['foto'] ?? '');
     ?>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top shadow-sm">
         <div class="container">
@@ -59,18 +63,37 @@ function renderMenu(string $currentPage, ?array $currentUser = null): void
                         </a>
                     </li>
 
-                    <?php if ($currentUser): ?>
-                        <li class="nav-item">
-                            <span class="nav-link text-warning">
-                                <i class="fas fa-user-circle me-1"></i>
-                                <?= htmlspecialchars($currentUser['nombres'], ENT_QUOTES, 'UTF-8'); ?>
-                            </span>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="btn btn-outline-light btn-sm" href="index.php?page=logout">
-                                Salir
+                    <?php if ($isAdmin): ?>
+                        <li class="nav-item js-admin-nav-item">
+                            <a class="nav-link<?= $currentPage === 'audit' ? ' active' : ''; ?>" href="index.php?page=audit">
+                                Auditoria
                             </a>
+                        </li>
+                    <?php endif; ?>
+
+                    <?php if ($currentUser): ?>
+                        <li class="nav-item dropdown">
+                            <button class="btn btn-dark dropdown-toggle d-flex align-items-center gap-2 text-warning" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <?php if ($userPhoto !== ''): ?>
+                                    <img src="<?= htmlspecialchars($userPhoto, ENT_QUOTES, 'UTF-8'); ?>" alt="Perfil" style="width:28px;height:28px;border-radius:50%;object-fit:cover;border:1px solid rgba(255,193,7,.45)">
+                                <?php else: ?>
+                                    <i class="fas fa-user-circle"></i>
+                                <?php endif; ?>
+                                <span><?= htmlspecialchars($currentUser['nombres'], ENT_QUOTES, 'UTF-8'); ?></span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end shadow">
+                                <li>
+                                    <a class="dropdown-item<?= $currentPage === 'profile' ? ' active' : ''; ?>" href="index.php?page=profile">
+                                        <i class="fas fa-id-card me-2"></i>Perfil
+                                    </a>
+                                </li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li>
+                                    <a class="dropdown-item text-danger" href="index.php?page=logout">
+                                        <i class="fas fa-right-from-bracket me-2"></i>Salir
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
 
                     <?php else: ?>
@@ -95,3 +118,4 @@ function renderMenu(string $currentPage, ?array $currentUser = null): void
     </nav>
     <?php
 }
+

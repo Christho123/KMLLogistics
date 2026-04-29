@@ -1,10 +1,12 @@
 <?php
+declare(strict_types=1);
+
 // =========================================================
 // API: TIPO DOCUMENTO DELETE
 // Endpoint AJAX para eliminacion logica de tipos de documento.
 // =========================================================
 
-declare(strict_types=1);
+
 
 header('Content-Type: application/json; charset=UTF-8');
 
@@ -44,3 +46,4 @@ try {
         'message' => 'Ocurrio un problema al eliminar el tipo de documento.',
     ], JSON_UNESCAPED_UNICODE);
 }
+

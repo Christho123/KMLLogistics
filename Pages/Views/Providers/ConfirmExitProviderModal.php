@@ -1,10 +1,12 @@
 <?php
+declare(strict_types=1);
+
 // =========================================================
 // MODAL: CONFIRM EXIT PROVIDER
 // Confirmacion antes de cerrar formularios con cambios.
 // =========================================================
 
-declare(strict_types=1);
+
 ?>
 <div class="modal fade provider-modal" id="confirmExitProviderModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
     <div class="modal-dialog modal-dialog-centered">

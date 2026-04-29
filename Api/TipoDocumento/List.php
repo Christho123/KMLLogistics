@@ -1,10 +1,12 @@
 <?php
+declare(strict_types=1);
+
 // =========================================================
 // API: TIPO DOCUMENTO LIST
 // Endpoint AJAX para listado paginado de tipos de documento activos.
 // =========================================================
 
-declare(strict_types=1);
+
 
 header('Content-Type: application/json; charset=UTF-8');
 
@@ -40,3 +42,4 @@ try {
         'message' => 'Ocurrio un problema al cargar el listado de tipos de documento.',
     ], JSON_UNESCAPED_UNICODE);
 }
+

@@ -1,4 +1,14 @@
-<?php declare(strict_types=1); ?>
+<?php
+declare(strict_types=1);
+
+// =========================================================
+// MODAL: DETAIL PRODUCT
+// Detalle visual del producto seleccionado.
+// =========================================================
+
+
+
+?>
 <div class="modal fade product-modal" id="detailProductModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
@@ -34,3 +44,5 @@
         </div>
     </div>
 </div>
+
+

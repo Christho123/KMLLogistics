@@ -1,10 +1,12 @@
 <?php
+declare(strict_types=1);
+
 // =========================================================
 // MODELO: PRODUCT CRUD
 // Acceso a datos del modulo Product usando PDO y SP.
 // =========================================================
 
-declare(strict_types=1);
+
 
 class ProductCRUD
 {
@@ -156,3 +158,4 @@ class ProductCRUD
         return $this->callProcedureFetchAll('sp_producto_listar_marcas_activas');
     }
 }
+

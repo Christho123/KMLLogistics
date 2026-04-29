@@ -1,10 +1,12 @@
 <?php
+declare(strict_types=1);
+
 // =========================================================
 // MODAL: CONFIRM EXIT TIPO DOCUMENTO
 // Confirmacion antes de cerrar formularios con cambios.
 // =========================================================
 
-declare(strict_types=1);
+
 ?>
 <div class="modal fade category-modal" id="confirmExitTipoDocumentoModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
     <div class="modal-dialog modal-dialog-centered">
@@ -29,3 +31,4 @@ declare(strict_types=1);
         </div>
     </div>
 </div>
+

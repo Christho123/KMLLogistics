@@ -1,10 +1,12 @@
 <?php
+declare(strict_types=1);
+
 // =========================================================
 // API: PROVIDERS LIST INACTIVE
 // Endpoint AJAX para listado de proveedores inactivos.
 // =========================================================
 
-declare(strict_types=1);
+
 
 header('Content-Type: application/json; charset=UTF-8');
 

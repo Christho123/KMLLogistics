@@ -1,10 +1,12 @@
 <?php
+declare(strict_types=1);
+
 // =========================================================
 // MODAL: EDIT TIPO DOCUMENTO
 // Edicion de tipos de documento con Bootstrap Modal.
 // =========================================================
 
-declare(strict_types=1);
+
 ?>
 <div class="modal fade category-modal" id="editTipoDocumentoModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
     <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -57,3 +59,4 @@ declare(strict_types=1);
         </div>
     </div>
 </div>
+

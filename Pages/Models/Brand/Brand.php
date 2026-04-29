@@ -1,10 +1,12 @@
 <?php
+declare(strict_types=1);
+
 // =========================================================
 // MODELO: BRAND
 // Entidad de dominio para el modulo de marcas.
 // =========================================================
 
-declare(strict_types=1);
+
 
 class Brand
 {

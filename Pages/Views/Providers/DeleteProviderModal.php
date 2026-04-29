@@ -1,10 +1,12 @@
 <?php
+declare(strict_types=1);
+
 // =========================================================
 // MODAL: DELETE PROVIDER
 // Eliminacion logica de proveedores con Bootstrap Modal.
 // =========================================================
 
-declare(strict_types=1);
+
 ?>
 <div class="modal fade provider-modal" id="deleteProviderModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
     <div class="modal-dialog modal-dialog-centered">

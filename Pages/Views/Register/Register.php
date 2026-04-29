@@ -1,10 +1,12 @@
 <?php
+declare(strict_types=1);
+
 // =========================================================
 // VISTA: REGISTER
 // Formulario de registro de usuarios del sistema.
 // =========================================================
 
-declare(strict_types=1);
+
 
 // Carga de estilos de la vista registro.
 renderHeader('KMLLogistics | Registro', [
@@ -106,3 +108,4 @@ renderMenu('register');
 renderFooter([
     'Pages/Assets/JS/Pages/Register/Register.js',
 ]);
+

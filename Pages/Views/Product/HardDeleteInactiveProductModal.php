@@ -1,4 +1,14 @@
-<?php declare(strict_types=1); ?>
+<?php
+declare(strict_types=1);
+
+// =========================================================
+// MODAL: HARD DELETE PRODUCT
+// Confirmacion para eliminar definitivamente productos inactivos.
+// =========================================================
+
+
+
+?>
 <div class="modal fade product-modal" id="hardDeleteInactiveProductModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -20,3 +30,5 @@
         </div>
     </div>
 </div>
+
+

@@ -1,10 +1,12 @@
 <?php
+declare(strict_types=1);
+
 // =========================================================
 // MODAL: INACTIVE CATEGORIES
 // Listado de categorias inactivas con Bootstrap Modal.
 // =========================================================
 
-declare(strict_types=1);
+
 ?>
 <div class="modal fade category-modal" id="inactiveCategoriesModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
     <div class="modal-dialog modal-dialog-centered modal-xl">
@@ -73,3 +75,4 @@ declare(strict_types=1);
         </div>
     </div>
 </div>
+

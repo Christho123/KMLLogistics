@@ -1,4 +1,14 @@
-<?php declare(strict_types=1); ?>
+<?php
+declare(strict_types=1);
+
+// =========================================================
+// MODAL: INFO PRODUCT
+// Avisos reutilizables del modulo producto.
+// =========================================================
+
+
+
+?>
 <div class="modal fade product-modal" id="infoProductModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -14,3 +24,5 @@
         </div>
     </div>
 </div>
+
+

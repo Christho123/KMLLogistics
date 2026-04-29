@@ -1,10 +1,12 @@
 <?php
+declare(strict_types=1);
+
 // =========================================================
 // CONTROLADOR: PRODUCT
 // Orquesta reglas de negocio y respuestas del modulo.
 // =========================================================
 
-declare(strict_types=1);
+
 
 class ProductController
 {
@@ -101,6 +103,7 @@ class ProductController
         $precio = $this->calculatePrice($costo, $ganancia);
         $product = new Product(0, $producto, $costo, $ganancia, $precio, $stock, $foto, $idCategoria, $idMarca, $estado);
         $idProducto = $this->productCRUD->create($product);
+        AuditLogger::log('Producto', 'Crear producto', 'Se creo un producto.', ['id_producto' => $idProducto, 'producto' => $producto]);
 
         return [
             'success' => true,
@@ -144,6 +147,7 @@ class ProductController
         $fotoFinal = $foto !== null ? $foto : ($currentProduct['foto'] ?? null);
         $product = new Product($idProducto, $producto, $costo, $ganancia, $precio, $stock, $fotoFinal, $idCategoria, $idMarca, $estado);
         $updated = $this->productCRUD->update($product);
+        AuditLogger::log('Producto', 'Actualizar producto', 'Se actualizo un producto.', ['id_producto' => $idProducto, 'producto' => $producto]);
 
         return [
             'success' => true,
@@ -167,6 +171,9 @@ class ProductController
         }
 
         $deleted = $this->productCRUD->delete($idProducto);
+        if ($deleted) {
+            AuditLogger::log('Producto', 'Eliminar producto', 'Se elimino logicamente un producto.', ['id_producto' => $idProducto]);
+        }
 
         return [
             'success' => $deleted,
@@ -198,6 +205,9 @@ class ProductController
         }
 
         $restored = $this->productCRUD->restore($idProducto);
+        if ($restored) {
+            AuditLogger::log('Producto', 'Restaurar producto', 'Se restauro un producto.', ['id_producto' => $idProducto]);
+        }
 
         return [
             'success' => $restored,
@@ -221,6 +231,9 @@ class ProductController
         }
 
         $deleted = $this->productCRUD->hardDelete($idProducto);
+        if ($deleted) {
+            AuditLogger::log('Producto', 'Eliminar definitivo', 'Se elimino definitivamente un producto.', ['id_producto' => $idProducto]);
+        }
 
         return [
             'success' => $deleted,
@@ -253,3 +266,4 @@ class ProductController
         return round($costo / (1 - $ganancia), 2);
     }
 }
+

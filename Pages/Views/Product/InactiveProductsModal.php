@@ -1,4 +1,14 @@
-<?php declare(strict_types=1); ?>
+<?php
+declare(strict_types=1);
+
+// =========================================================
+// MODAL: INACTIVE PRODUCTS
+// Listado modal de productos inactivos.
+// =========================================================
+
+
+
+?>
 <div class="modal fade product-modal" id="inactiveProductsModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
     <div class="modal-dialog modal-dialog-centered modal-xl">
         <div class="modal-content">
@@ -50,3 +60,5 @@
         </div>
     </div>
 </div>
+
+

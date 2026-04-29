@@ -1,10 +1,12 @@
 <?php
+declare(strict_types=1);
+
 // =========================================================
 // MODELO: USER
 // Entidad de dominio para usuarios del sistema.
 // =========================================================
 
-declare(strict_types=1);
+
 
 // Entidad base para usuarios del sistema.
 class User
@@ -33,3 +35,4 @@ class User
         $this->password = $password;
     }
 }
+

@@ -1,10 +1,12 @@
 <?php
+declare(strict_types=1);
+
 // =========================================================
 // MODAL: DETAIL PROVIDER
 // Consulta de detalle de proveedores con Bootstrap Modal.
 // =========================================================
 
-declare(strict_types=1);
+
 ?>
 <div class="modal fade provider-modal" id="detailProviderModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
     <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -38,7 +40,7 @@ declare(strict_types=1);
                     </div>
 
                     <div class="detail-card">
-                        <span class="detail-label">Razón Social</span>
+                        <span class="detail-label">RazÃ³n Social</span>
                         <p class="detail-value" id="detailProviderRazonSocial">-</p>
                     </div>
 
@@ -53,7 +55,7 @@ declare(strict_types=1);
                     </div>
 
                     <div class="detail-card">
-                        <span class="detail-label">Teléfono</span>
+                        <span class="detail-label">TelÃ©fono</span>
                         <p class="detail-value" id="detailProviderTelefono">-</p>
                     </div>
 
@@ -63,7 +65,7 @@ declare(strict_types=1);
                     </div>
 
                     <div class="detail-card">
-                        <span class="detail-label">Dirección</span>
+                        <span class="detail-label">DirecciÃ³n</span>
                         <p class="detail-value" id="detailProviderDireccion">-</p>
                     </div>
 

@@ -1,10 +1,12 @@
 <?php
+declare(strict_types=1);
+
 // =========================================================
 // INCLUDE: FOOTER
 // Pie de pagina y carga global de jQuery y Bootstrap JS.
 // =========================================================
 
-declare(strict_types=1);
+
 
 // Render del pie de pagina y carga de scripts.
 // Tecnologia asociada: jQuery para interacciones y Bootstrap JS para modals/componentes.
@@ -27,3 +29,4 @@ function renderFooter(array $scripts = []): void
     </html>
     <?php
 }
+

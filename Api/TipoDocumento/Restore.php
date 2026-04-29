@@ -1,10 +1,12 @@
 <?php
+declare(strict_types=1);
+
 // =========================================================
 // API: TIPO DOCUMENTO RESTORE
 // Endpoint AJAX para restaurar tipos de documento inactivos.
 // =========================================================
 
-declare(strict_types=1);
+
 
 header('Content-Type: application/json; charset=UTF-8');
 
@@ -44,3 +46,4 @@ try {
         'message' => 'Ocurrio un problema al restaurar el tipo de documento.',
     ], JSON_UNESCAPED_UNICODE);
 }
+

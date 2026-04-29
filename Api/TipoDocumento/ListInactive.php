@@ -1,10 +1,12 @@
 <?php
+declare(strict_types=1);
+
 // =========================================================
 // API: TIPO DOCUMENTO LIST INACTIVE
 // Endpoint AJAX para listado de tipos de documento inactivos.
 // =========================================================
 
-declare(strict_types=1);
+
 
 header('Content-Type: application/json; charset=UTF-8');
 
@@ -22,3 +24,4 @@ try {
         'message' => 'Ocurrio un problema al cargar el listado de tipos de documento inactivos.',
     ], JSON_UNESCAPED_UNICODE);
 }
+

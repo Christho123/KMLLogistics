@@ -1,11 +1,21 @@
-<?php declare(strict_types=1); ?>
+<?php
+declare(strict_types=1);
+
+// =========================================================
+// MODAL: CREATE BRAND
+// Formulario Bootstrap para registrar una marca.
+// =========================================================
+
+
+
+?>
 <div class="modal fade" id="createBrandModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <div>
                     <h5 class="modal-title mb-1"><i class="fas fa-tag me-2 text-warning"></i>Crear Marca</h5>
-                    <p class="text-muted mb-0">Registra una nueva marca para el catálogo.</p>
+                    <p class="text-muted mb-0">Registra una nueva marca para el catÃ¡logo.</p>
                 </div>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
@@ -48,3 +58,4 @@
         </div>
     </div>
 </div>
+

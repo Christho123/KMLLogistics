@@ -1,3 +1,9 @@
+<?php
+// =========================================================
+// MODAL: EDIT BRAND
+// Formulario Bootstrap para actualizar una marca.
+// =========================================================
+?>
 <div class="modal fade brand-modal" id="editBrandModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
@@ -56,3 +62,5 @@
         </div>
     </div>
 </div>
+
+

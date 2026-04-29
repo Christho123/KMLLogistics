@@ -1,10 +1,12 @@
 <?php
+declare(strict_types=1);
+
 // =========================================================
 // API: PRODUCT HARD DELETE
 // Endpoint AJAX para eliminacion definitiva de productos.
 // =========================================================
 
-declare(strict_types=1);
+
 
 header('Content-Type: application/json; charset=UTF-8');
 
@@ -40,3 +42,4 @@ try {
         'message' => 'Ocurrio un problema al eliminar definitivamente el producto.',
     ], JSON_UNESCAPED_UNICODE);
 }
+

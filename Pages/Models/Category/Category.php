@@ -1,10 +1,12 @@
 <?php
+declare(strict_types=1);
+
 // =========================================================
 // MODELO: CATEGORY
 // Entidad de dominio para el modulo de categorias.
 // =========================================================
 
-declare(strict_types=1);
+
 
 // Entidad base para el modulo Category.
 // Tecnologia asociada: POO mediante una clase que encapsula datos de negocio.
@@ -32,3 +34,4 @@ class Category
         $this->categories = $categories;
     }
 }
+

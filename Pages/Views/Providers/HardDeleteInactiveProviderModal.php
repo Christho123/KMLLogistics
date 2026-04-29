@@ -1,10 +1,12 @@
 <?php
+declare(strict_types=1);
+
 // =========================================================
 // MODAL: HARD DELETE INACTIVE PROVIDER
 // Eliminacion definitiva de proveedores inactivos.
 // =========================================================
 
-declare(strict_types=1);
+
 ?>
 <div class="modal fade provider-modal" id="hardDeleteInactiveProviderModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
     <div class="modal-dialog modal-dialog-centered">

@@ -1,10 +1,12 @@
 <?php
+declare(strict_types=1);
+
 // =========================================================
 // API: TIPO DOCUMENTO CREATE
 // Endpoint AJAX para registrar tipos de documento nuevos.
 // =========================================================
 
-declare(strict_types=1);
+
 
 header('Content-Type: application/json; charset=UTF-8');
 
@@ -42,3 +44,4 @@ try {
         'message' => 'Ocurrio un problema al registrar el tipo de documento.',
     ], JSON_UNESCAPED_UNICODE);
 }
+

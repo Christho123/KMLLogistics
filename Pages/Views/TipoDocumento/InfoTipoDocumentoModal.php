@@ -1,10 +1,12 @@
 <?php
+declare(strict_types=1);
+
 // =========================================================
 // MODAL: INFO TIPO DOCUMENTO
 // Avisos informativos para validaciones y mensajes breves.
 // =========================================================
 
-declare(strict_types=1);
+
 ?>
 <div class="modal fade category-modal" id="infoTipoDocumentoModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="true">
     <div class="modal-dialog modal-dialog-centered">
@@ -25,3 +27,4 @@ declare(strict_types=1);
         </div>
     </div>
 </div>
+

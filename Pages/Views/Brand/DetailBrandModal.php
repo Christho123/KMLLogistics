@@ -1,3 +1,9 @@
+<?php
+// =========================================================
+// MODAL: DETAIL BRAND
+// Detalle visual de la marca seleccionada.
+// =========================================================
+?>
 <div class="modal fade brand-modal" id="detailBrandModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
@@ -42,3 +48,5 @@
         </div>
     </div>
 </div>
+
+

@@ -1,10 +1,12 @@
 <?php
+declare(strict_types=1);
+
 // =========================================================
 // API: TIPO DOCUMENTO GET
 // Endpoint AJAX para consultar el detalle de un tipo de documento.
 // =========================================================
 
-declare(strict_types=1);
+
 
 header('Content-Type: application/json; charset=UTF-8');
 
@@ -44,3 +46,4 @@ try {
         'message' => 'Ocurrio un problema al consultar el detalle del tipo de documento.',
     ], JSON_UNESCAPED_UNICODE);
 }
+

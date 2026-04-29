@@ -1,10 +1,12 @@
 <?php
+declare(strict_types=1);
+
 // =========================================================
 // CONTROLADOR: LOGIN
 // Maneja autenticacion y mensajes del inicio de sesion.
 // =========================================================
 
-declare(strict_types=1);
+
 
 // Controlador del inicio de sesion.
 // Tecnologia asociada: MVC + POO.
@@ -44,6 +46,8 @@ class LoginController
             $user = $this->userCRUD->findUserByEmail($email);
 
             if (!$user || (int) $user['estado'] !== 1 || !password_verify($password, $user['password_hash'])) {
+                AuditLogger::log('Login', 'Intento fallido', 'Un invitado intento iniciar sesion con credenciales incorrectas.', ['correo' => $email]);
+
                 return [
                     'message' => 'Credenciales incorrectas.',
                     'message_type' => 'danger',
@@ -57,7 +61,11 @@ class LoginController
                 'apellidos' => $user['apellidos'],
                 'correo' => $user['correo'],
                 'rol' => $user['rol'],
+                'foto' => $user['foto'] ?? null,
+                'email_verificado' => $user['email_verificado'] ?? 0,
             ];
+
+            AuditLogger::log('Login', 'Iniciar sesion', 'El usuario inicio sesion correctamente.');
 
             header('Location: index.php?status=login_ok');
             exit;
@@ -79,3 +87,4 @@ class LoginController
         };
     }
 }
+

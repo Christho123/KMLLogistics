@@ -1,10 +1,12 @@
 <?php
+declare(strict_types=1);
+
 // =========================================================
 // CONTROLADOR: PROVIDERS
 // Orquesta reglas de negocio y respuestas del modulo.
 // =========================================================
 
-declare(strict_types=1);
+
 
 class ProviderController
 {
@@ -111,6 +113,7 @@ class ProviderController
         );
 
         $id = $this->providerCRUD->create($provider);
+        AuditLogger::log('Proveedor', 'Crear proveedor', 'Se creo un proveedor.', ['id_proveedor' => $id, 'razon_social' => $razonSocial]);
 
         return [
             'success' => true,
@@ -167,6 +170,7 @@ class ProviderController
         );
 
         $updated = $this->providerCRUD->update($provider);
+        AuditLogger::log('Proveedor', 'Actualizar proveedor', 'Se actualizo un proveedor.', ['id_proveedor' => $id, 'razon_social' => $razonSocial]);
 
         return [
             'success' => true,
@@ -192,6 +196,9 @@ class ProviderController
         }
 
         $deleted = $this->providerCRUD->delete($id);
+        if ($deleted) {
+            AuditLogger::log('Proveedor', 'Eliminar proveedor', 'Se elimino logicamente un proveedor.', ['id_proveedor' => $id]);
+        }
 
         return [
             'success' => $deleted,
@@ -217,6 +224,9 @@ class ProviderController
         }
 
         $restored = $this->providerCRUD->restore($id);
+        if ($restored) {
+            AuditLogger::log('Proveedor', 'Restaurar proveedor', 'Se restauro un proveedor.', ['id_proveedor' => $id]);
+        }
 
         return [
             'success' => $restored,
@@ -243,6 +253,9 @@ class ProviderController
 
         $deleted = $this->providerCRUD->hardDelete($id);
         $deletedProvider = (bool) ($deleted['deleted_provider'] ?? false);
+        if ($deletedProvider) {
+            AuditLogger::log('Proveedor', 'Eliminar definitivo', 'Se elimino definitivamente un proveedor.', ['id_proveedor' => $id]);
+        }
 
         return [
             'success' => $deletedProvider,
@@ -261,3 +274,4 @@ $providers = $this->providerCRUD->listInactiveProviders($search);
     ];
 }
 }
+

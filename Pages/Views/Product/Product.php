@@ -1,10 +1,12 @@
 <?php
+declare(strict_types=1);
+
 // =========================================================
 // VISTA: PRODUCT
 // Pantalla principal del modulo de productos.
 // =========================================================
 
-declare(strict_types=1);
+
 
 renderHeader('KMLLogistics | Productos', [
     'Pages/Assets/Css/Pages/Product/Product.css',
@@ -110,3 +112,4 @@ renderMenu('product', $data['current_user']);
 renderFooter([
     'Pages/Assets/JS/Pages/Product/Product.js',
 ]);
+

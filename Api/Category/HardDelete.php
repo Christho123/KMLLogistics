@@ -1,10 +1,10 @@
 <?php
+declare(strict_types=1);
+
 // =========================================================
 // API: CATEGORY HARD DELETE
 // Endpoint AJAX para eliminacion definitiva de categorias.
 // =========================================================
-
-declare(strict_types=1);
 
 header('Content-Type: application/json; charset=UTF-8');
 

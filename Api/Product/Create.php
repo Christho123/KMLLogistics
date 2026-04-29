@@ -1,10 +1,12 @@
 <?php
+declare(strict_types=1);
+
 // =========================================================
 // API: PRODUCT CREATE
 // Endpoint AJAX para registrar productos nuevos.
 // =========================================================
 
-declare(strict_types=1);
+
 
 header('Content-Type: application/json; charset=UTF-8');
 
@@ -54,3 +56,4 @@ try {
         'message' => $exception instanceof RuntimeException ? $exception->getMessage() : 'Ocurrio un problema al registrar el producto.',
     ], JSON_UNESCAPED_UNICODE);
 }
+

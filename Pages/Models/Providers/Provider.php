@@ -1,10 +1,12 @@
 <?php
+declare(strict_types=1);
+
 // =========================================================
 // MODELO: PROVIDER
 // Entidad de dominio para el modulo de proveedores.
 // =========================================================
 
-declare(strict_types=1);
+
 
 // Entidad base para el modulo Providers.
 class Provider

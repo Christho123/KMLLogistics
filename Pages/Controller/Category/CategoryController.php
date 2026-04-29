@@ -1,10 +1,12 @@
 <?php
+declare(strict_types=1);
+
 // =========================================================
 // CONTROLADOR: CATEGORY
 // Orquesta reglas de negocio y respuestas del modulo.
 // =========================================================
 
-declare(strict_types=1);
+
 
 // Controlador principal del modulo Category.
 // Tecnologia asociada: MVC + POO.
@@ -99,6 +101,7 @@ class CategoryController
 
         $category = new Category(0, $nombreCategoria, $descripcion, $estado);
         $idCategoria = $this->categoryCRUD->create($category);
+        AuditLogger::log('Categoria', 'Crear categoria', 'Se creo una categoria.', ['id_categoria' => $idCategoria, 'nombre_categoria' => $nombreCategoria]);
 
         return [
             'success' => true,
@@ -131,6 +134,9 @@ class CategoryController
 
         $category = new Category($idCategoria, $nombreCategoria, $descripcion, $estado);
         $updated = $this->categoryCRUD->update($category);
+        AuditLogger::log('Categoria', 'Actualizar categoria', 'Se actualizo una categoria.', ['id_categoria' => $idCategoria, 'nombre_categoria' => $nombreCategoria]);
+
+        AuditLogger::log('Categoria', 'Eliminar categoria', 'Se elimino logicamente una categoria.', ['id_categoria' => $idCategoria]);
 
         return [
             'success' => true,
@@ -191,6 +197,9 @@ class CategoryController
         }
 
         $restored = $this->categoryCRUD->restore($idCategoria);
+        if ($restored) {
+            AuditLogger::log('Categoria', 'Restaurar categoria', 'Se restauro una categoria.', ['id_categoria' => $idCategoria]);
+        }
 
         return [
             'success' => $restored,
@@ -224,6 +233,8 @@ class CategoryController
             ];
         }
 
+        AuditLogger::log('Categoria', 'Eliminar definitivo', 'Se elimino definitivamente una categoria.', ['id_categoria' => $idCategoria]);
+
         return [
             'success' => true,
             'message' => 'La categoria fue eliminada definitivamente de la base de datos.',
@@ -240,3 +251,4 @@ class CategoryController
         ];
     }
 }
+

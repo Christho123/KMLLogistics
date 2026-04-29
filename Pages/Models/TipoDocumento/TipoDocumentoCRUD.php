@@ -1,10 +1,12 @@
 <?php
+declare(strict_types=1);
+
 // =========================================================
 // MODELO: TIPO DOCUMENTO CRUD
 // Acceso a datos del modulo TipoDocumento usando PDO y SP.
 // =========================================================
 
-declare(strict_types=1);
+
 
 // Acceso a datos para tipos de documento.
 // Tecnologia asociada: PDO + MySQL + procedimientos almacenados.
@@ -159,3 +161,4 @@ class TipoDocumentoCRUD
         return (int) ($row['total'] ?? 0) > 0;
     }
 }
+

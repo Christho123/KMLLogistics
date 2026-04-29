@@ -1,10 +1,12 @@
 <?php
+declare(strict_types=1);
+
 // =========================================================
 // CONTROLADOR: TIPO DOCUMENTO
 // Orquesta reglas de negocio y respuestas del modulo.
 // =========================================================
 
-declare(strict_types=1);
+
 
 // Controlador principal del modulo TipoDocumento.
 // Tecnologia asociada: MVC + POO.
@@ -98,6 +100,7 @@ class TipoDocumentoController
 
         $tipoDocumento = new TipoDocumento(0, $nombreTipoDocumento, $descripcion, $estado);
         $idTipoDocumento = $this->tipoDocumentoCRUD->create($tipoDocumento);
+        AuditLogger::log('Tipo documento', 'Crear tipo documento', 'Se creo un tipo de documento.', ['id_tipo_documento' => $idTipoDocumento, 'nombre_tipo_documento' => $nombreTipoDocumento]);
 
         return [
             'success' => true,
@@ -129,6 +132,9 @@ class TipoDocumentoController
 
         $tipoDocumento = new TipoDocumento($idTipoDocumento, $nombreTipoDocumento, $descripcion, $estado);
         $updated = $this->tipoDocumentoCRUD->update($tipoDocumento);
+        AuditLogger::log('Tipo documento', 'Actualizar tipo documento', 'Se actualizo un tipo de documento.', ['id_tipo_documento' => $idTipoDocumento, 'nombre_tipo_documento' => $nombreTipoDocumento]);
+
+        AuditLogger::log('Tipo documento', 'Eliminar tipo documento', 'Se elimino logicamente un tipo de documento.', ['id_tipo_documento' => $idTipoDocumento]);
 
         return [
             'success' => true,
@@ -189,6 +195,11 @@ class TipoDocumentoController
         }
 
         $restored = $this->tipoDocumentoCRUD->restore($idTipoDocumento);
+        if ($restored) {
+            AuditLogger::log('Tipo documento', 'Restaurar tipo documento', 'Se restauro un tipo de documento.', ['id_tipo_documento' => $idTipoDocumento]);
+        }
+
+        AuditLogger::log('Tipo documento', 'Eliminar definitivo', 'Se elimino definitivamente un tipo de documento.', ['id_tipo_documento' => $idTipoDocumento]);
 
         return [
             'success' => $restored,
@@ -246,3 +257,4 @@ class TipoDocumentoController
         ];
     }
 }
+

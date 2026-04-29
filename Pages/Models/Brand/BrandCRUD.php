@@ -1,10 +1,12 @@
 <?php
+declare(strict_types=1);
+
 // =========================================================
 // MODELO: BRAND CRUD
 // Acceso a datos del modulo Brand usando PDO y SP.
 // =========================================================
 
-declare(strict_types=1);
+
 
 class BrandCRUD
 {
@@ -136,3 +138,4 @@ class BrandCRUD
         return $this->callProcedureFetchAll('sp_marca_listar_proveedores_activos');
     }
 }
+

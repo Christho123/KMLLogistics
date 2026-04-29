@@ -1,10 +1,12 @@
 <?php
+declare(strict_types=1);
+
 // =========================================================
 // ARCHIVO PRINCIPAL: INDEX
 // Enrutador principal del proyecto con estructura MVC.
 // =========================================================
 
-declare(strict_types=1);
+
 
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
@@ -15,6 +17,7 @@ require_once __DIR__ . '/Pages/Includes/Load classes/Load classes.php';
 $page = $_GET['page'] ?? 'home';
 
 if ($page === 'logout') {
+    AuditLogger::log('Login', 'Cerrar sesion', 'El usuario cerro sesion.');
     session_unset();
     session_destroy();
     header('Location: index.php?page=login&status=logout');
@@ -71,7 +74,20 @@ switch ($page) {
         require __DIR__ . '/Pages/Views/Product/Product.php';
         break;
 
+    case 'profile':
+        $controller = new ProfileController();
+        $data = $controller->handleRequest();
+        require __DIR__ . '/Pages/Views/Profile/Profile.php';
+        break;
+
+    case 'audit':
+        $controller = new AuditController();
+        $data = $controller->handleRequest();
+        require __DIR__ . '/Pages/Views/Audit/Audit.php';
+        break;
+
     default:
         header('Location: index.php?page=home');
         exit;
 }
+

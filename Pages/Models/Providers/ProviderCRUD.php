@@ -1,10 +1,12 @@
 <?php
+declare(strict_types=1);
+
 // =========================================================
 // MODELO: PROVIDER CRUD
 // Acceso a datos del modulo Providers usando PDO y SP.
 // =========================================================
 
-declare(strict_types=1);
+
 
 class ProviderCRUD
 {
@@ -26,7 +28,7 @@ class ProviderCRUD
 
         $rows = $statement->fetchAll();
 
-        // 🔥 FIX: evitar array doble [[...]]
+        // ðŸ”¥ FIX: evitar array doble [[...]]
         if (isset($rows[0]) && is_array($rows[0]) && isset($rows[0][0])) {
             $rows = $rows[0];
         }

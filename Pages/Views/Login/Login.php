@@ -1,10 +1,12 @@
 <?php
+declare(strict_types=1);
+
 // =========================================================
 // VISTA: LOGIN
 // Formulario de inicio de sesion del sistema.
 // =========================================================
 
-declare(strict_types=1);
+
 
 // Carga de estilos de la vista login.
 renderHeader('KMLLogistics | Login', [
@@ -70,3 +72,4 @@ renderMenu('login');
 renderFooter([
     'Pages/Assets/JS/Pages/Login/Login.js',
 ]);
+

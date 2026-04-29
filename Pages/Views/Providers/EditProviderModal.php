@@ -1,10 +1,12 @@
 <?php
+declare(strict_types=1);
+
 // =========================================================
 // MODAL: EDIT PROVIDER
 // Edicion de proveedores con Bootstrap Modal.
 // =========================================================
 
-declare(strict_types=1);
+
 ?>
 <div class="modal fade provider-modal" id="editProviderModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
     <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -38,7 +40,7 @@ declare(strict_types=1);
                         </div>
 
                         <div class="col-md-8">
-                            <label class="form-label">Razón Social</label>
+                            <label class="form-label">RazÃ³n Social</label>
                             <input type="text" class="form-control" id="edit_razon_social" name="razon_social" required>
                         </div>
 
@@ -53,17 +55,17 @@ declare(strict_types=1);
                                 <option value="1">DNI</option>
                                 <option value="2">RUC</option>
                                 <option value="3">Pasaporte</option>
-                                <option value="4">Carné Extranjería</option>
+                                <option value="4">CarnÃ© ExtranjerÃ­a</option>
                             </select>
                         </div>
 
                         <div class="col-md-6">
-                            <label class="form-label">Número Documento</label>
+                            <label class="form-label">NÃºmero Documento</label>
                             <input type="text" class="form-control" id="edit_numero_documento" name="numero_documento" required>
                         </div>
 
                         <div class="col-md-6">
-                            <label class="form-label">Teléfono</label>
+                            <label class="form-label">TelÃ©fono</label>
                             <input type="text" class="form-control" id="edit_telefono" name="telefono">
                         </div>
 
@@ -73,7 +75,7 @@ declare(strict_types=1);
                         </div>
 
                         <div class="col-12">
-                            <label class="form-label">Dirección</label>
+                            <label class="form-label">DirecciÃ³n</label>
                             <input type="text" class="form-control" id="edit_direccion" name="direccion">
                         </div>
 

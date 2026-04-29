@@ -1,10 +1,12 @@
 <?php
+declare(strict_types=1);
+
 // =========================================================
 // MODAL: RESTORE INACTIVE TIPO DOCUMENTO
 // Restauracion de tipos de documento inactivos.
 // =========================================================
 
-declare(strict_types=1);
+
 ?>
 <div class="modal fade category-modal" id="restoreInactiveTipoDocumentoModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
     <div class="modal-dialog modal-dialog-centered">
@@ -37,3 +39,4 @@ declare(strict_types=1);
         </div>
     </div>
 </div>
+

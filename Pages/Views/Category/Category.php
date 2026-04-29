@@ -1,10 +1,12 @@
 <?php
+declare(strict_types=1);
+
 // =========================================================
 // VISTA: CATEGORY
 // Pantalla principal del modulo de categorias.
 // =========================================================
 
-declare(strict_types=1);
+
 
 // Carga de estilos de la vista de categorias.
 renderHeader('KMLLogistics | Categorias', [
@@ -126,3 +128,4 @@ renderMenu('category', $data['current_user']);
 renderFooter([
     'Pages/Assets/JS/Pages/Category/Category.js',
 ]);
+

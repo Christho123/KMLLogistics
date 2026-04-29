@@ -1,9 +1,11 @@
 <?php
+declare(strict_types=1);
+
 // =========================================================
 // API: PROVIDERS DELETE
 // Endpoint AJAX para eliminacion logica de proveedores.
-// ===
-declare(strict_types=1);
+// =========================================================
+
 
 header('Content-Type: application/json; charset=UTF-8');
 

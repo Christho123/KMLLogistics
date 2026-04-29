@@ -1,10 +1,10 @@
 <?php
+declare(strict_types=1);
+
 // =========================================================
 // API: CATEGORY GET
 // Endpoint AJAX para consultar el detalle de una categoria.
 // =========================================================
-
-declare(strict_types=1);
 
 header('Content-Type: application/json; charset=UTF-8');
 

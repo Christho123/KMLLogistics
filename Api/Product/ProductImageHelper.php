@@ -1,10 +1,12 @@
 <?php
+declare(strict_types=1);
+
 // =========================================================
 // HELPER: PRODUCT IMAGE
 // Guarda imagenes de productos usando el nombre del producto.
 // =========================================================
 
-declare(strict_types=1);
+
 
 function saveProductImage(array $file, string $productName): ?string
 {
@@ -40,3 +42,4 @@ function saveProductImage(array $file, string $productName): ?string
 
     return 'Pages/Images/Products/' . $fileName;
 }
+

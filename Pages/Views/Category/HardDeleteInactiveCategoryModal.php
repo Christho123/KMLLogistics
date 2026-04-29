@@ -1,10 +1,12 @@
 <?php
+declare(strict_types=1);
+
 // =========================================================
 // MODAL: HARD DELETE INACTIVE CATEGORY
 // Eliminacion definitiva de categorias inactivas.
 // =========================================================
 
-declare(strict_types=1);
+
 ?>
 <div class="modal fade category-modal" id="hardDeleteInactiveCategoryModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
     <div class="modal-dialog modal-dialog-centered">
@@ -34,3 +36,4 @@ declare(strict_types=1);
         </div>
     </div>
 </div>
+

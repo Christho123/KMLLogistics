@@ -1,9 +1,11 @@
 <?php
+declare(strict_types=1);
+
 // =========================================================
 // API: PROVIDERS CREATE
 // Endpoint AJAX para registrar proveedores.
 // =========================================================
-declare(strict_types=1);
+
 header('Content-Type: application/json; charset=UTF-8');
 require_once dirname(__DIR__, 2).'/Pages/Includes/Load classes/Load classes.php';
 try {
@@ -57,3 +59,4 @@ try {
         'message'=>'Ocurrio un problema al registrar el proovedor',
     ], JSON_UNESCAPED_UNICODE);
 }
+

@@ -1,10 +1,12 @@
 <?php
+declare(strict_types=1);
+
 // =========================================================
 // CONFIGURACION: DATABASE
 // Conexion central PDO hacia MySQL para todo el proyecto.
 // =========================================================
 
-declare(strict_types=1);
+
 
 // Conexion PDO reutilizable para todo el proyecto.
 // Tecnologia asociada: PDO + MySQL.
@@ -42,3 +44,4 @@ function getConnection(): PDO
         exit('Error de conexion PDO: ' . $exception->getMessage());
     }
 }
+

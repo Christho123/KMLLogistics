@@ -1,10 +1,12 @@
 <?php
+declare(strict_types=1);
+
 // =========================================================
 // MODELO: PRODUCT
 // Entidad de dominio para el modulo de productos.
 // =========================================================
 
-declare(strict_types=1);
+
 
 class Product
 {
@@ -43,3 +45,4 @@ class Product
         $this->estado = $estado;
     }
 }
+

@@ -1,10 +1,12 @@
 <?php
+declare(strict_types=1);
+
 // =========================================================
 // API: PRODUCT UPDATE
 // Endpoint AJAX para actualizar productos existentes.
 // =========================================================
 
-declare(strict_types=1);
+
 
 header('Content-Type: application/json; charset=UTF-8');
 
@@ -58,3 +60,4 @@ try {
         'message' => $exception instanceof RuntimeException ? $exception->getMessage() : 'Ocurrio un problema al actualizar el producto.',
     ], JSON_UNESCAPED_UNICODE);
 }
+

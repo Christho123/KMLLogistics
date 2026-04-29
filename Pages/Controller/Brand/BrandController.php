@@ -1,10 +1,12 @@
 <?php
+declare(strict_types=1);
+
 // =========================================================
 // CONTROLADOR: BRAND CONTROLLER
 // Maneja la logica de peticiones para el modulo de Marcas.
 // =========================================================
 
-declare(strict_types=1);
+
 
 class BrandController
 {
@@ -86,6 +88,7 @@ class BrandController
         }
         $brand = new Brand(0, $nombreMarca, $idProveedor, $estado);
         $idMarca = $this->brandModel->create($brand);
+        AuditLogger::log('Marca', 'Crear marca', 'Se creo una marca.', ['id_marca' => $idMarca, 'nombre_marca' => $nombreMarca]);
         return [
             'success' => true,
             'message' => 'La marca fue creada correctamente.',
@@ -112,6 +115,7 @@ class BrandController
         }
         $brand = new Brand($idMarca, $nombreMarca, $idProveedor, $estado);
         $updated = $this->brandModel->update($brand);
+        AuditLogger::log('Marca', 'Actualizar marca', 'Se actualizo una marca.', ['id_marca' => $idMarca, 'nombre_marca' => $nombreMarca]);
         return [
             'success' => true,
             'message' => $updated ? 'La marca fue actualizada correctamente.' : 'No hubo cambios para guardar.',
@@ -121,6 +125,9 @@ class BrandController
     public function deleteBrand(int $idMarca): array
     {
         $deleted = $this->brandModel->delete($idMarca);
+        if ($deleted) {
+            AuditLogger::log('Marca', 'Eliminar marca', 'Se elimino logicamente una marca.', ['id_marca' => $idMarca]);
+        }
         return [
             'success' => $deleted,
             'status_code' => $deleted ? 200 : 409,
@@ -139,6 +146,9 @@ class BrandController
             ];
         }
         $restored = $this->brandModel->restore($idMarca);
+        if ($restored) {
+            AuditLogger::log('Marca', 'Restaurar marca', 'Se restauro una marca.', ['id_marca' => $idMarca]);
+        }
         return [
             'success' => $restored,
             'message' => $restored ? 'Marca restaurada.' : 'Error al restaurar.',
@@ -148,6 +158,9 @@ class BrandController
     public function hardDeleteBrand(int $idMarca): array
     {
         $result = $this->brandModel->hardDelete($idMarca);
+        if (!empty($result['deleted_brand'])) {
+            AuditLogger::log('Marca', 'Eliminar definitivo', 'Se elimino definitivamente una marca.', ['id_marca' => $idMarca]);
+        }
         return [
             'success' => (bool)$result['deleted_brand'],
             'message' => $result['deleted_brand'] ? 'Marca eliminada definitivamente.' : 'Error al eliminar.',
@@ -163,3 +176,4 @@ class BrandController
         ];
     }
 }
+

@@ -1,10 +1,12 @@
 <?php
+declare(strict_types=1);
+
 // =========================================================
 // MODELO: USER CRUD
 // Acceso a datos del modulo de usuarios con PDO.
 // =========================================================
 
-declare(strict_types=1);
+
 
 // Acceso a datos para usuarios.
 // Tecnologia asociada: PDO + MySQL + POO.
@@ -91,4 +93,80 @@ class UserCRUD
 
         return (int) ($row['affected_rows'] ?? 0) > 0;
     }
+
+    public function findProfileById(int $idUsuario): ?array
+    {
+        return $this->callProcedureFetchOne('sp_usuario_obtener_perfil', [$idUsuario]);
+    }
+
+    public function updateProfile(
+        int $idUsuario,
+        string $nombres,
+        string $apellidos,
+        string $correo,
+        int $idTipoDocumento,
+        string $numeroDocumento,
+        string $rol
+    ): bool {
+        $row = $this->callProcedureFetchOne('sp_usuario_actualizar_perfil', [
+            $idUsuario,
+            trim($nombres),
+            trim($apellidos),
+            trim($correo),
+            $idTipoDocumento,
+            trim($numeroDocumento),
+            trim($rol),
+        ]);
+
+        return (int) ($row['affected_rows'] ?? 0) >= 0;
+    }
+
+    public function updatePhoto(int $idUsuario, ?string $foto): bool
+    {
+        $row = $this->callProcedureFetchOne('sp_usuario_actualizar_foto', [$idUsuario, $foto]);
+
+        return (int) ($row['affected_rows'] ?? 0) >= 0;
+    }
+
+    public function createVerificationCode(int $idUsuario, string $type, string $codeHash, string $destinationEmail): int
+    {
+        $row = $this->callProcedureFetchOne('sp_usuario_codigo_crear', [
+            $idUsuario,
+            $type,
+            $codeHash,
+            $destinationEmail,
+        ]);
+
+        return (int) ($row['id_codigo'] ?? 0);
+    }
+
+    public function getLatestCode(int $idUsuario, string $type): ?array
+    {
+        return $this->callProcedureFetchOne('sp_usuario_codigo_obtener_vigente', [$idUsuario, $type]);
+    }
+
+    public function markCodeUsed(int $idCode): bool
+    {
+        $row = $this->callProcedureFetchOne('sp_usuario_codigo_marcar_usado', [$idCode]);
+
+        return (int) ($row['affected_rows'] ?? 0) > 0;
+    }
+
+    public function changePassword(int $idUsuario, string $password): bool
+    {
+        $row = $this->callProcedureFetchOne('sp_usuario_cambiar_password', [
+            $idUsuario,
+            password_hash($password, PASSWORD_DEFAULT),
+        ]);
+
+        return (int) ($row['affected_rows'] ?? 0) > 0;
+    }
+
+    public function verifyEmail(int $idUsuario): bool
+    {
+        $row = $this->callProcedureFetchOne('sp_usuario_verificar_email', [$idUsuario]);
+
+        return (int) ($row['affected_rows'] ?? 0) > 0;
+    }
 }
+

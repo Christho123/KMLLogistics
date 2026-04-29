@@ -1,10 +1,12 @@
 <?php
+declare(strict_types=1);
+
 // =========================================================
 // API: PRODUCT LIST INACTIVE
 // Endpoint AJAX para listado de productos inactivos.
 // =========================================================
 
-declare(strict_types=1);
+
 
 header('Content-Type: application/json; charset=UTF-8');
 
@@ -22,3 +24,4 @@ try {
         'message' => 'Ocurrio un problema al cargar el listado de productos inactivos.',
     ], JSON_UNESCAPED_UNICODE);
 }
+

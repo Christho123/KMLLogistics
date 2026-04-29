@@ -1,10 +1,10 @@
 <?php
+declare(strict_types=1);
+
 // =========================================================
 // VISTA: HOME
 // Pantalla principal con carrusel de bienvenida.
 // =========================================================
-
-declare(strict_types=1);
 
 // Carga de estilos de la vista de inicio.
 renderHeader('KMLLogistics | Inicio', [

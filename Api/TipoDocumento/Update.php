@@ -1,10 +1,12 @@
 <?php
+declare(strict_types=1);
+
 // =========================================================
 // API: TIPO DOCUMENTO UPDATE
 // Endpoint AJAX para actualizar tipos de documento existentes.
 // =========================================================
 
-declare(strict_types=1);
+
 
 header('Content-Type: application/json; charset=UTF-8');
 
@@ -47,3 +49,4 @@ try {
         'message' => 'Ocurrio un problema al actualizar el tipo de documento.',
     ], JSON_UNESCAPED_UNICODE);
 }
+

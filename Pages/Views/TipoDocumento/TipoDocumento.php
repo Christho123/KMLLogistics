@@ -1,10 +1,12 @@
 <?php
+declare(strict_types=1);
+
 // =========================================================
 // VISTA: TIPO DOCUMENTO
 // Pantalla principal del modulo de tipos de documento.
 // =========================================================
 
-declare(strict_types=1);
+
 
 renderHeader('KMLLogistics | Tipos de documento', [
     'Pages/Assets/Css/Pages/TipoDocumento/TipoDocumento.css',
@@ -123,3 +125,4 @@ renderMenu('tipodocumento', $data['current_user']);
 renderFooter([
     'Pages/Assets/JS/Pages/TipoDocumento/TipoDocumento.js',
 ]);
+
