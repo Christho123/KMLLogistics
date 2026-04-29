@@ -20,7 +20,7 @@ function getConnection(): PDO
     $port = '3306';
     $db = 'KMLLogistics';
     $user = 'root';
-    $pass = '123456';
+    $pass = '';
     $charset = 'utf8mb4';
 
     try {

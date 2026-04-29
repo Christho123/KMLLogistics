@@ -1,0 +1,179 @@
+    /* =========================================================
+    ESTILOS: PROVIDERS
+    ========================================================= */
+
+    :root {
+        --brand-dark: #0f172a;
+        --brand-accent: #f59e0b;
+        --brand-text: #0f172a;
+    }
+
+    body {
+        background:
+            radial-gradient(circle at top left, rgba(245, 158, 11, 0.18), transparent 35%),
+            linear-gradient(180deg, #f8fafc 0%, #eef2ff 100%);
+        color: var(--brand-text);
+    }
+
+    .section-badge {
+        display: inline-block;
+        padding: 0.45rem 0.9rem;
+        border-radius: 999px;
+        font-size: 0.85rem;
+        font-weight: 700;
+        background: rgba(245, 158, 11, 0.14);
+        color: #b45309;
+    }
+
+    /* =========================
+    CONTENEDOR
+    ========================= */
+    .provider-wrapper {
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 1.5rem;
+        padding: 2rem;
+        box-shadow: 0 20px 50px rgba(15, 23, 42, 0.08);
+    }
+
+    /* =========================
+    TOOLBAR
+    ========================= */
+    .provider-toolbar {
+        color: #334155;
+    }
+
+    .provider-search-block {
+        flex: 1 1 460px;
+        max-width: 720px;
+    }
+
+    .provider-search-group .input-group-text {
+        border-right: 0;
+    }
+
+    .provider-search-group .form-control {
+        border-left: 0;
+    }
+
+    .provider-actions-toolbar {
+        display: flex;
+        gap: 0.75rem;
+    }
+
+    /* =========================
+    TABLA
+    ========================= */
+    .provider-table-shell {
+        overflow-x: auto;
+        background: #fff;
+        border-radius: 1rem;
+        border: 1px solid rgba(148, 163, 184, 0.2);
+    }
+
+    .provider-table-shell table {
+        min-width: 900px;
+    }
+
+    .table thead th {
+        position: sticky;
+        top: 0;
+        z-index: 1;
+    }
+
+    /* =========================
+    PAGINACION
+    ========================= */
+    .provider-pagination {
+        border-top: 1px solid rgba(148, 163, 184, 0.2);
+        padding-top: 1rem;
+    }
+
+    /* =========================
+    BOTONES ACCIONES
+    ========================= */
+.provider-actions {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.provider-action-button {
+    width: 36px;
+    height: 36px;
+    border-radius: 12px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    transition: all 0.2s ease;
+}
+
+/* Hover igual que Category */
+.provider-action-button:hover {
+    transform: scale(1.05);
+}
+
+    /* =========================
+    MODALES
+    ========================= */
+    .provider-modal .modal-content {
+        border-radius: 1rem;
+        box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+    }
+/* =========================
+   DETAIL PROVIDER MODAL
+========================= */
+.provider-modal .detail-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+}
+
+.provider-modal .detail-card {
+    background: #f8fafc;
+    border: 1px solid rgba(148, 163, 184, 0.25);
+    border-radius: 1rem;
+    padding: 1rem;
+}
+
+.provider-modal .detail-label {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #64748b;
+    text-transform: uppercase;
+    margin-bottom: 0.6rem;
+}
+
+.provider-modal .detail-value {
+    margin: 0;
+    font-weight: 600;
+    color: #0f172a;
+}
+/* =========================
+   DELETE MODAL (IGUAL CATEGORY)
+========================= */
+.provider-modal .delete-copy {
+    background: rgba(239, 68, 68, 0.08); /* rojo suave */
+    border: 1px solid rgba(239, 68, 68, 0.25);
+    border-radius: 1rem;
+    padding: 1.2rem;
+    text-align: center;
+}
+
+.provider-modal .delete-copy p {
+    color: #b91c1c;
+    font-weight: 500;
+}
+
+.provider-modal .delete-copy strong {
+    color: #7f1d1d;
+    font-weight: 700;
+}
+
+@media (max-width: 768px) {
+    .provider-modal .detail-grid {
+        grid-template-columns: 1fr;
+    }
+    
+}

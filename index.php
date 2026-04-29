@@ -50,6 +50,12 @@ switch ($page) {
         $data = $controller->handleRequest();
         require __DIR__ . '/Pages/Views/TipoDocumento/TipoDocumento.php';
         break;
+        
+    case 'providers':
+        $controller = new ProviderController();
+        $data = $controller->handleRequest();
+        require __DIR__ . '/Pages/Views/Providers/Provider.php';   
+             break;
 
     case 'home':
     default:
