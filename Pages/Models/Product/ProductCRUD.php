@@ -148,27 +148,11 @@ class ProductCRUD
 
     public function listCategories(): array
     {
-        $statement = $this->connection->prepare(
-            'SELECT id_categoria, nombre_categoria
-             FROM categorias
-             WHERE estado = 1 AND deleted_at IS NULL
-             ORDER BY nombre_categoria ASC'
-        );
-        $statement->execute();
-
-        return $statement->fetchAll(PDO::FETCH_ASSOC);
+        return $this->callProcedureFetchAll('sp_producto_listar_categorias_activas');
     }
 
     public function listBrands(): array
     {
-        $statement = $this->connection->prepare(
-            'SELECT id_marca, nombre_marca
-             FROM marcas
-             WHERE estado = 1 AND deleted_at IS NULL
-             ORDER BY nombre_marca ASC'
-        );
-        $statement->execute();
-
-        return $statement->fetchAll(PDO::FETCH_ASSOC);
+        return $this->callProcedureFetchAll('sp_producto_listar_marcas_activas');
     }
 }

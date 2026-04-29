@@ -288,6 +288,30 @@ BEGIN
       AND (p_exclude_id IS NULL OR id_producto <> p_exclude_id);
 END $$
 
+DROP PROCEDURE IF EXISTS sp_producto_listar_categorias_activas $$
+CREATE PROCEDURE sp_producto_listar_categorias_activas()
+BEGIN
+    SELECT
+        id_categoria,
+        nombre_categoria
+    FROM categorias
+    WHERE estado = 1
+      AND deleted_at IS NULL
+    ORDER BY nombre_categoria ASC;
+END $$
+
+DROP PROCEDURE IF EXISTS sp_producto_listar_marcas_activas $$
+CREATE PROCEDURE sp_producto_listar_marcas_activas()
+BEGIN
+    SELECT
+        id_marca,
+        nombre_marca
+    FROM marcas
+    WHERE estado = 1
+      AND deleted_at IS NULL
+    ORDER BY nombre_marca ASC;
+END $$
+
 DELIMITER ;
 
 -- EJEMPLOS DE USO PRODUCT
@@ -302,3 +326,5 @@ DELIMITER ;
 -- CALL sp_producto_restaurar(1);
 -- CALL sp_producto_eliminar_definitivo(1);
 -- CALL sp_producto_existe_nombre('Producto demo', NULL);
+-- CALL sp_producto_listar_categorias_activas();
+-- CALL sp_producto_listar_marcas_activas();

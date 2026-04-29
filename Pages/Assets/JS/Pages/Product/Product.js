@@ -132,12 +132,26 @@ $(function () {
     }
 
     function formatPercent(value) {
-        return ((Number(value) || 0) * 100).toFixed(2) + '%';
+        return formatPercentInput((Number(value) || 0) * 100);
+    }
+
+    function parsePercentInput(value) {
+        return Number(toTrimmedString(value).replace('%', '').replace(',', '.'));
+    }
+
+    function formatPercentInput(value) {
+        var number = Number(value);
+
+        if (Number.isNaN(number)) {
+            return '';
+        }
+
+        return (Number.isInteger(number) ? String(number) : String(parseFloat(number.toFixed(4)))) + '%';
     }
 
     function calculatePriceFromPercent(costo, gananciaPercent) {
         var cost = Number(costo) || 0;
-        var percent = Number(gananciaPercent) || 0;
+        var percent = parsePercentInput(gananciaPercent) || 0;
         var gain = percent / 100;
 
         if (cost <= 0 || gain < 0 || gain >= 1) {
@@ -289,7 +303,7 @@ $(function () {
     function validateProductPayload(payload) {
         var producto = toTrimmedString(payload.producto);
         var costo = Number(payload.costo) || 0;
-        var ganancia = Number(payload.ganancia);
+        var ganancia = parsePercentInput(payload.ganancia);
         var stock = Number(payload.stock);
         var idCategoria = Number(payload.id_categoria) || 0;
         var idMarca = Number(payload.id_marca) || 0;
@@ -690,7 +704,7 @@ $(function () {
         $('#edit_id_producto_readonly').val(product.id_producto);
         $('#edit_producto').val(product.producto);
         $('#edit_costo').val(product.costo.toFixed(2));
-        $('#edit_ganancia').val((product.ganancia * 100).toFixed(4));
+        $('#edit_ganancia').val(formatPercentInput(product.ganancia * 100));
         $('#edit_precio').val(product.precio.toFixed(2));
         $('#edit_stock').val(product.stock);
         $('#edit_id_categoria').val(String(product.id_categoria));
@@ -802,10 +816,11 @@ $(function () {
     function submitProductForm($form, url, $feedback, successCallback, loadingLabel, finalLabel) {
         var $submitButton = $form.find('button[type="submit"]');
         var formData = new FormData($form[0]);
+        var gananciaValue = parsePercentInput($form.find('[name="ganancia"]').val());
         var validationMessage = validateProductPayload({
             producto: $form.find('[name="producto"]').val(),
             costo: $form.find('[name="costo"]').val(),
-            ganancia: $form.find('[name="ganancia"]').val(),
+            ganancia: gananciaValue,
             stock: $form.find('[name="stock"]').val(),
             id_categoria: $form.find('[name="id_categoria"]').val(),
             id_marca: $form.find('[name="id_marca"]').val(),
@@ -820,6 +835,7 @@ $(function () {
             return;
         }
 
+        formData.set('ganancia', String(gananciaValue));
         setButtonLoading($submitButton, true, loadingLabel);
 
         $.ajax({
@@ -960,6 +976,14 @@ $(function () {
 
     $('#edit_costo, #edit_ganancia').on('input', function () {
         updateCalculatedPrice('edit');
+    });
+
+    $('#create_ganancia, #edit_ganancia').on('blur', function () {
+        var percent = parsePercentInput($(this).val());
+
+        if (!Number.isNaN(percent)) {
+            $(this).val(formatPercentInput(percent));
+        }
     });
 
     $productTableBody.on('click', '.js-view-product', function () {

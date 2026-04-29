@@ -132,15 +132,7 @@ class BrandCRUD
         return (int) ($row['total'] ?? 0) > 0;
     }
     public function listSuppliers(): array
-{
-    $sql = "SELECT id_proveedor, razon_social 
-            FROM proveedores 
-            WHERE estado = 1 AND deleted_at IS NULL
-            ORDER BY razon_social ASC";
-
-    $stmt = $this->connection->prepare($sql);
-    $stmt->execute();
-
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
-}
+    {
+        return $this->callProcedureFetchAll('sp_marca_listar_proveedores_activos');
+    }
 }

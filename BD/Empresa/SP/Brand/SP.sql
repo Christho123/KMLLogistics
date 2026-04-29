@@ -240,6 +240,20 @@ BEGIN
       AND (p_exclude_id IS NULL OR id_marca <> p_exclude_id);
 END $$
 
+-- PROCEDIMIENTO: SP_MARCA_LISTAR_PROVEEDORES_ACTIVOS
+-- Carga proveedores activos para el selector de marca.
+DROP PROCEDURE IF EXISTS sp_marca_listar_proveedores_activos $$
+CREATE PROCEDURE sp_marca_listar_proveedores_activos()
+BEGIN
+    SELECT
+        id_proveedor,
+        razon_social
+    FROM proveedores
+    WHERE estado = 1
+      AND deleted_at IS NULL
+    ORDER BY razon_social ASC;
+END $$
+
 DELIMITER ;
 
 
@@ -255,5 +269,6 @@ DELIMITER ;
 -- CALL sp_marca_restaurar(1);
 -- CALL sp_marca_eliminar_definitivo(1);
 -- CALL sp_marca_existe_nombre ('Dell', NULL);
+-- CALL sp_marca_listar_proveedores_activos();
 -- CALL sp_marca_eliminar_definitivo(1);
 -- CALL sp_marca_existe_nombre ('Dell', NULL);

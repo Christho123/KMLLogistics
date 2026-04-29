@@ -18,73 +18,77 @@ class UserCRUD
         $this->connection = getConnection();
     }
 
+    private function callProcedureFetchAll(string $procedureName, array $parameters = []): array
+    {
+        $statement = $this->prepareProcedureCall($procedureName, $parameters);
+        $statement->execute($parameters);
+        $rows = $statement->fetchAll();
+        $this->closeProcedureCursor($statement);
+
+        return $rows ?: [];
+    }
+
+    private function callProcedureFetchOne(string $procedureName, array $parameters = []): ?array
+    {
+        $statement = $this->prepareProcedureCall($procedureName, $parameters);
+        $statement->execute($parameters);
+        $row = $statement->fetch();
+        $this->closeProcedureCursor($statement);
+
+        return $row === false ? null : $row;
+    }
+
+    private function prepareProcedureCall(string $procedureName, array $parameters = []): PDOStatement
+    {
+        $placeholders = implode(', ', array_fill(0, count($parameters), '?'));
+        $sql = 'CALL ' . $procedureName . '(' . $placeholders . ')';
+
+        return $this->connection->prepare($sql);
+    }
+
+    private function closeProcedureCursor(PDOStatement $statement): void
+    {
+        while ($statement->nextRowset()) {
+            // Libera cualquier result set extra devuelto por MySQL.
+        }
+
+        $statement->closeCursor();
+    }
+
     // Busca un usuario por correo.
     // Metodo clave para autenticar el login.
     public function findUserByEmail(string $email): ?array
     {
-        $statement = $this->connection->prepare(
-            'SELECT id_usuario, nombres, apellidos, correo, id_tipo_documento, numero_documento, password_hash, rol, estado
-             FROM usuarios
-             WHERE correo = :correo
-             LIMIT 1'
-        );
-        $statement->bindValue(':correo', trim($email), PDO::PARAM_STR);
-        $statement->execute();
-        $user = $statement->fetch();
-
-        return $user ?: null;
+        return $this->callProcedureFetchOne('sp_usuario_obtener_por_correo', [trim($email)]);
     }
 
     // Lista los tipos de documento activos para el registro.
     public function getDocumentTypes(): array
     {
-        $statement = $this->connection->query(
-            'SELECT id_tipo_documento, nombre_tipo_documento
-             FROM tipo_documentos
-             WHERE estado = 1
-               AND deleted_at IS NULL
-             ORDER BY nombre_tipo_documento ASC'
-        );
-
-        return $statement->fetchAll() ?: [];
+        return $this->callProcedureFetchAll('sp_tipo_documento_listar_activos_para_select');
     }
 
     // Verifica si el tipo de documento existe y sigue activo.
     public function findActiveDocumentTypeById(int $idTipoDocumento): ?array
     {
-        $statement = $this->connection->prepare(
-            'SELECT id_tipo_documento, nombre_tipo_documento
-             FROM tipo_documentos
-             WHERE id_tipo_documento = :id_tipo_documento
-               AND estado = 1
-               AND deleted_at IS NULL
-             LIMIT 1'
-        );
-        $statement->bindValue(':id_tipo_documento', $idTipoDocumento, PDO::PARAM_INT);
-        $statement->execute();
-        $documentType = $statement->fetch();
-
-        return $documentType ?: null;
+        return $this->callProcedureFetchOne('sp_tipo_documento_obtener_activo_para_select_por_id', [$idTipoDocumento]);
     }
 
     // Registra un usuario aplicando password_hash.
     // Metodo clave para persistir nuevos usuarios de forma segura.
     public function register(User $user): bool
     {
-        $statement = $this->connection->prepare(
-            'INSERT INTO usuarios (nombres, apellidos, correo, id_tipo_documento, numero_documento, password_hash, rol, estado)
-             VALUES (:nombres, :apellidos, :correo, :id_tipo_documento, :numero_documento, :password_hash, :rol, :estado)'
-        );
-
-        return $statement->execute([
-            ':nombres' => $user->nombres,
-            ':apellidos' => $user->apellidos,
-            ':correo' => $user->correo,
-            ':id_tipo_documento' => $user->idTipoDocumento,
-            ':numero_documento' => $user->numeroDocumento,
-            ':password_hash' => password_hash($user->password, PASSWORD_DEFAULT),
-            ':rol' => 'usuario',
-            ':estado' => 1,
+        $row = $this->callProcedureFetchOne('sp_usuario_registrar', [
+            $user->nombres,
+            $user->apellidos,
+            $user->correo,
+            $user->idTipoDocumento,
+            $user->numeroDocumento,
+            password_hash($user->password, PASSWORD_DEFAULT),
+            'usuario',
+            1,
         ]);
+
+        return (int) ($row['affected_rows'] ?? 0) > 0;
     }
 }

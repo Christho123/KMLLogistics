@@ -23,7 +23,7 @@
                         </div>
                         <div class="col-md-4">
                             <label for="create_ganancia" class="form-label">Ganancia (%)</label>
-                            <input type="number" class="form-control product-calc-field" id="create_ganancia" name="ganancia" min="0" max="99.9999" step="0.0001" required>
+                            <input type="text" class="form-control product-calc-field" id="create_ganancia" name="ganancia" inputmode="decimal" required>
                         </div>
                         <div class="col-md-4">
                             <label for="create_precio" class="form-label">Precio</label>
