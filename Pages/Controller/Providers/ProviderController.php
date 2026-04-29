@@ -242,10 +242,11 @@ class ProviderController
         }
 
         $deleted = $this->providerCRUD->hardDelete($id);
+        $deletedProvider = (bool) ($deleted['deleted_provider'] ?? false);
 
         return [
-            'success' => $deleted,
-            'message' => $deleted
+            'success' => $deletedProvider,
+            'message' => $deletedProvider
                 ? 'Proveedor eliminado definitivamente.'
                 : 'No se pudo eliminar.',
         ];

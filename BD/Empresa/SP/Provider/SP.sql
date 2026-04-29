@@ -1,9 +1,8 @@
-DELIMITER //
+DELIMITER $$
 
 -- ============================================
 -- LISTAR ACTIVOS
 -- ============================================
-
 CREATE PROCEDURE sp_proveedor_listar_activas(
     IN p_offset INT,
     IN p_limit INT,
@@ -25,7 +24,7 @@ BEGIN
 
     ELSE
 
-        --  SI ES TEXTO → BUSCA NORMAL
+        -- SI ES TEXTO → BUSCA NORMAL
         SELECT *
         FROM proveedores
         WHERE estado = 1
@@ -41,7 +40,7 @@ BEGIN
 
     END IF;
 
-END //
+END $$
 
 -- ============================================
 -- CONTAR ACTIVOS
@@ -50,6 +49,8 @@ CREATE PROCEDURE sp_proveedor_contar_activas(
     IN p_search VARCHAR(150)
 )
 BEGIN
+    SET p_search = IFNULL(p_search, '');
+
     SELECT COUNT(*) AS total
     FROM proveedores
     WHERE estado = 1
@@ -59,7 +60,7 @@ BEGIN
         razon_social LIKE CONCAT(p_search, '%') OR
         numero_documento LIKE CONCAT(p_search, '%')
     );
-END //
+END $$
 
 -- ============================================
 -- LISTAR INACTIVOS
@@ -68,6 +69,8 @@ CREATE PROCEDURE sp_proveedor_listar_inactivas(
     IN p_search VARCHAR(150)
 )
 BEGIN
+    SET p_search = IFNULL(p_search, '');
+
     SELECT *
     FROM proveedores
     WHERE (estado = 0 OR deleted_at IS NOT NULL)
@@ -76,7 +79,7 @@ BEGIN
         razon_social LIKE CONCAT(p_search, '%')
     )
     ORDER BY id_proveedor DESC;
-END //
+END $$
 
 -- ============================================
 -- OBTENER ACTIVO POR ID
@@ -91,7 +94,7 @@ BEGIN
     AND estado = 1
     AND deleted_at IS NULL
     LIMIT 1;
-END //
+END $$
 
 -- ============================================
 -- OBTENER POR ID
@@ -104,7 +107,7 @@ BEGIN
     FROM proveedores
     WHERE id_proveedor = p_id
     LIMIT 1;
-END //
+END $$
 
 -- ============================================
 -- CREAR
@@ -145,7 +148,7 @@ BEGIN
     );
 
     SELECT LAST_INSERT_ID() AS id_proveedor;
-END //
+END $$
 
 -- ============================================
 -- ACTUALIZAR
@@ -176,7 +179,7 @@ BEGIN
     WHERE id_proveedor = p_id;
 
     SELECT ROW_COUNT() AS affected_rows;
-END //
+END $$
 
 -- ============================================
 -- DELETE LOGICO
@@ -191,7 +194,7 @@ BEGIN
     WHERE id_proveedor = p_id;
 
     SELECT ROW_COUNT() AS affected_rows;
-END //
+END $$
 
 -- ============================================
 -- RESTORE
@@ -206,7 +209,7 @@ BEGIN
     WHERE id_proveedor = p_id;
 
     SELECT ROW_COUNT() AS affected_rows;
-END //
+END $$
 
 -- ============================================
 -- HARD DELETE
@@ -219,7 +222,7 @@ BEGIN
     WHERE id_proveedor = p_id;
 
     SELECT 1 AS deleted_provider;
-END //
+END $$
 
 -- ============================================
 -- VALIDAR DUPLICADO
@@ -235,6 +238,6 @@ BEGIN
     WHERE id_tipo_documento = p_tipo
     AND numero_documento = p_numero
     AND (p_exclude_id IS NULL OR id_proveedor <> p_exclude_id);
-END //
+END $$
 
 DELIMITER ;
