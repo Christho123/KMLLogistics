@@ -15,7 +15,7 @@ require_once dirname(__DIR__, 2) . '/Pages/Includes/Load classes/Load classes.ph
 try {
     $search = trim((string) ($_GET['search'] ?? ''));
     $controller = new BrandController();
-    echo json_encode($controller->listInactiveBrands($search)); // Asumiendo un mÃ©todo listInactiveBrands en el controlador
+    echo json_encode($controller->listInactiveBrands($search)); // Asumiendo un metodo listInactiveBrands en el controlador
 } catch (Throwable $e) {
     http_response_code(500);
     echo json_encode(['success' => false, 'message' => 'Error al cargar el listado de marcas inactivas.']);

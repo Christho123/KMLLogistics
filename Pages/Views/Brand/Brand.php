@@ -22,7 +22,7 @@ renderMenu('brand', $data['current_user'] ?? null);
             <div class="mb-4">
                 <span class="section-badge">Marcas</span>
                 <h2 class="fw-bold mt-3 mb-2">Listado de marcas</h2>
-                <p class="text-muted mb-0">GestiÃ³n y consulta de las marcas registradas para los productos.</p>
+                <p class="text-muted mb-0">Gestion y consulta de las marcas registradas para los productos.</p>
             </div>
 
             <div class="brand-toolbar d-flex flex-column flex-lg-row justify-content-between align-items-lg-end gap-3 mb-4">
@@ -89,23 +89,23 @@ renderMenu('brand', $data['current_user'] ?? null);
                 <div class="d-flex justify-content-end align-items-center gap-2 flex-wrap">
                     <button type="button" class="btn btn-outline-secondary" id="prevBrandPageButton">Anterior</button>
                     <button type="button" class="btn btn-warning" id="nextBrandPageButton">Siguiente</button>
-                    
+
                 </div>
             </div>
         </div>
     </section>
 </main>
 
-<?php 
-// Modals especÃ­ficos de Marcas
+<?php
+// Modals especificos de Marcas
 require __DIR__ . '/CreateBrandModal.php';
 require __DIR__ . '/EditBrandModal.php';
 require __DIR__ . '/DetailBrandModal.php';
 require __DIR__ . '/DeleteBrandModal.php';
 require __DIR__ . '/InactiveBrandsModal.php';
-// Reutilizamos el de confirmaciÃ³n de salida e info si son genÃ©ricos, 
-// o creamos versiones especÃ­ficas si prefieres mantener independencia total.
-require __DIR__ . '/ConfirmExitBrandModal.php'; // Corregido: Se mantiene el modal de confirmaciÃ³n de salida
+// Reutilizamos el de confirmacion de salida e info si son genericos,
+// o creamos versiones especificas si prefieres mantener independencia total.
+require __DIR__ . '/ConfirmExitBrandModal.php'; // Corregido: Se mantiene el modal de confirmacion de salida
 require __DIR__ . '/InfoBrandModal.php';
 require __DIR__ . '/HardDeleteModal.php'; // Corregido el nombre del archivo modal
 require __DIR__ . '/RestoreInactiveBrandModal.php';

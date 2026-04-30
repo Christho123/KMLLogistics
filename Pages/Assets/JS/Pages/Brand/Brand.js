@@ -457,7 +457,7 @@ $(function () {
 
             return '<tr>' +
                 '<td>' + brand.id_marca + '</td>' +
-                '<td>' + escapeHtml(brand.nombre_marca) + '</td>' + // Añadido el nombre de la marca
+                '<td>' + escapeHtml(brand.nombre_marca) + '</td>' + // Anadido el nombre de la marca
                 '<td>' + (brand.nombre_proveedor || 'No asignado') + '</td>' +
                 '<td>' + statusBadge + '</td>' +
                 '<td>' + (brand.created_at || '---') + '</td>' +

@@ -22,7 +22,7 @@ try {
     $idMarca = (int) $_POST['id_marca'];
     $nombreMarca = (string) $_POST['nombre_marca'];
     $idProveedor = (int) $_POST['id_proveedor'];
-    $estado = (int) $_POST['estado']; // Asumiendo que 'estado' tambiÃ©n se envÃ­a en el formulario de actualizaciÃ³n
+    $estado = (int) $_POST['estado']; // Asumiendo que 'estado' tambien se envia en el formulario de actualizacion
     echo json_encode((new BrandController())->updateBrand($idMarca, $nombreMarca, $idProveedor, $estado));
 } catch (Throwable $e) {
     http_response_code(500);

@@ -31,7 +31,7 @@ function renderFooter(array $scripts = []): void
                     <div class="col-lg-4">
                         <h5 class="fw-bold mb-2">KML Logistic S.A.C.</h5>
                         <p class="text-white-50 mb-3">
-                            Logística internacional y transporte de mercancías.
+                            Logistica internacional y transporte de mercancias.
                         </p>
                         <small class="text-white-50">KMLLogistics &copy; <?= date('Y'); ?>.</small>
                     </div>
@@ -39,15 +39,15 @@ function renderFooter(array $scripts = []): void
                         <h6 class="fw-semibold text-uppercase mb-3">Datos generales</h6>
                         <ul class="list-unstyled footer-company-list mb-0">
                             <li><span>RUC:</span> 20556054755</li>
-                            <li><span>Tipo empresa:</span> Sociedad Anónima Cerrada (S.A.C.)</li>
+                            <li><span>Tipo empresa:</span> Sociedad Anonima Cerrada (S.A.C.)</li>
                             <li><span>Gerente General:</span> Gabriel Erickson Abreu Hoyos</li>
                         </ul>
                     </div>
                     <div class="col-sm-6 col-lg-4">
-                        <h6 class="fw-semibold text-uppercase mb-3">Ubicación</h6>
+                        <h6 class="fw-semibold text-uppercase mb-3">Ubicacion</h6>
                         <ul class="list-unstyled footer-company-list mb-0">
-                            <li><span>Dirección:</span> Jr Francisco Lazo 1932, Dpto 404, Lince</li>
-                            <li><span>Rubro:</span> Logística internacional y transporte de mercancías</li>
+                            <li><span>Direccion:</span> Jr Francisco Lazo 1932, Dpto 404, Lince</li>
+                            <li><span>Rubro:</span> Logistica internacional y transporte de mercancias</li>
                         </ul>
                     </div>
                 </div>

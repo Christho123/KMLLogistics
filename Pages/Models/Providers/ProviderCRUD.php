@@ -28,7 +28,7 @@ class ProviderCRUD
 
         $rows = $statement->fetchAll();
 
-        // ðŸ”¥ FIX: evitar array doble [[...]]
+        // Evita array doble [[...]]
         if (isset($rows[0]) && is_array($rows[0]) && isset($rows[0][0])) {
             $rows = $rows[0];
         }

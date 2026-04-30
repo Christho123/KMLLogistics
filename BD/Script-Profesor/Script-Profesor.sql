@@ -29,8 +29,8 @@ insert into tb_marca values
 select * from tb_marca;
 
 insert into tb_categoria values
-('C0001', 'Electrodomésticos'),
-('C0002', 'Equipo de cómputo'),
+('C0001', 'Electrodomesticos'),
+('C0002', 'Equipo de computo'),
 ('C0003', 'Celular');
 
 select * from tb_categoria;
@@ -41,7 +41,7 @@ insert into tb_producto values
 
 select * from tb_producto;
 
--- Listar producto, costo, marca, presentación
+-- Listar producto, costo, marca, presentacion
 select tb1.producto, tb1.costo, tb2.marca, tb3.categoria
 from tb_producto tb1 inner join tb_marca tb2
 on (tb1.producto_codigo_marca = tb2.codigo_marca) inner join tb_categoria tb3
@@ -77,12 +77,12 @@ end; $$
 call sp_listar_producto();
 -- drop procedure sp_listar_producto;
 
--- Crear un SP para buscar un producto por código
--- Devuelve: producto, costo, ganancia, precio, stock, total, categoría y marca
+-- Crear un SP para buscar un producto por codigo
+-- Devuelve: producto, costo, ganancia, precio, stock, total, categoria y marca
 -- sp_buscar_producto_por_codigo()
 
 -- Crear un SP para filtrar producto por nombre (parcial o completo)
--- Devuelve: producto, costo, ganancia, precio, stock, total, categoría y marca
+-- Devuelve: producto, costo, ganancia, precio, stock, total, categoria y marca
 -- sp_filtrar_por_nombre()
 
 -- Crear un SP para registrar un producto

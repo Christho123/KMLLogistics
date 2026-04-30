@@ -1,6 +1,6 @@
 /* =========================================================
    STYLE: BRAND
-   Estilos específicos para el módulo de Marcas.
+   Estilos especificos para el modulo de Marcas.
    ========================================================= */
 
 .brand-wrapper {
@@ -58,7 +58,7 @@
     transition: max-height 0.3s ease-in-out;
 }
 
-/* Efecto de resaltado al pasar el mouse (estilo Categorías) */
+/* Efecto de resaltado al pasar el mouse (estilo Categorias) */
 .table-hover tbody tr:hover {
     background-color: rgba(255, 193, 7, 0.05);
     transition: background-color 0.2s ease;

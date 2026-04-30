@@ -1,7 +1,7 @@
 -- PROCEDIMIENTO: SP_MARCA_LISTAR_ACTIVAS
--- Lista marcas activas con paginación y filtro opcional por nombre
+-- Lista marcas activas con paginacion y filtro opcional por nombre
 
--- MARCAS 
+-- MARCAS
 
 DELIMITER $$
 CREATE PROCEDURE sp_marca_listar_activas(
@@ -13,7 +13,7 @@ BEGIN
     DECLARE v_search VARCHAR(100);
     SET v_search = TRIM(COALESCE(p_search, ''));
 
-    SELECT 
+    SELECT
         m.id_marca,
         m.nombre_marca,
         m.id_proveedor,
@@ -24,10 +24,10 @@ BEGIN
         m.deleted_at
     FROM marcas m
     INNER JOIN proveedores p ON m.id_proveedor = p.id_proveedor
-    WHERE m.deleted_at IS NULL 
+    WHERE m.deleted_at IS NULL
       AND m.estado = 1
       AND (
-            v_search = '' 
+            v_search = ''
             OR m.nombre_marca LIKE CONCAT(v_search, '%')
       )
     ORDER BY m.created_at DESC, m.id_marca DESC
@@ -35,7 +35,7 @@ BEGIN
 END $$
 
 -- PROCEDIMIENTO: SP_MARCA_CONTAR_ACTIVAS
--- Cuenta marcas activas según el filtro aplicado
+-- Cuenta marcas activas segun el filtro aplicado
 CREATE PROCEDURE sp_marca_contar_activas(
     IN p_search VARCHAR(100)
 )
@@ -45,16 +45,16 @@ BEGIN
 
     SELECT COUNT(*) AS total
     FROM marcas
-    WHERE deleted_at IS NULL 
+    WHERE deleted_at IS NULL
       AND estado = 1
       AND (
-            v_search = '' 
+            v_search = ''
             OR nombre_marca LIKE CONCAT(v_search, '%')
       );
 END $$
 
 -- PROCEDIMIENTO: SP_MARCA_LISTAR_INACTIVAS
--- Lista marcas inactivas o eliminadas lógicamente
+-- Lista marcas inactivas o eliminadas logicamente
 CREATE PROCEDURE sp_marca_listar_inactivas(
     IN p_search VARCHAR(100)
 )
@@ -62,7 +62,7 @@ BEGIN
     DECLARE v_search VARCHAR(100);
     SET v_search = TRIM(COALESCE(p_search, ''));
 
-    SELECT 
+    SELECT
         m.id_marca,
         m.nombre_marca,
         m.id_proveedor,
@@ -75,7 +75,7 @@ BEGIN
     INNER JOIN proveedores p ON m.id_proveedor = p.id_proveedor
     WHERE (m.deleted_at IS NOT NULL OR m.estado = 0)
       AND (
-            v_search = '' 
+            v_search = ''
             OR m.nombre_marca LIKE CONCAT(v_search, '%')
       )
     ORDER BY m.deleted_at DESC, m.id_marca DESC;
@@ -90,7 +90,7 @@ CREATE PROCEDURE sp_marca_obtener_activa_por_id(
     IN p_id_marca INT
 )
 BEGIN
-    SELECT 
+    SELECT
         m.id_marca,
         m.nombre_marca,
         m.id_proveedor,
@@ -100,8 +100,8 @@ BEGIN
         m.updated_at
     FROM marcas m
     INNER JOIN proveedores p ON m.id_proveedor = p.id_proveedor
-    WHERE m.id_marca = p_id_marca 
-      AND m.deleted_at IS NULL 
+    WHERE m.id_marca = p_id_marca
+      AND m.deleted_at IS NULL
       AND m.estado = 1
     LIMIT 1;
 END $$
@@ -113,7 +113,7 @@ CREATE PROCEDURE sp_marca_obtener_por_id(
     IN p_id_marca INT
 )
 BEGIN
-    SELECT 
+    SELECT
         m.id_marca,
         m.nombre_marca,
         m.id_proveedor,
@@ -142,7 +142,7 @@ BEGIN
         p_estado,
         CASE WHEN p_estado = 0 THEN CURRENT_TIMESTAMP ELSE NULL END
     );
-    
+
     SELECT LAST_INSERT_ID() AS id_marca;
 END $$
 
@@ -158,11 +158,11 @@ BEGIN
     SET nombre_marca = p_nombre_marca,
         id_proveedor = p_id_proveedor,
         estado = p_estado,
-        deleted_at = CASE 
+        deleted_at = CASE
             WHEN p_estado = 0 THEN COALESCE(deleted_at, CURRENT_TIMESTAMP)
-            ELSE NULL 
+            ELSE NULL
         END
-    WHERE id_marca = p_id_marca 
+    WHERE id_marca = p_id_marca
       AND deleted_at IS NULL;
 
     SELECT ROW_COUNT() AS affected_rows;
@@ -176,7 +176,7 @@ BEGIN
     UPDATE marcas
     SET estado = 0,
         deleted_at = CURRENT_TIMESTAMP
-    WHERE id_marca = p_id_marca 
+    WHERE id_marca = p_id_marca
       AND deleted_at IS NULL;
 
     SELECT ROW_COUNT() AS affected_rows;
@@ -190,15 +190,15 @@ BEGIN
     UPDATE marcas
     SET estado = 1,
         deleted_at = NULL
-    WHERE id_marca = p_id_marca 
+    WHERE id_marca = p_id_marca
       AND (deleted_at IS NOT NULL OR estado = 0);
 
     SELECT ROW_COUNT() AS affected_rows;
 END $$
 
 -- PROCEDIMIENTO: SP_MARCA_ELIMINAR_DEFINITIVO
--- Elimina la marca si está marcada como inactiva/eliminada. 
--- Nota: Si hay productos asociados, la FK de la tabla productos impedirá el borrado a menos que se maneje.
+-- Elimina la marca si esta marcada como inactiva/eliminada.
+-- Nota: Si hay productos asociados, la FK de la tabla productos impedira el borrado a menos que se maneje.
 CREATE PROCEDURE sp_marca_eliminar_definitivo(
     IN p_id_marca INT
 )
@@ -212,8 +212,8 @@ BEGIN
     DELETE FROM productos WHERE id_marca = p_id_marca;
     SET v_deleted_products = ROW_COUNT();
 
-    DELETE FROM marcas 
-    WHERE id_marca = p_id_marca 
+    DELETE FROM marcas
+    WHERE id_marca = p_id_marca
       AND (deleted_at IS NOT NULL OR estado = 0);
     SET v_deleted_brand = ROW_COUNT();
 
@@ -234,7 +234,7 @@ CREATE PROCEDURE sp_marca_existe_nombre(
 BEGIN
     SELECT COUNT(*) AS total
     FROM marcas
-    WHERE deleted_at IS NULL 
+    WHERE deleted_at IS NULL
       AND estado = 1
       AND LOWER(nombre_marca) = LOWER(TRIM(p_nombre_marca))
       AND (p_exclude_id IS NULL OR id_marca <> p_exclude_id);

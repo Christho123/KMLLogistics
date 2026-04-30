@@ -15,7 +15,7 @@ declare(strict_types=1);
             <div class="modal-header">
                 <div>
                     <h5 class="modal-title mb-1"><i class="fas fa-tag me-2 text-warning"></i>Crear Marca</h5>
-                    <p class="text-muted mb-0">Registra una nueva marca para el catÃ¡logo.</p>
+                    <p class="text-muted mb-0">Registra una nueva marca para el catalogo.</p>
                 </div>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>

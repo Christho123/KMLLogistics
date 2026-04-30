@@ -11,7 +11,7 @@ CREATE PROCEDURE sp_proveedor_listar_activas(
 BEGIN
     SET p_search = IFNULL(p_search, '');
 
-    -- SI ES NÚMERO → SOLO BUSCA POR ID
+    -- SI ES NUMERO: SOLO BUSCA POR ID
     IF p_search REGEXP '^[0-9]+$' THEN
 
         SELECT *
@@ -24,7 +24,7 @@ BEGIN
 
     ELSE
 
-        -- SI ES TEXTO → BUSCA NORMAL
+        -- SI ES TEXTO: BUSCA NORMAL
         SELECT *
         FROM proveedores
         WHERE estado = 1

@@ -20,7 +20,7 @@ try {
     }
 
     $idMarca = (int) $_POST['id_marca'];
-    echo json_encode((new BrandController())->deleteBrand($idMarca)); // Asumiendo un mÃ©todo deleteBrand en el controlador
+    echo json_encode((new BrandController())->deleteBrand($idMarca)); // Asumiendo un metodo deleteBrand en el controlador
 } catch (Throwable $e) {
     http_response_code(500);
     echo json_encode(['success' => false, 'message' => 'Error al eliminar la marca.']);

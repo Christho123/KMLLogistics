@@ -79,9 +79,9 @@ renderMenu('providers', $data['current_user']);
                     <thead class="table-warning">
                         <tr>
                             <th>ID</th>
-                            <th>RazÃ³n Social</th>
+                            <th>Razon Social</th>
                             <th>Documento</th>
-                            <th>TelÃ©fono</th>
+                            <th>Telefono</th>
                             <th>Estado</th>
                             <th>Creado</th>
                             <th>Acciones</th>
@@ -98,7 +98,7 @@ renderMenu('providers', $data['current_user']);
                 </table>
             </div>
 
-            <!-- PAGINACIÃ“N -->
+            <!-- PAGINACION -->
             <div class="provider-pagination d-flex flex-column gap-3 mt-3">
 
                 <div class="provider-bottom-toolbar d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3">
@@ -122,7 +122,7 @@ renderMenu('providers', $data['current_user']);
                     </div>
 
                     <div class="provider-page-status text-muted" id="providerPageStatus">
-                        PÃ¡gina 1 de 1
+                        Pagina 1 de 1
                     </div>
                 </div>
 

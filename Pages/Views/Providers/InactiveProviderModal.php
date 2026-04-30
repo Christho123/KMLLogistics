@@ -30,7 +30,7 @@ declare(strict_types=1);
                 <div class="provider-toolbar provider-toolbar-modal d-flex flex-column flex-lg-row justify-content-between align-items-lg-end gap-3 mb-4">
 
                     <div class="provider-search-block provider-search-block-modal">
-                        <label class="form-label fw-semibold mb-2">Buscar por ID o razÃ³n social</label>
+                        <label class="form-label fw-semibold mb-2">Buscar por ID o razon social</label>
 
                         <div class="input-group provider-search-group">
                             <span class="input-group-text bg-white">
@@ -59,7 +59,7 @@ declare(strict_types=1);
                         <thead class="table-warning">
                             <tr>
                                 <th>ID</th>
-                                <th>RazÃ³n Social</th>
+                                <th>Razon Social</th>
                                 <th>Documento</th>
                                 <th>Estado</th>
                                 <th>Eliminado</th>

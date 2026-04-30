@@ -40,7 +40,7 @@ declare(strict_types=1);
                     </div>
 
                     <div class="detail-card">
-                        <span class="detail-label">RazÃ³n Social</span>
+                        <span class="detail-label">Razon Social</span>
                         <p class="detail-value" id="detailProviderRazonSocial">-</p>
                     </div>
 
@@ -55,7 +55,7 @@ declare(strict_types=1);
                     </div>
 
                     <div class="detail-card">
-                        <span class="detail-label">TelÃ©fono</span>
+                        <span class="detail-label">Telefono</span>
                         <p class="detail-value" id="detailProviderTelefono">-</p>
                     </div>
 
@@ -65,7 +65,7 @@ declare(strict_types=1);
                     </div>
 
                     <div class="detail-card">
-                        <span class="detail-label">DirecciÃ³n</span>
+                        <span class="detail-label">Direccion</span>
                         <p class="detail-value" id="detailProviderDireccion">-</p>
                     </div>
 

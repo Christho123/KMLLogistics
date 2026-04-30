@@ -40,7 +40,7 @@ declare(strict_types=1);
                         </div>
 
                         <div class="col-md-8">
-                            <label class="form-label">RazÃ³n Social</label>
+                            <label class="form-label">Razon Social</label>
                             <input type="text" class="form-control" id="edit_razon_social" name="razon_social" required>
                         </div>
 
@@ -55,17 +55,17 @@ declare(strict_types=1);
                                 <option value="1">DNI</option>
                                 <option value="2">RUC</option>
                                 <option value="3">Pasaporte</option>
-                                <option value="4">CarnÃ© ExtranjerÃ­a</option>
+                                <option value="4">Carne Extranjeria</option>
                             </select>
                         </div>
 
                         <div class="col-md-6">
-                            <label class="form-label">NÃºmero Documento</label>
+                            <label class="form-label">Numero Documento</label>
                             <input type="text" class="form-control" id="edit_numero_documento" name="numero_documento" required>
                         </div>
 
                         <div class="col-md-6">
-                            <label class="form-label">TelÃ©fono</label>
+                            <label class="form-label">Telefono</label>
                             <input type="text" class="form-control" id="edit_telefono" name="telefono">
                         </div>
 
@@ -75,7 +75,7 @@ declare(strict_types=1);
                         </div>
 
                         <div class="col-12">
-                            <label class="form-label">DirecciÃ³n</label>
+                            <label class="form-label">Direccion</label>
                             <input type="text" class="form-control" id="edit_direccion" name="direccion">
                         </div>
 
