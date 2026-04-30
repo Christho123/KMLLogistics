@@ -11,11 +11,12 @@ declare(strict_types=1);
 header('Content-Type: application/json; charset=UTF-8');
 
 require_once dirname(__DIR__, 2) . '/Pages/Includes/Load classes/Load classes.php';
+require_once dirname(__DIR__) . '/RequestJsonHelper.php';
+requireApiMethod('DELETE');
 
 try {
-    $idProducto = filter_input(INPUT_POST, 'id_producto', FILTER_VALIDATE_INT, [
-        'options' => ['min_range' => 1],
-    ]);
+    $payload = getRequestPayload();
+    $idProducto = requestInt($payload, 'id_producto', 1);
 
     if (!$idProducto) {
         http_response_code(422);
@@ -42,4 +43,5 @@ try {
         'message' => 'Ocurrio un problema al eliminar definitivamente el producto.',
     ], JSON_UNESCAPED_UNICODE);
 }
+
 

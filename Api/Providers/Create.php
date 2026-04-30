@@ -8,20 +8,23 @@ declare(strict_types=1);
 
 header('Content-Type: application/json; charset=UTF-8');
 require_once dirname(__DIR__, 2).'/Pages/Includes/Load classes/Load classes.php';
+require_once dirname(__DIR__) . '/RequestJsonHelper.php';
+requireApiMethod('POST');
 try {
-    $razonSocial=trim((string)($_POST['razon_social']??''));
-    $nombre_Comercial=trim((String)($_POST['nombre_comercial']??''));
-    $idTipoDocumento=filter_input(INPUT_POST, 'id_tipo_documento', FILTER_VALIDATE_INT);
-    $numeroDocumento=trim((String)($_POST['numero_documento']??'')); 
-    $telefono=trim((String)($_POST['telefono']??'')); 
-    $correo=trim((String)($_POST['correo']??'')); 
-    $direccion=trim((String)($_POST['direccion']??'')); 
-    $contacto=trim((String)($_POST['contacto']??'')); 
-    $estado=filter_input(INPUT_POST, 'estado', FILTER_VALIDATE_INT);
+    $payload = getRequestPayload();
+    $razonSocial = requestString($payload, 'razon_social');
+    $nombre_Comercial = requestString($payload, 'nombre_comercial');
+    $idTipoDocumento = requestInt($payload, 'id_tipo_documento');
+    $numeroDocumento = requestString($payload, 'numero_documento');
+    $telefono = requestString($payload, 'telefono');
+    $correo = requestString($payload, 'correo');
+    $direccion = requestString($payload, 'direccion');
+    $contacto = requestString($payload, 'contacto');
+    $estado = requestInt($payload, 'estado');
    
     if(
         $razonSocial ===''||
-        $idTipoDocumento ===false||
+        $idTipoDocumento === null||
         $numeroDocumento ===''||
         ($estado!== 0 && $estado !==1)
   
@@ -59,4 +62,5 @@ try {
         'message'=>'Ocurrio un problema al registrar el proovedor',
     ], JSON_UNESCAPED_UNICODE);
 }
+
 

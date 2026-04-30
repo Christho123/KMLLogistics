@@ -9,6 +9,8 @@ declare(strict_types=1);
 
 
 header('Content-Type: application/json; charset=UTF-8');
+require_once dirname(__DIR__) . '/RequestJsonHelper.php';
+requireApiMethod('GET');
 
 require_once dirname(__DIR__, 2) . '/Pages/Includes/Load classes/Load classes.php';
 
@@ -46,4 +48,5 @@ try {
         'message' => 'Ocurrio un problema al consultar el detalle del tipo de documento.',
     ], JSON_UNESCAPED_UNICODE);
 }
+
 

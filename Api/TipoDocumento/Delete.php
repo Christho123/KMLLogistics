@@ -11,13 +11,14 @@ declare(strict_types=1);
 header('Content-Type: application/json; charset=UTF-8');
 
 require_once dirname(__DIR__, 2) . '/Pages/Includes/Load classes/Load classes.php';
+require_once dirname(__DIR__) . '/RequestJsonHelper.php';
+requireApiMethod('DELETE');
 
 try {
-    $idTipoDocumento = filter_input(INPUT_POST, 'id_tipo_documento', FILTER_VALIDATE_INT, [
-        'options' => [
-            'min_range' => 1,
-        ],
-    ]);
+    $payload = getRequestPayload();
+    $idTipoDocumento = filter_input(INPUT_GET, 'id_tipo_documento', FILTER_VALIDATE_INT, [
+        'options' => ['min_range' => 1],
+    ]) ?: requestInt($payload, 'id_tipo_documento', 1);
 
     if (!$idTipoDocumento) {
         http_response_code(422);
@@ -46,4 +47,5 @@ try {
         'message' => 'Ocurrio un problema al eliminar el tipo de documento.',
     ], JSON_UNESCAPED_UNICODE);
 }
+
 

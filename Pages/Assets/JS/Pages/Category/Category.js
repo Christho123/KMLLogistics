@@ -110,6 +110,16 @@ $(function () {
         return String(value === null || typeof value === 'undefined' ? '' : value).trim();
     }
 
+    function buildJsonPayload($form) {
+        var payload = {};
+
+        $.each($form.serializeArray(), function (_, field) {
+            payload[field.name] = field.value;
+        });
+
+        return payload;
+    }
+
     function isNumericSearch(value) {
         return /^[0-9]+$/.test(toTrimmedString(value));
     }
@@ -953,7 +963,8 @@ $(function () {
             url: createUrl,
             method: 'POST',
             dataType: 'json',
-            data: $createCategoryForm.serialize()
+            contentType: 'application/json; charset=UTF-8',
+            data: JSON.stringify(buildJsonPayload($createCategoryForm))
         })
             .done(function (response) {
                 if (!response.success) {
@@ -1003,9 +1014,10 @@ $(function () {
 
         $.ajax({
             url: updateUrl,
-            method: 'POST',
+            method: 'PUT',
             dataType: 'json',
-            data: $editCategoryForm.serialize()
+            contentType: 'application/json; charset=UTF-8',
+            data: JSON.stringify(buildJsonPayload($editCategoryForm))
         })
             .done(function (response) {
                 if (!response.success) {
@@ -1041,9 +1053,10 @@ $(function () {
 
         $.ajax({
             url: deleteUrl,
-            method: 'POST',
+            method: 'DELETE',
             dataType: 'json',
-            data: $deleteCategoryForm.serialize()
+            contentType: 'application/json; charset=UTF-8',
+            data: JSON.stringify(buildJsonPayload($deleteCategoryForm))
         })
             .done(function (response) {
                 if (!response.success) {
@@ -1077,9 +1090,10 @@ $(function () {
 
         $.ajax({
             url: hardDeleteUrl,
-            method: 'POST',
+            method: 'DELETE',
             dataType: 'json',
-            data: $hardDeleteInactiveCategoryForm.serialize()
+            contentType: 'application/json; charset=UTF-8',
+            data: JSON.stringify(buildJsonPayload($hardDeleteInactiveCategoryForm))
         })
             .done(function (response) {
                 if (!response.success) {
@@ -1120,9 +1134,10 @@ $(function () {
 
         $.ajax({
             url: restoreUrl,
-            method: 'POST',
+            method: 'PUT',
             dataType: 'json',
-            data: $restoreInactiveCategoryForm.serialize()
+            contentType: 'application/json; charset=UTF-8',
+            data: JSON.stringify(buildJsonPayload($restoreInactiveCategoryForm))
         })
             .done(function (response) {
                 if (!response.success) {

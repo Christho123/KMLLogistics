@@ -9,13 +9,14 @@ declare(strict_types=1);
 header('Content-Type: application/json; charset=UTF-8');
 
 require_once dirname(__DIR__, 2) . '/Pages/Includes/Load classes/Load classes.php';
+require_once dirname(__DIR__) . '/RequestJsonHelper.php';
+requireApiMethod('PUT');
 
 try {
-    $idCategoria = filter_input(INPUT_POST, 'id_categoria', FILTER_VALIDATE_INT, [
-        'options' => [
-            'min_range' => 1,
-        ],
-    ]);
+    $payload = getRequestPayload();
+    $idCategoria = filter_input(INPUT_GET, 'id_categoria', FILTER_VALIDATE_INT, [
+        'options' => ['min_range' => 1],
+    ]) ?: requestInt($payload, 'id_categoria', 1);
 
     if (!$idCategoria) {
         http_response_code(422);

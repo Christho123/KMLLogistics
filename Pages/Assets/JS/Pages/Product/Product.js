@@ -115,6 +115,16 @@ $(function () {
         return String(value === null || typeof value === 'undefined' ? '' : value).trim();
     }
 
+    function buildJsonPayload($form) {
+        var payload = {};
+
+        $.each($form.serializeArray(), function (_, field) {
+            payload[field.name] = field.value;
+        });
+
+        return payload;
+    }
+
     function isNumericSearch(value) {
         return /^[0-9]+$/.test(toTrimmedString(value));
     }
@@ -819,9 +829,14 @@ $(function () {
             });
     }
 
-    function submitProductForm($form, url, $feedback, successCallback, loadingLabel, finalLabel) {
+    function submitProductForm($form, url, $feedback, successCallback, loadingLabel, finalLabel, method) {
         var $submitButton = $form.find('button[type="submit"]');
-        var formData = new FormData($form[0]);
+        var requestMethod = method || 'POST';
+        var hasSelectedFile = $form.find('input[type="file"]').filter(function () {
+            return this.files && this.files.length > 0;
+        }).length > 0;
+        var usesMultipart = requestMethod === 'POST' || hasSelectedFile;
+        var formData = usesMultipart ? new FormData($form[0]) : buildJsonPayload($form);
         var gananciaValue = parsePercentInput($form.find('[name="ganancia"]').val());
         var validationMessage = validateProductPayload({
             producto: $form.find('[name="producto"]').val(),
@@ -841,16 +856,20 @@ $(function () {
             return;
         }
 
-        formData.set('ganancia', String(gananciaValue));
+        if (usesMultipart) {
+            formData.set('ganancia', String(gananciaValue));
+        } else {
+            formData.ganancia = String(gananciaValue);
+        }
         setButtonLoading($submitButton, true, loadingLabel);
 
         $.ajax({
             url: url,
-            method: 'POST',
+            method: requestMethod,
             dataType: 'json',
-            data: formData,
-            processData: false,
-            contentType: false
+            data: usesMultipart ? formData : JSON.stringify(formData),
+            processData: !usesMultipart,
+            contentType: usesMultipart ? false : 'application/json; charset=UTF-8'
         })
             .done(function (response) {
                 if (!response.success) {
@@ -1097,7 +1116,8 @@ $(function () {
                 }, 650);
             },
             'Guardando...',
-            'Guardar producto'
+            'Guardar producto',
+            'POST'
         );
     });
 
@@ -1120,7 +1140,8 @@ $(function () {
                 }, 650);
             },
             'Actualizando...',
-            'Guardar cambios'
+            'Guardar cambios',
+            'PUT'
         );
     });
 
@@ -1133,9 +1154,10 @@ $(function () {
 
         $.ajax({
             url: deleteUrl,
-            method: 'POST',
+            method: 'DELETE',
             dataType: 'json',
-            data: $deleteProductForm.serialize()
+            contentType: 'application/json; charset=UTF-8',
+            data: JSON.stringify(buildJsonPayload($deleteProductForm))
         })
             .done(function (response) {
                 if (!response.success) {
@@ -1169,9 +1191,10 @@ $(function () {
 
         $.ajax({
             url: hardDeleteUrl,
-            method: 'POST',
+            method: 'DELETE',
             dataType: 'json',
-            data: $hardDeleteInactiveProductForm.serialize()
+            contentType: 'application/json; charset=UTF-8',
+            data: JSON.stringify(buildJsonPayload($hardDeleteInactiveProductForm))
         })
             .done(function (response) {
                 if (!response.success) {
@@ -1206,9 +1229,10 @@ $(function () {
 
         $.ajax({
             url: restoreUrl,
-            method: 'POST',
+            method: 'PUT',
             dataType: 'json',
-            data: $restoreInactiveProductForm.serialize()
+            contentType: 'application/json; charset=UTF-8',
+            data: JSON.stringify(buildJsonPayload($restoreInactiveProductForm))
         })
             .done(function (response) {
                 if (!response.success) {

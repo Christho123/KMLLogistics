@@ -15,12 +15,24 @@ Todas las respuestas son JSON. En errores se devuelve normalmente:
 }
 ```
 
+Para endpoints `POST`, la API acepta `raw JSON` con header:
+
+```text
+Content-Type: application/json
+```
+
 ## 1. Listar categorias activas
 
 Ruta:
 
 ```text
 GET Api/Category/List.php
+```
+
+URL completa con parametros:
+
+```text
+http://localhost/KMLLogistics/Api/Category/List.php?page=1&page_size=10&search=Lap
 ```
 
 Parametros query:
@@ -72,6 +84,12 @@ Ruta:
 GET Api/Category/ListInactive.php
 ```
 
+URL completa con parametros:
+
+```text
+http://localhost/KMLLogistics/Api/Category/ListInactive.php?search=Seg
+```
+
 Parametros query:
 
 ```json
@@ -112,6 +130,12 @@ Ruta:
 
 ```text
 GET Api/Category/Get.php
+```
+
+URL completa con parametros:
+
+```text
+http://localhost/KMLLogistics/Api/Category/Get.php?id_categoria=1
 ```
 
 Parametros query:
@@ -161,7 +185,13 @@ Ruta:
 POST Api/Category/Create.php
 ```
 
-Body:
+URL completa:
+
+```text
+http://localhost/KMLLogistics/Api/Category/Create.php
+```
+
+Body raw JSON:
 
 ```json
 {
@@ -201,17 +231,30 @@ Uso:
 Ruta:
 
 ```text
-POST Api/Category/Update.php
+PUT Api/Category/Update.php
 ```
 
-Body:
+URL completa con parametro ID:
+
+```text
+http://localhost/KMLLogistics/Api/Category/Update.php?id_categoria=12
+```
+
+Body raw JSON con campos a modificar:
 
 ```json
 {
-  "id_categoria": 12,
   "nombre_categoria": "Redes Core",
   "descripcion": "Categoria actualizada",
   "estado": 1
+}
+```
+
+Tambien permite enviar solo los campos que deseas cambiar:
+
+```json
+{
+  "descripcion": "Categoria actualizada"
 }
 ```
 
@@ -244,15 +287,19 @@ Uso:
 Ruta:
 
 ```text
-POST Api/Category/Delete.php
+DELETE Api/Category/Delete.php
 ```
 
-Body:
+URL completa con parametro ID:
+
+```text
+http://localhost/KMLLogistics/Api/Category/Delete.php?id_categoria=12
+```
+
+Body raw JSON:
 
 ```json
-{
-  "id_categoria": 12
-}
+{}
 ```
 
 Respuesta exitosa:
@@ -284,15 +331,19 @@ Uso:
 Ruta:
 
 ```text
-POST Api/Category/Restore.php
+PUT Api/Category/Restore.php
 ```
 
-Body:
+URL completa con parametro ID:
+
+```text
+http://localhost/KMLLogistics/Api/Category/Restore.php?id_categoria=12
+```
+
+Body raw JSON:
 
 ```json
-{
-  "id_categoria": 12
-}
+{}
 ```
 
 Respuesta exitosa:
@@ -323,15 +374,19 @@ Uso:
 Ruta:
 
 ```text
-POST Api/Category/HardDelete.php
+DELETE Api/Category/HardDelete.php
 ```
 
-Body:
+URL completa con parametro ID:
+
+```text
+http://localhost/KMLLogistics/Api/Category/HardDelete.php?id_categoria=12
+```
+
+Body raw JSON:
 
 ```json
-{
-  "id_categoria": 12
-}
+{}
 ```
 
 Respuesta exitosa:

@@ -113,6 +113,16 @@ $(function () {
         return String(value === null || typeof value === 'undefined' ? '' : value).trim();
     }
 
+    function buildJsonPayload($form) {
+        var payload = {};
+
+        $.each($form.serializeArray(), function (_, field) {
+            payload[field.name] = field.value;
+        });
+
+        return payload;
+    }
+
     function emptyText(value) {
         var text = toTrimmedString(value);
         return text === '' ? '-' : text;
@@ -965,7 +975,8 @@ $(function () {
             url: createUrl,
             method: 'POST',
             dataType: 'json',
-            data: $createProviderForm.serialize()
+            contentType: 'application/json; charset=UTF-8',
+            data: JSON.stringify(buildJsonPayload($createProviderForm))
         })
             .done(function (response) {
                 if (!response.success) {
@@ -1016,9 +1027,10 @@ $(function () {
 
         $.ajax({
             url: updateUrl,
-            method: 'POST',
+            method: 'PUT',
             dataType: 'json',
-            data: $editProviderForm.serialize()
+            contentType: 'application/json; charset=UTF-8',
+            data: JSON.stringify(buildJsonPayload($editProviderForm))
         })
             .done(function (response) {
                 if (!response.success) {
@@ -1054,9 +1066,10 @@ $(function () {
 
         $.ajax({
             url: deleteUrl,
-            method: 'POST',
+            method: 'DELETE',
             dataType: 'json',
-            data: $deleteProviderForm.serialize()
+            contentType: 'application/json; charset=UTF-8',
+            data: JSON.stringify(buildJsonPayload($deleteProviderForm))
         })
             .done(function (response) {
                 if (!response.success) {
@@ -1091,9 +1104,10 @@ $(function () {
 
         $.ajax({
             url: hardDeleteUrl,
-            method: 'POST',
+            method: 'DELETE',
             dataType: 'json',
-            data: $hardDeleteInactiveProviderForm.serialize()
+            contentType: 'application/json; charset=UTF-8',
+            data: JSON.stringify(buildJsonPayload($hardDeleteInactiveProviderForm))
         })
             .done(function (response) {
                 if (!response.success) {
@@ -1129,9 +1143,10 @@ $(function () {
 
         $.ajax({
             url: restoreUrl,
-            method: 'POST',
+            method: 'PUT',
             dataType: 'json',
-            data: $restoreInactiveProviderForm.serialize()
+            contentType: 'application/json; charset=UTF-8',
+            data: JSON.stringify(buildJsonPayload($restoreInactiveProviderForm))
         })
             .done(function (response) {
                 if (!response.success) {

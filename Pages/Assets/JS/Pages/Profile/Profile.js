@@ -27,6 +27,16 @@ $(function () {
         return url + separator + 'v=' + Date.now();
     }
 
+    function buildJsonPayload($form) {
+        var payload = {};
+
+        $.each($form.serializeArray(), function (_, field) {
+            payload[field.name] = field.value;
+        });
+
+        return payload;
+    }
+
     function isAdminRole(role) {
         return ['admin', 'Admin', 'Administrador'].indexOf(String(role || '')) !== -1;
     }
@@ -135,9 +145,10 @@ $(function () {
 
         $.ajax({
             url: 'Api/Profile/Update.php',
-            method: 'POST',
+            method: 'PUT',
             dataType: 'json',
-            data: $(this).serialize()
+            contentType: 'application/json; charset=UTF-8',
+            data: JSON.stringify(buildJsonPayload($(this)))
         })
             .done(function (response) {
                 if (!response.success) {
@@ -195,7 +206,7 @@ $(function () {
 
         $.ajax({
             url: 'Api/Profile/DeletePhoto.php',
-            method: 'POST',
+            method: 'DELETE',
             dataType: 'json'
         })
             .done(function (response) {
@@ -220,7 +231,13 @@ $(function () {
         showFeedback($('#emailFeedback'), '', 'info');
         setLoading($button, true, 'Enviando...');
 
-        $.post('Api/Profile/SendEmailCode.php', null, null, 'json')
+        $.ajax({
+            url: 'Api/Profile/SendEmailCode.php',
+            method: 'POST',
+            dataType: 'json',
+            contentType: 'application/json; charset=UTF-8',
+            data: '{}'
+        })
             .done(function (response) {
                 showFeedback($('#emailFeedback'), response.message || 'Codigo enviado.', response.success ? 'success' : 'danger');
                 if (response.success) {
@@ -236,7 +253,13 @@ $(function () {
     });
 
     $('#confirmEmailButton').on('click', function () {
-        $.post('Api/Profile/ConfirmEmail.php', { code: $('#email_code').val() }, null, 'json')
+        $.ajax({
+            url: 'Api/Profile/ConfirmEmail.php',
+            method: 'PUT',
+            dataType: 'json',
+            contentType: 'application/json; charset=UTF-8',
+            data: JSON.stringify({ code: $('#email_code').val() })
+        })
             .done(function (response) {
                 showFeedback($('#emailFeedback'), response.message || 'Email verificado.', response.success ? 'success' : 'danger');
                 syncProfile(response.profile);
@@ -251,7 +274,13 @@ $(function () {
         showFeedback($('#passwordFeedback'), '', 'info');
         setLoading($button, true, 'Enviando...');
 
-        $.post('Api/Profile/SendPasswordCode.php', null, null, 'json')
+        $.ajax({
+            url: 'Api/Profile/SendPasswordCode.php',
+            method: 'POST',
+            dataType: 'json',
+            contentType: 'application/json; charset=UTF-8',
+            data: '{}'
+        })
             .done(function (response) {
                 showFeedback($('#passwordFeedback'), response.message || 'Codigo enviado.', response.success ? 'success' : 'danger');
                 if (response.success) {
@@ -267,11 +296,17 @@ $(function () {
     });
 
     $('#changePasswordButton').on('click', function () {
-        $.post('Api/Profile/ChangePassword.php', {
-            code: $('#password_code').val(),
-            password: $('#new_password').val(),
-            confirm_password: $('#confirm_password').val()
-        }, null, 'json')
+        $.ajax({
+            url: 'Api/Profile/ChangePassword.php',
+            method: 'PUT',
+            dataType: 'json',
+            contentType: 'application/json; charset=UTF-8',
+            data: JSON.stringify({
+                code: $('#password_code').val(),
+                password: $('#new_password').val(),
+                confirm_password: $('#confirm_password').val()
+            })
+        })
             .done(function (response) {
                 showFeedback($('#passwordFeedback'), response.message || 'Password actualizada.', response.success ? 'success' : 'danger');
             })

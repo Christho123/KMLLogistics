@@ -11,9 +11,12 @@ declare(strict_types=1);
 
 header('Content-Type: application/json; charset=UTF-8');
 require_once dirname(__DIR__, 2) . '/Pages/Includes/Load classes/Load classes.php';
+require_once dirname(__DIR__) . '/RequestJsonHelper.php';
+requireApiMethod('PUT');
 
 try {
-    $response = (new ProfileController())->confirmEmail((string) ($_POST['code'] ?? ''));
+    $payload = getRequestPayload();
+    $response = (new ProfileController())->confirmEmail((string) requestValue($payload, 'code', ''));
     if (!$response['success']) {
         http_response_code((int) ($response['status_code'] ?? 422));
     }
@@ -23,5 +26,6 @@ try {
     http_response_code(500);
     echo json_encode(['success' => false, 'message' => $exception->getMessage()], JSON_UNESCAPED_UNICODE);
 }
+
 
 

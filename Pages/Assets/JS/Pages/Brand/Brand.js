@@ -108,6 +108,16 @@ $(function () {
         return String(value === null || typeof value === 'undefined' ? '' : value).trim();
     }
 
+    function buildJsonPayload($form) {
+        var payload = {};
+
+        $.each($form.serializeArray(), function (_, field) {
+            payload[field.name] = field.value;
+        });
+
+        return payload;
+    }
+
     function isNumericSearch(value) {
         return /^[0-9]+$/.test(toTrimmedString(value));
     }
@@ -950,7 +960,8 @@ $(function () {
             url: createUrl,
             method: 'POST',
             dataType: 'json',
-            data: $createBrandForm.serialize()
+            contentType: 'application/json; charset=UTF-8',
+            data: JSON.stringify(buildJsonPayload($createBrandForm))
         })
             .done(function (response) {
                 if (!response.success) {
@@ -1000,9 +1011,10 @@ $(function () {
 
         $.ajax({
             url: updateUrl,
-            method: 'POST',
+            method: 'PUT',
             dataType: 'json',
-            data: $editBrandForm.serialize()
+            contentType: 'application/json; charset=UTF-8',
+            data: JSON.stringify(buildJsonPayload($editBrandForm))
         })
             .done(function (response) {
                 if (!response.success) {
@@ -1038,9 +1050,10 @@ $(function () {
 
         $.ajax({
             url: deleteUrl,
-            method: 'POST',
+            method: 'DELETE',
             dataType: 'json',
-            data: $deleteBrandForm.serialize()
+            contentType: 'application/json; charset=UTF-8',
+            data: JSON.stringify(buildJsonPayload($deleteBrandForm))
         })
             .done(function (response) {
                 if (!response.success) {
@@ -1074,9 +1087,10 @@ $(function () {
 
         $.ajax({
             url: hardDeleteUrl,
-            method: 'POST',
+            method: 'DELETE',
             dataType: 'json',
-            data: $hardDeleteInactiveBrandForm.serialize()
+            contentType: 'application/json; charset=UTF-8',
+            data: JSON.stringify(buildJsonPayload($hardDeleteInactiveBrandForm))
         })
             .done(function (response) {
                 if (!response.success) {
@@ -1117,9 +1131,10 @@ $(function () {
 
         $.ajax({
             url: restoreUrl,
-            method: 'POST',
+            method: 'PUT',
             dataType: 'json',
-            data: $restoreInactiveBrandForm.serialize()
+            contentType: 'application/json; charset=UTF-8',
+            data: JSON.stringify(buildJsonPayload($restoreInactiveBrandForm))
         })
             .done(function (response) {
                 if (!response.success) {

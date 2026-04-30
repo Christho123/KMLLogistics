@@ -11,23 +11,21 @@ declare(strict_types=1);
 header('Content-Type: application/json; charset=UTF-8');
 
 require_once dirname(__DIR__, 2) . '/Pages/Includes/Load classes/Load classes.php';
+require_once dirname(__DIR__) . '/RequestJsonHelper.php';
+requireApiMethod('PUT');
 
 try {
-    $idProveedor = filter_input(INPUT_POST, 'id_proveedor', FILTER_VALIDATE_INT, [
-        'options' => [
-            'min_range' => 1,
-        ],
-    ]);
-
-    $razonSocial = trim((string) ($_POST['razon_social'] ?? ''));
-    $nombreComercial = trim((string) ($_POST['nombre_comercial'] ?? ''));
-    $idTipoDocumento = filter_input(INPUT_POST, 'id_tipo_documento', FILTER_VALIDATE_INT);
-    $numeroDocumento = trim((string) ($_POST['numero_documento'] ?? ''));
-    $telefono = trim((string) ($_POST['telefono'] ?? ''));
-    $correo = trim((string) ($_POST['correo'] ?? ''));
-    $direccion = trim((string) ($_POST['direccion'] ?? ''));
-    $contacto = trim((string) ($_POST['contacto'] ?? ''));
-    $estado = filter_input(INPUT_POST, 'estado', FILTER_VALIDATE_INT);
+    $payload = getRequestPayload();
+    $idProveedor = requestInt($payload, 'id_proveedor', 1);
+    $razonSocial = requestString($payload, 'razon_social');
+    $nombreComercial = requestString($payload, 'nombre_comercial');
+    $idTipoDocumento = requestInt($payload, 'id_tipo_documento');
+    $numeroDocumento = requestString($payload, 'numero_documento');
+    $telefono = requestString($payload, 'telefono');
+    $correo = requestString($payload, 'correo');
+    $direccion = requestString($payload, 'direccion');
+    $contacto = requestString($payload, 'contacto');
+    $estado = requestInt($payload, 'estado');
 
     if (
         !$idProveedor ||
@@ -75,3 +73,4 @@ try {
         'message' => 'Ocurrio un problema al actualizar el proveedor.',
     ], JSON_UNESCAPED_UNICODE);
 }
+

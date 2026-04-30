@@ -10,12 +10,11 @@ declare(strict_types=1);
 header('Content-Type: application/json; charset=UTF-8');
 
 require_once dirname(__DIR__, 2) . '/Pages/Includes/Load classes/Load classes.php';
+require_once dirname(__DIR__) . '/RequestJsonHelper.php';
+requireApiMethod('DELETE');
 try{
-    $idProveedor=filter_input(INPUT_POST,'id_proveedor', FILTER_VALIDATE_INT,[
-        'options'=>[
-           'min_range'=>1,
-        ],
-    ]);
+    $payload = getRequestPayload();
+    $idProveedor = requestInt($payload, 'id_proveedor', 1);
     if(!$idProveedor){
         http_response_code(422);
         echo json_encode([
@@ -40,3 +39,4 @@ echo json_encode($response, JSON_UNESCAPED_UNICODE);
         'message'=>'Ocurrio un problema al eliminar el proveedor',
     ], JSON_UNESCAPED_UNICODE);
 }
+

@@ -15,12 +15,24 @@ Todas las respuestas son JSON. En errores se devuelve normalmente:
 }
 ```
 
+Para endpoints `POST`, la API acepta `raw JSON` con header:
+
+```text
+Content-Type: application/json
+```
+
 ## 1. Listar tipos de documento activos
 
 Ruta:
 
 ```text
 GET Api/TipoDocumento/List.php
+```
+
+URL completa con parametros:
+
+```text
+http://localhost/KMLLogistics/Api/TipoDocumento/List.php?page=1&page_size=10&search=DNI
 ```
 
 Parametros query:
@@ -72,6 +84,12 @@ Ruta:
 GET Api/TipoDocumento/ListInactive.php
 ```
 
+URL completa con parametros:
+
+```text
+http://localhost/KMLLogistics/Api/TipoDocumento/ListInactive.php?search=RUC
+```
+
 Parametros query:
 
 ```json
@@ -112,6 +130,12 @@ Ruta:
 
 ```text
 GET Api/TipoDocumento/Get.php
+```
+
+URL completa con parametros:
+
+```text
+http://localhost/KMLLogistics/Api/TipoDocumento/Get.php?id_tipo_documento=1
 ```
 
 Parametros query:
@@ -161,7 +185,13 @@ Ruta:
 POST Api/TipoDocumento/Create.php
 ```
 
-Body:
+URL completa:
+
+```text
+http://localhost/KMLLogistics/Api/TipoDocumento/Create.php
+```
+
+Body raw JSON:
 
 ```json
 {
@@ -209,17 +239,30 @@ Uso:
 Ruta:
 
 ```text
-POST Api/TipoDocumento/Update.php
+PUT Api/TipoDocumento/Update.php
 ```
 
-Body:
+URL completa con parametro ID:
+
+```text
+http://localhost/KMLLogistics/Api/TipoDocumento/Update.php?id_tipo_documento=1
+```
+
+Body raw JSON con campos a modificar:
 
 ```json
 {
-  "id_tipo_documento": 1,
   "nombre_tipo_documento": "DNI Actualizado",
   "descripcion": "Documento nacional actualizado.",
   "estado": 1
+}
+```
+
+Tambien permite enviar solo los campos que deseas cambiar:
+
+```json
+{
+  "descripcion": "Documento nacional actualizado."
 }
 ```
 
@@ -251,15 +294,19 @@ Uso:
 Ruta:
 
 ```text
-POST Api/TipoDocumento/Delete.php
+DELETE Api/TipoDocumento/Delete.php
 ```
 
-Body:
+URL completa con parametro ID:
+
+```text
+http://localhost/KMLLogistics/Api/TipoDocumento/Delete.php?id_tipo_documento=1
+```
+
+Body raw JSON:
 
 ```json
-{
-  "id_tipo_documento": 1
-}
+{}
 ```
 
 Respuesta exitosa:
@@ -290,15 +337,19 @@ Uso:
 Ruta:
 
 ```text
-POST Api/TipoDocumento/Restore.php
+PUT Api/TipoDocumento/Restore.php
 ```
 
-Body:
+URL completa con parametro ID:
+
+```text
+http://localhost/KMLLogistics/Api/TipoDocumento/Restore.php?id_tipo_documento=2
+```
+
+Body raw JSON:
 
 ```json
-{
-  "id_tipo_documento": 2
-}
+{}
 ```
 
 Respuesta exitosa:
@@ -329,15 +380,19 @@ Uso:
 Ruta:
 
 ```text
-POST Api/TipoDocumento/HardDelete.php
+DELETE Api/TipoDocumento/HardDelete.php
 ```
 
-Body:
+URL completa con parametro ID:
+
+```text
+http://localhost/KMLLogistics/Api/TipoDocumento/HardDelete.php?id_tipo_documento=2
+```
+
+Body raw JSON:
 
 ```json
-{
-  "id_tipo_documento": 2
-}
+{}
 ```
 
 Respuesta exitosa:

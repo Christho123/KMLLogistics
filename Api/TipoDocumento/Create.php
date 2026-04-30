@@ -11,11 +11,14 @@ declare(strict_types=1);
 header('Content-Type: application/json; charset=UTF-8');
 
 require_once dirname(__DIR__, 2) . '/Pages/Includes/Load classes/Load classes.php';
+require_once dirname(__DIR__) . '/RequestJsonHelper.php';
+requireApiMethod('POST');
 
 try {
-    $nombreTipoDocumento = trim((string) ($_POST['nombre_tipo_documento'] ?? ''));
-    $descripcion = trim((string) ($_POST['descripcion'] ?? ''));
-    $estado = filter_input(INPUT_POST, 'estado', FILTER_VALIDATE_INT);
+    $payload = getRequestPayload();
+    $nombreTipoDocumento = requestString($payload, 'nombre_tipo_documento');
+    $descripcion = requestString($payload, 'descripcion');
+    $estado = requestInt($payload, 'estado');
 
     if ($nombreTipoDocumento === '' || ($estado !== 0 && $estado !== 1)) {
         http_response_code(422);
@@ -44,4 +47,5 @@ try {
         'message' => 'Ocurrio un problema al registrar el tipo de documento.',
     ], JSON_UNESCAPED_UNICODE);
 }
+
 

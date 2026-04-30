@@ -11,26 +11,27 @@ declare(strict_types=1);
 header('Content-Type: application/json; charset=UTF-8');
 
 require_once dirname(__DIR__, 2) . '/Pages/Includes/Load classes/Load classes.php';
+require_once dirname(__DIR__) . '/RequestJsonHelper.php';
+requireApiMethod('PUT');
 require_once __DIR__ . '/ProductImageHelper.php';
 
 try {
-    $idProducto = filter_input(INPUT_POST, 'id_producto', FILTER_VALIDATE_INT, [
-        'options' => ['min_range' => 1],
-    ]);
-    $producto = trim((string) ($_POST['producto'] ?? ''));
-    $costo = filter_input(INPUT_POST, 'costo', FILTER_VALIDATE_FLOAT);
-    $ganancia = filter_input(INPUT_POST, 'ganancia', FILTER_VALIDATE_FLOAT);
-    $stock = filter_input(INPUT_POST, 'stock', FILTER_VALIDATE_INT);
-    $idCategoria = filter_input(INPUT_POST, 'id_categoria', FILTER_VALIDATE_INT);
-    $idMarca = filter_input(INPUT_POST, 'id_marca', FILTER_VALIDATE_INT);
-    $estado = filter_input(INPUT_POST, 'estado', FILTER_VALIDATE_INT);
+    $payload = getRequestPayload();
+    $idProducto = requestInt($payload, 'id_producto', 1);
+    $producto = requestString($payload, 'producto');
+    $costo = requestFloat($payload, 'costo');
+    $ganancia = requestFloat($payload, 'ganancia');
+    $stock = requestInt($payload, 'stock');
+    $idCategoria = requestInt($payload, 'id_categoria');
+    $idMarca = requestInt($payload, 'id_marca');
+    $estado = requestInt($payload, 'estado');
 
     if (
         !$idProducto ||
         $producto === '' ||
-        $costo === false || $costo <= 0 ||
-        $ganancia === false || $ganancia < 0 || $ganancia >= 100 ||
-        $stock === false || $stock < 0 ||
+        $costo === null || $costo <= 0 ||
+        $ganancia === null || $ganancia < 0 || $ganancia >= 100 ||
+        $stock === null || $stock < 0 ||
         !$idCategoria ||
         !$idMarca ||
         ($estado !== 0 && $estado !== 1)
@@ -60,4 +61,5 @@ try {
         'message' => $exception instanceof RuntimeException ? $exception->getMessage() : 'Ocurrio un problema al actualizar el producto.',
     ], JSON_UNESCAPED_UNICODE);
 }
+
 

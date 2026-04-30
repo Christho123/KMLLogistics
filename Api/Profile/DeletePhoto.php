@@ -10,6 +10,8 @@ declare(strict_types=1);
 
 
 header('Content-Type: application/json; charset=UTF-8');
+require_once dirname(__DIR__) . '/RequestJsonHelper.php';
+requireApiMethod('DELETE');
 require_once dirname(__DIR__, 2) . '/Pages/Includes/Load classes/Load classes.php';
 
 try {
@@ -19,5 +21,6 @@ try {
     http_response_code(500);
     echo json_encode(['success' => false, 'message' => $exception->getMessage()], JSON_UNESCAPED_UNICODE);
 }
+
 
 

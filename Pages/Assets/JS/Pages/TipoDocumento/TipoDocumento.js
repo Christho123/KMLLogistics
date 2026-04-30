@@ -78,6 +78,15 @@ $(function () {
     // Utilidades base de texto y formato.
     function escapeHtml(value) { return $('<div>').text(value === null ? '' : value).html(); }
     function toTrimmedString(value) { return String(value === null || typeof value === 'undefined' ? '' : value).trim(); }
+    function buildJsonPayload($form) {
+        var payload = {};
+
+        $.each($form.serializeArray(), function (_, field) {
+            payload[field.name] = field.value;
+        });
+
+        return payload;
+    }
     function isNumericSearch(value) { return /^[0-9]+$/.test(toTrimmedString(value)); }
     function formatDate(dateTime) { return dateTime ? dateTime.replace(' ', ' | ') : 'Sin fecha'; }
 
@@ -520,7 +529,7 @@ $(function () {
         event.preventDefault(); showFeedback($createFeedback, '', 'info');
         if (validationMessage !== '') { showFeedback($createFeedback, validationMessage, 'warning'); showInfoModal('Datos incompletos', validationMessage); return; }
         setButtonLoading($submitButton, true, 'Guardando...');
-        $.ajax({ url: createUrl, method: 'POST', dataType: 'json', data: $createDocumentTypeForm.serialize() })
+        $.ajax({ url: createUrl, method: 'POST', dataType: 'json', contentType: 'application/json; charset=UTF-8', data: JSON.stringify(buildJsonPayload($createDocumentTypeForm)) })
             .done(function (response) {
                 if (!response.success) { showFeedback($createFeedback, response.message || 'No se pudo registrar el tipo de documento.', 'danger'); return; }
                 showFeedback($createFeedback, response.message || 'Tipo de documento registrado correctamente.', 'success');
@@ -541,7 +550,7 @@ $(function () {
         event.preventDefault(); showFeedback($editFeedback, '', 'info');
         if (validationMessage !== '') { showFeedback($editFeedback, validationMessage, 'warning'); showInfoModal('Datos incompletos', validationMessage); return; }
         setButtonLoading($submitButton, true, 'Actualizando...');
-        $.ajax({ url: updateUrl, method: 'POST', dataType: 'json', data: $editDocumentTypeForm.serialize() })
+        $.ajax({ url: updateUrl, method: 'PUT', dataType: 'json', contentType: 'application/json; charset=UTF-8', data: JSON.stringify(buildJsonPayload($editDocumentTypeForm)) })
             .done(function (response) {
                 if (!response.success) { showFeedback($editFeedback, response.message || 'No se pudo actualizar el tipo de documento.', 'danger'); return; }
                 showFeedback($editFeedback, response.message || 'Tipo de documento actualizado correctamente.', 'success');
@@ -554,7 +563,7 @@ $(function () {
     $deleteDocumentTypeForm.on('submit', function (event) {
         var $submitButton = $deleteDocumentTypeForm.find('button[type="submit"]');
         event.preventDefault(); showFeedback($deleteFeedback, '', 'info'); setButtonLoading($submitButton, true, 'Eliminando...');
-        $.ajax({ url: deleteUrl, method: 'POST', dataType: 'json', data: $deleteDocumentTypeForm.serialize() })
+        $.ajax({ url: deleteUrl, method: 'DELETE', dataType: 'json', contentType: 'application/json; charset=UTF-8', data: JSON.stringify(buildJsonPayload($deleteDocumentTypeForm)) })
             .done(function (response) {
                 if (!response.success) { showFeedback($deleteFeedback, response.message || 'No se pudo eliminar el tipo de documento.', 'danger'); return; }
                 showFeedback($deleteFeedback, response.message || 'Tipo de documento eliminado correctamente.', 'success');
@@ -567,7 +576,7 @@ $(function () {
     $hardDeleteInactiveDocumentTypeForm.on('submit', function (event) {
         var $submitButton = $hardDeleteInactiveDocumentTypeForm.find('button[type="submit"]');
         event.preventDefault(); showFeedback($hardDeleteInactiveFeedback, '', 'info'); setButtonLoading($submitButton, true, 'Eliminando...');
-        $.ajax({ url: hardDeleteUrl, method: 'POST', dataType: 'json', data: $hardDeleteInactiveDocumentTypeForm.serialize() })
+        $.ajax({ url: hardDeleteUrl, method: 'DELETE', dataType: 'json', contentType: 'application/json; charset=UTF-8', data: JSON.stringify(buildJsonPayload($hardDeleteInactiveDocumentTypeForm)) })
             .done(function (response) {
                 if (!response.success) { showFeedback($hardDeleteInactiveFeedback, response.message || 'No se pudo eliminar definitivamente.', 'danger'); return; }
                 showFeedback($hardDeleteInactiveFeedback, response.message || 'Tipo de documento eliminado definitivamente.', 'success');
@@ -580,7 +589,7 @@ $(function () {
     $restoreInactiveDocumentTypeForm.on('submit', function (event) {
         var $submitButton = $restoreInactiveDocumentTypeForm.find('button[type="submit"]');
         event.preventDefault(); showFeedback($restoreInactiveFeedback, '', 'info'); setButtonLoading($submitButton, true, 'Restaurando...');
-        $.ajax({ url: restoreUrl, method: 'POST', dataType: 'json', data: $restoreInactiveDocumentTypeForm.serialize() })
+        $.ajax({ url: restoreUrl, method: 'PUT', dataType: 'json', contentType: 'application/json; charset=UTF-8', data: JSON.stringify(buildJsonPayload($restoreInactiveDocumentTypeForm)) })
             .done(function (response) {
                 if (!response.success) { showFeedback($restoreInactiveFeedback, response.message || 'No se pudo restaurar el tipo de documento.', 'danger'); return; }
                 showFeedback($restoreInactiveFeedback, response.message || 'Tipo de documento restaurado correctamente.', 'success');

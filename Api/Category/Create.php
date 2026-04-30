@@ -9,11 +9,14 @@ declare(strict_types=1);
 header('Content-Type: application/json; charset=UTF-8');
 
 require_once dirname(__DIR__, 2) . '/Pages/Includes/Load classes/Load classes.php';
+require_once dirname(__DIR__) . '/RequestJsonHelper.php';
+requireApiMethod('POST');
 
 try {
-    $nombreCategoria = trim((string) ($_POST['nombre_categoria'] ?? ''));
-    $descripcion = trim((string) ($_POST['descripcion'] ?? ''));
-    $estado = filter_input(INPUT_POST, 'estado', FILTER_VALIDATE_INT);
+    $payload = getRequestPayload();
+    $nombreCategoria = requestString($payload, 'nombre_categoria');
+    $descripcion = requestString($payload, 'descripcion');
+    $estado = requestInt($payload, 'estado');
 
     if ($nombreCategoria === '' || $descripcion === '' || ($estado !== 0 && $estado !== 1)) {
         http_response_code(422);
