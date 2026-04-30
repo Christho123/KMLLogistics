@@ -27,15 +27,16 @@ class ProductController
         ];
     }
 
-    public function listProducts(int $page, int $pageSize, string $search): array
+    public function listProducts(int $page, int $pageSize, string $search, int $idCategoria = 0): array
     {
-        $result = $this->productCRUD->listProducts($page, $pageSize, $search);
+        $idCategoria = max(0, $idCategoria);
+        $result = $this->productCRUD->listProducts($page, $pageSize, $search, $idCategoria);
         $total = (int) ($result['total'] ?? 0);
         $totalPages = max(1, (int) ceil($total / $pageSize));
         $currentPage = min($page, $totalPages);
 
         if ($currentPage !== $page) {
-            $result = $this->productCRUD->listProducts($currentPage, $pageSize, $search);
+            $result = $this->productCRUD->listProducts($currentPage, $pageSize, $search, $idCategoria);
         }
 
         return [
@@ -48,6 +49,7 @@ class ProductController
                 'total_pages' => $totalPages,
             ],
             'search' => $search,
+            'id_categoria' => $idCategoria,
         ];
     }
 

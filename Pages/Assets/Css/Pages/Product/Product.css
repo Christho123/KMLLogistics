@@ -65,6 +65,15 @@ body {
     flex-wrap: wrap;
 }
 
+.product-query-filter {
+    min-width: 220px;
+}
+
+.product-query-filter .form-select:focus {
+    border-color: #ffc107;
+    box-shadow: 0 0 0 0.25rem rgba(255, 193, 7, 0.25);
+}
+
 .product-create-button {
     min-width: 148px;
     font-weight: 700;
@@ -318,6 +327,11 @@ body {
         width: 100%;
         justify-content: flex-start;
         align-items: center;
+    }
+
+    .product-query-filter {
+        width: 100%;
+        min-width: 0;
     }
 
     .product-secondary-button,

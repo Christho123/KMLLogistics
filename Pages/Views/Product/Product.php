@@ -41,6 +41,15 @@ renderMenu('product', $data['current_user']);
                 </div>
 
                 <div class="product-actions-toolbar">
+                    <div class="product-query-filter">
+                        <label for="productCategoryFilter" class="form-label fw-semibold mb-2">Consulta</label>
+                        <select id="productCategoryFilter" class="form-select">
+                            <option value="">Todas las categorias</option>
+                            <?php foreach (($data['categories'] ?? []) as $category): ?>
+                                <option value="<?= (int) $category['id_categoria']; ?>"><?= htmlspecialchars($category['nombre_categoria'], ENT_QUOTES, 'UTF-8'); ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
                     <button type="button" class="btn btn-outline-secondary product-secondary-button" id="openInactiveModalButton">
                         <i class="fas fa-archive me-2"></i>Ver inactivos
                     </button>

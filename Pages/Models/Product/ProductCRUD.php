@@ -54,15 +54,16 @@ class ProductCRUD
         $statement->closeCursor();
     }
 
-    public function listProducts(int $page = 1, int $pageSize = 10, string $search = ''): array
+    public function listProducts(int $page = 1, int $pageSize = 10, string $search = '', int $idCategoria = 0): array
     {
         $page = max(1, $page);
         $pageSize = max(1, $pageSize);
         $offset = ($page - 1) * $pageSize;
         $search = trim($search);
+        $idCategoria = max(0, $idCategoria);
 
-        $products = $this->callProcedureFetchAll('sp_producto_listar_activas', [$offset, $pageSize, $search]);
-        $totalRow = $this->callProcedureFetchOne('sp_producto_contar_activas', [$search]);
+        $products = $this->callProcedureFetchAll('sp_producto_listar_activas', [$offset, $pageSize, $search, $idCategoria]);
+        $totalRow = $this->callProcedureFetchOne('sp_producto_contar_activas', [$search, $idCategoria]);
 
         return [
             'products' => $products,

@@ -12,6 +12,7 @@ $(function () {
     var $productSearchInput = $('#productSearchInput');
     var $filterSearchButton = $('#filterSearchButton');
     var $clearSearchButton = $('#clearSearchButton');
+    var $productCategoryFilter = $('#productCategoryFilter');
     var $openCreateModalButton = $('#openCreateModalButton');
     var $openInactiveModalButton = $('#openInactiveModalButton');
     var $productTableShell = $('.product-table-shell').first();
@@ -83,7 +84,8 @@ $(function () {
         page_size: 10,
         total: 0,
         total_pages: 1,
-        search: ''
+        search: '',
+        id_categoria: 0
     };
     var formState = {
         create: {
@@ -417,6 +419,7 @@ $(function () {
         var totalPages = Number(pagination.total_pages) || 1;
 
         $pageSizeSelect.prop('disabled', isLoading);
+        $productCategoryFilter.prop('disabled', isLoading);
         $prevPageButton.prop('disabled', isLoading || currentPage <= 1);
         $nextPageButton.prop('disabled', isLoading || currentPage >= totalPages);
     }
@@ -429,9 +432,10 @@ $(function () {
         var startRecord = total === 0 ? 0 : ((currentPage - 1) * pageSize) + 1;
         var endRecord = Math.min(currentPage * pageSize, total);
         var hasSearch = toTrimmedString(pagination.search) !== '';
+        var hasCategory = (Number(pagination.id_categoria) || 0) > 0;
 
         if (total === 0) {
-            $productSummary.text(hasSearch ? 'No se encontraron productos con el filtro actual' : 'Mostrando 0 de 0 productos');
+            $productSummary.text(hasSearch || hasCategory ? 'No se encontraron productos con el filtro actual' : 'Mostrando 0 de 0 productos');
         } else {
             $productSummary.text('Mostrando ' + startRecord + ' - ' + endRecord + ' de ' + total + ' productos');
         }
@@ -746,7 +750,8 @@ $(function () {
             data: {
                 page: pagination.page,
                 page_size: pagination.page_size,
-                search: toTrimmedString(pagination.search)
+                search: toTrimmedString(pagination.search),
+                id_categoria: Number(pagination.id_categoria) || 0
             }
         })
             .done(function (response) {
@@ -757,6 +762,7 @@ $(function () {
 
                 pagination = $.extend({}, pagination, response.pagination || {});
                 pagination.search = response.search || toTrimmedString(pagination.search);
+                pagination.id_categoria = Number(response.id_categoria) || 0;
                 renderRows(response.products || []);
                 updatePaginationInfo();
             })
@@ -899,7 +905,14 @@ $(function () {
 
     $clearSearchButton.on('click', function () {
         pagination.search = '';
+        pagination.id_categoria = 0;
         $productSearchInput.val('');
+        $productCategoryFilter.val('');
+        loadProducts(1, pagination.page_size);
+    });
+
+    $productCategoryFilter.on('change', function () {
+        pagination.id_categoria = Number($(this).val()) || 0;
         loadProducts(1, pagination.page_size);
     });
 

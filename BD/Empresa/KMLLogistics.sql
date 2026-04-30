@@ -989,11 +989,14 @@ DELIMITER $$
 CREATE PROCEDURE sp_producto_listar_activas(
     IN p_offset INT,
     IN p_limit INT,
-    IN p_search VARCHAR(150)
+    IN p_search VARCHAR(150),
+    IN p_id_categoria INT
 )
 BEGIN
     DECLARE v_search VARCHAR(150);
+    DECLARE v_id_categoria INT;
     SET v_search = TRIM(COALESCE(p_search, ''));
+    SET v_id_categoria = COALESCE(p_id_categoria, 0);
 
     SELECT
         p.id_producto,
@@ -1020,16 +1023,23 @@ BEGIN
             v_search = ''
             OR p.producto LIKE CONCAT(v_search, '%')
       )
+      AND (
+            v_id_categoria = 0
+            OR p.id_categoria = v_id_categoria
+      )
     ORDER BY p.created_at DESC, p.id_producto DESC
     LIMIT p_offset, p_limit;
 END $$
 
 CREATE PROCEDURE sp_producto_contar_activas(
-    IN p_search VARCHAR(150)
+    IN p_search VARCHAR(150),
+    IN p_id_categoria INT
 )
 BEGIN
     DECLARE v_search VARCHAR(150);
+    DECLARE v_id_categoria INT;
     SET v_search = TRIM(COALESCE(p_search, ''));
+    SET v_id_categoria = COALESCE(p_id_categoria, 0);
 
     SELECT COUNT(*) AS total
     FROM productos p
@@ -1040,6 +1050,10 @@ BEGIN
       AND (
             v_search = ''
             OR p.producto LIKE CONCAT(v_search, '%')
+      )
+      AND (
+            v_id_categoria = 0
+            OR p.id_categoria = v_id_categoria
       );
 END $$
 
@@ -1281,8 +1295,8 @@ END $$
 DELIMITER ;
 
 -- EJEMPLOS DE USO PRODUCT
--- CALL sp_producto_listar_activas(0, 10, 'Laptop');
--- CALL sp_producto_contar_activas('Laptop');
+-- CALL sp_producto_listar_activas(0, 10, 'Laptop', 1);
+-- CALL sp_producto_contar_activas('Laptop', 1);
 -- CALL sp_producto_listar_inactivas('');
 -- CALL sp_producto_obtener_activa_por_id(1);
 -- CALL sp_producto_obtener_por_id(1);
