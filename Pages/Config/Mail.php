@@ -21,6 +21,10 @@ function getMailConfig(): array
         'debug' => false,
         'timeout' => 8,
         'notify_admin_actions' => true,
+        'admin_notification_recipients' => [
+            'kmllogistics3@gmail.com',
+            'castillol@senati.pe',
+        ],
     ];
 }
 

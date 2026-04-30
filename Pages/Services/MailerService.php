@@ -42,7 +42,11 @@ class MailerService
     {
         $config = getMailConfig();
         $mail = $this->buildMailer($config);
-        $mail->addAddress($adminEmail, 'Administrador KMLLogistics');
+
+        foreach ($this->resolveAdminRecipients($config, $adminEmail) as $recipientEmail) {
+            $mail->addAddress($recipientEmail, 'Administrador KMLLogistics');
+        }
+
         $mail->isHTML(true);
         $mail->Subject = 'KMLLogistics - Nueva accion registrada';
         $mail->Body = $this->buildAdminActionTemplate($action);
@@ -57,6 +61,27 @@ class MailerService
         );
 
         return $mail->send();
+    }
+
+    private function resolveAdminRecipients(array $config, string $adminEmail): array
+    {
+        $recipients = [$adminEmail];
+
+        if (isset($config['admin_notification_recipients']) && is_array($config['admin_notification_recipients'])) {
+            $recipients = array_merge($recipients, $config['admin_notification_recipients']);
+        }
+
+        $cleanRecipients = [];
+
+        foreach ($recipients as $recipient) {
+            $email = trim((string) $recipient);
+
+            if ($email !== '' && filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                $cleanRecipients[strtolower($email)] = $email;
+            }
+        }
+
+        return array_values($cleanRecipients);
     }
 
     // Centraliza la configuracion SMTP para que todos los correos usen el mismo canal.
