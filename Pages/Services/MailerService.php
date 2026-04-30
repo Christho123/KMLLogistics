@@ -76,6 +76,7 @@ class MailerService
         $mail->Password = (string) $config['password'];
         $mail->Port = (int) $config['port'];
         $mail->SMTPSecure = (string) $config['encryption'];
+        $mail->Timeout = (int) ($config['timeout'] ?? 8);
         $mail->SMTPDebug = !empty($config['debug']) ? SMTP::DEBUG_SERVER : SMTP::DEBUG_OFF;
         $mail->setFrom((string) $config['from_email'], (string) $config['from_name']);
         $mail->Sender = (string) $config['from_email'];

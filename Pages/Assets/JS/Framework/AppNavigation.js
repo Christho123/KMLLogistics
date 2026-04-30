@@ -14,6 +14,10 @@
     var PAGE_SCRIPT_SELECTOR = 'script[data-page-script="true"]';
     var activeRequestId = 0;
 
+    function normalizeAppPath(pathname) {
+        return pathname.replace(/\/index\.php$/i, '/');
+    }
+
     // Detecta enlaces internos que pueden cargarse dentro del shell principal.
     function isInternalNavigationLink(anchor) {
         if (!anchor || !anchor.href) {
@@ -34,11 +38,15 @@
             return false;
         }
 
-        if (url.pathname !== window.location.pathname) {
+        if (normalizeAppPath(url.pathname) !== normalizeAppPath(window.location.pathname)) {
             return false;
         }
 
-        return url.searchParams.has('page') && url.searchParams.get('page') !== 'logout';
+        if (!url.searchParams.has('page')) {
+            return normalizeAppPath(url.pathname) === normalizeAppPath(window.location.pathname);
+        }
+
+        return url.searchParams.get('page') !== 'logout';
     }
 
     // Reemplaza los estilos propios de la vista cargada por AJAX.
@@ -66,9 +74,7 @@
             });
 
             if (scriptNode.src) {
-                var sourceUrl = new URL(scriptNode.getAttribute('src'), window.location.href);
-                sourceUrl.searchParams.set('_nav', String(Date.now()));
-                newScript.src = sourceUrl.toString();
+                newScript.src = scriptNode.getAttribute('src');
             } else {
                 newScript.textContent = scriptNode.textContent;
             }

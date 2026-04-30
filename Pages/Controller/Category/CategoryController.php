@@ -136,8 +136,6 @@ class CategoryController
         $updated = $this->categoryCRUD->update($category);
         AuditLogger::log('Categoria', 'Actualizar categoria', 'Se actualizo una categoria.', ['id_categoria' => $idCategoria, 'nombre_categoria' => $nombreCategoria]);
 
-        AuditLogger::log('Categoria', 'Eliminar categoria', 'Se elimino logicamente una categoria.', ['id_categoria' => $idCategoria]);
-
         return [
             'success' => true,
             'message' => $updated
@@ -160,6 +158,9 @@ class CategoryController
         }
 
         $deleted = $this->categoryCRUD->delete($idCategoria);
+        if ($deleted) {
+            AuditLogger::log('Categoria', 'Eliminar categoria', 'Se elimino logicamente una categoria.', ['id_categoria' => $idCategoria]);
+        }
 
         if (!$deleted) {
             return [

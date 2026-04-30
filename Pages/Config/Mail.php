@@ -19,6 +19,8 @@ function getMailConfig(): array
         'from_email' => 'kmllogistics3@gmail.com',
         'from_name' => 'KMLLogistics',
         'debug' => false,
+        'timeout' => 8,
+        'notify_admin_actions' => true,
     ];
 }
 

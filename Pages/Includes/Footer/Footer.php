@@ -56,6 +56,7 @@ function renderFooter(array $scripts = []): void
         </div>
         <script src="Pages/Assets/JS/Framework/JQuery/jquery.js"></script>
         <script src="Pages/Assets/Css/Framework/BootStrap/js/bootstrap.bundle.min.js"></script>
+        <script src="Pages/Assets/JS/Framework/AdminNotificationFlush.js"></script>
         <?php foreach ($scripts as $script): ?>
             <script src="<?= htmlspecialchars($script, ENT_QUOTES, 'UTF-8'); ?>" data-page-script="true"></script>
         <?php endforeach; ?>

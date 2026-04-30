@@ -134,8 +134,6 @@ class TipoDocumentoController
         $updated = $this->tipoDocumentoCRUD->update($tipoDocumento);
         AuditLogger::log('Tipo documento', 'Actualizar tipo documento', 'Se actualizo un tipo de documento.', ['id_tipo_documento' => $idTipoDocumento, 'nombre_tipo_documento' => $nombreTipoDocumento]);
 
-        AuditLogger::log('Tipo documento', 'Eliminar tipo documento', 'Se elimino logicamente un tipo de documento.', ['id_tipo_documento' => $idTipoDocumento]);
-
         return [
             'success' => true,
             'message' => $updated
@@ -158,6 +156,9 @@ class TipoDocumentoController
         }
 
         $deleted = $this->tipoDocumentoCRUD->delete($idTipoDocumento);
+        if ($deleted) {
+            AuditLogger::log('Tipo documento', 'Eliminar tipo documento', 'Se elimino logicamente un tipo de documento.', ['id_tipo_documento' => $idTipoDocumento]);
+        }
 
         if (!$deleted) {
             return [
@@ -199,8 +200,6 @@ class TipoDocumentoController
             AuditLogger::log('Tipo documento', 'Restaurar tipo documento', 'Se restauro un tipo de documento.', ['id_tipo_documento' => $idTipoDocumento]);
         }
 
-        AuditLogger::log('Tipo documento', 'Eliminar definitivo', 'Se elimino definitivamente un tipo de documento.', ['id_tipo_documento' => $idTipoDocumento]);
-
         return [
             'success' => $restored,
             'status_code' => $restored ? 200 : 409,
@@ -241,6 +240,8 @@ class TipoDocumentoController
                 'message' => 'No se pudo completar la eliminacion definitiva del tipo de documento.',
             ];
         }
+
+        AuditLogger::log('Tipo documento', 'Eliminar definitivo', 'Se elimino definitivamente un tipo de documento.', ['id_tipo_documento' => $idTipoDocumento]);
 
         return [
             'success' => true,
