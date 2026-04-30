@@ -8,9 +8,9 @@ declare(strict_types=1);
 
 
 
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
+require_once __DIR__ . '/Pages/Config/Session.php';
+
+startPersistentSession();
 
 require_once __DIR__ . '/Pages/Includes/Load classes/Load classes.php';
 
@@ -18,8 +18,7 @@ $page = $_GET['page'] ?? 'home';
 
 if ($page === 'logout') {
     AuditLogger::log('Login', 'Cerrar sesion', 'El usuario cerro sesion.');
-    session_unset();
-    session_destroy();
+    destroyPersistentSession();
     header('Location: index.php?page=login&status=logout');
     exit;
 }

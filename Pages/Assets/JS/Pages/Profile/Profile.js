@@ -41,10 +41,34 @@ $(function () {
         return ['admin', 'Admin', 'Administrador'].indexOf(String(role || '')) !== -1;
     }
 
+    function ensureAdminNavItem() {
+        var $adminItems = $('.js-admin-nav-item');
+
+        if ($adminItems.length) {
+            return $adminItems;
+        }
+
+        var $userMenu = $('.navbar .dropdown').first();
+        var activeClass = new URLSearchParams(window.location.search).get('page') === 'audit' ? ' active' : '';
+        var $item = $(
+            '<li class="nav-item js-admin-nav-item d-none">' +
+                '<a class="nav-link' + activeClass + '" href="index.php?page=audit">Auditoria</a>' +
+            '</li>'
+        );
+
+        if ($userMenu.length) {
+            $item.insertBefore($userMenu);
+            return $item;
+        }
+
+        $('.navbar-nav').first().append($item);
+        return $item;
+    }
+
     function syncMenu(profile) {
         var $menuButton = $('.navbar .dropdown-toggle').first();
         var $menuName = $menuButton.find('span').first();
-        var $adminItems = $('.js-admin-nav-item');
+        var $adminItems = ensureAdminNavItem();
 
         if ($menuName.length) {
             $menuName.text(profile.nombres || 'Usuario');

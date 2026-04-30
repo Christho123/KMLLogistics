@@ -55,6 +55,8 @@ class LoginController
             }
 
             // Guarda datos basicos en sesion.
+            session_regenerate_id(true);
+
             $_SESSION['user'] = [
                 'id_usuario' => $user['id_usuario'],
                 'nombres' => $user['nombres'],

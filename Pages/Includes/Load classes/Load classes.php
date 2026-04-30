@@ -8,17 +8,16 @@ declare(strict_types=1);
 
 
 
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
-
 // Ruta base de la carpeta Pages.
 $pagesRoot = dirname(__DIR__, 2);
 
 // Carga manual de configuracion, modelos, controladores e includes.
 // Tecnologia asociada: estructura MVC + POO.
+require_once $pagesRoot . '/Config/Session.php';
 require_once $pagesRoot . '/Config/Database.php';
 require_once $pagesRoot . '/Config/Mail.php';
+
+startPersistentSession();
 
 require_once $pagesRoot . '/Models/Audit/Audit.php';
 require_once $pagesRoot . '/Models/Audit/AuditCRUD.php';

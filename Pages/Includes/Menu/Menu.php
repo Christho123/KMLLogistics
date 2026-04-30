@@ -63,8 +63,8 @@ function renderMenu(string $currentPage, ?array $currentUser = null): void
                         </a>
                     </li>
 
-                    <?php if ($isAdmin): ?>
-                        <li class="nav-item js-admin-nav-item">
+                    <?php if ($currentUser): ?>
+                        <li class="nav-item js-admin-nav-item<?= $isAdmin ? '' : ' d-none'; ?>">
                             <a class="nav-link<?= $currentPage === 'audit' ? ' active' : ''; ?>" href="index.php?page=audit">
                                 Auditoria
                             </a>
